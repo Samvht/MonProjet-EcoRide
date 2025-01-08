@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/connexion.css') }}">
+{% endblock %}
+
+{% block body %}
+<!--<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>-->
+
+<!-- <div class="example-wrapper">
+   <h1>Hello {{ controller_name }}! ✅</h1>
+</div>-->
+
+<form class="connexion" method="POST" action="{{ path('app_connexion') }}"><!--formulaire connexion-->
+    {{ form_start(connexionForm) }}
+    {{ form_row(connexionForm.pseudo) }}
+    {{ form_row(connexionForm.password) }}
+    <button id="btn_connexion2" type="submit">Connexion</button>
+    {{ form_end(connexionForm) }}
+</form>
+
+<br>
+<h3> Créer un compte</h3>
+
+<form class="inscription" method="POST" action="{{ path('app_connexion') }}"><!--formulaire s'inscrire-->
+    {{ form_start(inscriptionForm) }}
+    {{ form_row(inscriptionForm.pseudo) }}
+    {{ form_row(inscriptionForm.email) }}
+    {{ form_row(inscriptionForm.password) }}
+    <button id="btn_inscription" type="submit">S'inscrire</button>
+    {{ form_end(inscriptionForm) }}
+</form>
+<br>
+<br>
+
+{% endblock %}

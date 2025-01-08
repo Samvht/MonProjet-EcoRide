@@ -1,0 +1,111 @@
+body{
+    background-color: #362D32;
+    height: 100%;
+}
+
+.rechercher{
+    display: flex;
+    flex-direction : column;
+    gap: 7px;
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right: 10%;
+}
+
+.rechercher input::placeholder{
+    font: 12px "Montserrat", arial,sans-serif;
+    color: #000000;
+}
+
+#btn_rechercher{
+    align-self: flex-end;
+    padding-left: 2%;
+    padding-right: 2%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}
+
+@media (min-width : 1440px) {
+    .rechercher{ 
+        flex-direction : row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5%;
+    }
+    .rechercher input::placeholder{
+        font-size: 16px;
+    }
+    #btn_rechercher{font-size: 20px}
+  }   /*adaptation formulaire grand écran*/
+
+#image1{
+    width:90%;
+    display : block;
+    padding : 3%;
+    margin: auto;
+}
+
+h2{
+    font: 18px "montserrat", arial, sans-serif;
+    color : #0FB09B;
+    padding-left: 7%
+}
+
+p{
+    font: 12px "poppins", arial, sans-serif;
+    color : #FFFFFF;
+    padding-left: 7%;
+    padding-right: 5%
+}
+
+#image2{
+    display: none;
+}/*la 2eme image n'apparait pas sur la version first mobile*/
+
+@media (min-width : 1440px) {
+    #bloc-presentation{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        position: relative;
+        padding-bottom: 20px;
+
+    }
+    .image1{
+        width: 25%;
+        overflow: hidden;
+        padding-left: 3%;
+    }
+
+    #image1{
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+        
+    }
+    .texte-presentation {
+        width: 60%; 
+        text-align: left;
+        padding-right: 30%;
+    }
+
+    h2{
+        font-size: 22px
+    }
+    p{
+        font-size: 16px 
+    }
+
+    #image2{
+        display: flex;
+        position: absolute;
+        bottom : 3%;
+        right: 7%;
+        width: 25%;
+        overflow: hidden;
+    }
+  }   /*adaptation image et texte grand écran*/
+  

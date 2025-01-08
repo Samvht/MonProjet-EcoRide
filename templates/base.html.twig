@@ -4,14 +4,35 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+
         {% block stylesheets %}
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {% block importmap %}{% endblock %}
         {% endblock %}
     </head>
     <body>
+        <header> 
+            <a class="accueil" href="{{ path('app_home') }}"> 
+                <img id="logo" src="logo EcoRide.jpg" alt="une voiture avec le nom du site EcoRide">
+            </a>
+            <nav> <!--navigation menu-->
+                    <ul id="MENU">
+                            <li><a href="{{ path('app_covoiturage') }}">Covoiturage</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a id="btn_connexion" href="{{ path('app_connexion') }}">Connexion</a></li>
+                    </ul>
+            </nav>
+        </header>
+
         {% block body %}{% endblock %}
+
+        <footer>
+            <p class="coordonnee"> EcoRide - EcoRide@gmail.com</p>
+            <a class="mention-legale" ref="#"> Mentions légales</a>
+        </footer>
     </body>
 </html>

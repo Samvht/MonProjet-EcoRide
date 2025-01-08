@@ -1,0 +1,11 @@
+<IfModule mod-rewrite.c>
+    Options -MultiViews
+    RewriteEngine On
+    RewriteBase /C:\Users\samvh\Desktop\formation\évals\ECF ete 25\projet\dossier projet\MonProjet-EcoRide\public/
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+    
+</IfModule>
+

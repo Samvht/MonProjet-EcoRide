@@ -58,56 +58,56 @@ class Covoiturage
         return $this->id;
     }
 
-    public function getDate_depart(): string { 
+    public function getDateDepart(): string { 
         return $this->date_depart; 
     } 
         
-    public function setDate_depart(string $date_depart): self { 
+    public function setDateDepart(string $date_depart): self { 
         $this->date_depart = $date_depart; 
         return $this; 
     }
 
-    public function getHeure_depart(): string { 
+    public function getHeureDepart(): string { 
         return $this->heure_depart; 
     } 
         
-    public function setHeure_depart(string $heure_depart): self { 
+    public function setHeureDepart(string $heure_depart): self { 
         $this->heure_depart = $heure_depart; 
         return $this; 
     }
 
-    public function getLieu_depart(): string { 
+    public function getLieuDepart(): string { 
         return $this->lieu_depart; 
     } 
         
-    public function setLieu_depart(string $lieu_depart): self { 
+    public function setLieuDepart(string $lieu_depart): self { 
         $this->lieu_depart = $lieu_depart; 
         return $this; 
     }
 
-    public function getDate_arrivee(): string { 
+    public function getDateArrivee(): string { 
         return $this->date_arrivee; 
     } 
         
-    public function setDate_arrivee(string $date_arrivee): self { 
+    public function setDateArrivee(string $date_arrivee): self { 
         $this->date_arrivee = $date_arrivee; 
         return $this; 
     }
 
-    public function getHeure_arrivee(): string { 
+    public function getHeureArrivee(): string { 
         return $this->heure_arrivee; 
     } 
         
-    public function setHeure_arrivee(string $heure_arrivee): self { 
+    public function setHeureArrivee(string $heure_arrivee): self { 
         $this->heure_arrivee = $heure_arrivee; 
         return $this; 
     }
 
-    public function getLieu_arrivee(): string { 
+    public function getLieuArrivee(): string { 
         return $this->lieu_arrivee; 
     } 
         
-    public function setLieu_arrivee(string $lieu_arrivee): self { 
+    public function setLieuArrivee(string $lieu_arrivee): self { 
         $this->lieu_arrivee = $lieu_arrivee; 
         return $this; 
     }

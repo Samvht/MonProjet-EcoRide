@@ -1,0 +1,92 @@
+body{
+    background-color: #362D32;
+}
+
+.connexion{
+    display: flex;
+    flex-direction : column;
+    gap: 7px;
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right: 10%;
+}
+
+.connexion label{
+    display: block;
+    padding-bottom: 2%;
+    color: #FAF5F9;
+}
+
+.connexion input::placeholder{
+    font: 12px "Montserrat", arial,sans-serif;
+    color: #000000;
+}
+
+#btn_connexion2{
+    align-self: flex-end;
+    padding-left: 2%;
+    padding-right: 2%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}
+
+h3{
+    font: 18px, "montserrat", arial, sans-serif;
+    color : #0FB09B;
+    padding-left:10%;
+    padding-top: 3%;
+}
+
+.inscription{
+    display: flex;
+    flex-direction : column;
+    gap: 7px;
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right: 10%;
+}
+
+.inscription label{
+    display: block;
+    padding-bottom: 2%;
+    color: #FAF5F9;
+}
+
+.inscription input::placeholder{
+    font: 12px "Montserrat", arial,sans-serif;
+    color: #000000;
+}
+
+#btn_inscription{
+    align-self: flex-end;
+    padding-left: 3%;
+    padding-right: 3%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}
+
+@media (min-width : 1440px) {
+    .connexion{
+        padding-right: 30%
+    }
+    .inscription{
+        padding-right: 30%;
+        padding-bottom: 2%;
+    }
+    .connexion label, .inscription label{
+        font-size: 14px;
+        padding-top: 2%;
+        padding-bottom: 1%;
+    }
+    .connexion input::placeholder, .inscription input::placeholder{
+        font-size: 16px
+    }
+    #btn_connexion2, #btn_inscription{
+        font-size: 20px
+    }
+    h3{font-size:35px}
+}
