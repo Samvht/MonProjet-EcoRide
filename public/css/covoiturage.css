@@ -1,0 +1,42 @@
+body{
+    background-color: #362D32;
+}
+
+.rechercher{
+    display: flex;
+    flex-direction : column;
+    gap: 7px;
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right: 10%;
+    padding-bottom: 5%;
+}/*disposition formulaire rechercher*/
+
+.rechercher input::placeholder{
+    font: 12px "Montserrat", arial,sans-serif;
+    color: #000000;
+}
+
+#btn_rechercher{
+    align-self: flex-end;
+    padding-left: 2%;
+    padding-right: 2%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}/*mise en page bouton rechercher*/
+
+@media (min-width : 1440px) {
+    .rechercher{ 
+        flex-direction : row; /*passer les champs en ligne*/
+        justify-content: space-between;
+        align-items: center;
+        gap: 5%;
+        padding-right: 30%;
+    }
+    .rechercher input::placeholder{
+        font-size: 16px;
+    }
+    #btn_rechercher{font-size: 20px}
+  }   /*adaptation formulaire grand écran*/

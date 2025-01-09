@@ -10,7 +10,7 @@ body{
     padding-left: 10%;
     padding-top: 5%;
     padding-right: 10%;
-}
+}/*disposition formulaire rechercher*/
 
 .rechercher input::placeholder{
     font: 12px "Montserrat", arial,sans-serif;
@@ -25,11 +25,11 @@ body{
     color : #FAF5F9;
     font-size: 14px;
     background-color: #009B4D;
-}
+}/*mise en page bouton rechercher*/
 
 @media (min-width : 1440px) {
     .rechercher{ 
-        flex-direction : row;
+        flex-direction : row; /*passer les champs en ligne*/
         justify-content: space-between;
         align-items: center;
         gap: 5%;
@@ -69,11 +69,11 @@ p{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: flex-start; /*aligement à gauche*/
         position: relative;
         padding-bottom: 20px;
+    }/*création box pour contenir mes 3 éléments (img/txt/img)*/
 
-    }
     .image1{
         width: 25%;
         overflow: hidden;
@@ -90,7 +90,7 @@ p{
         width: 60%; 
         text-align: left;
         padding-right: 30%;
-    }
+    }/*pour bien mettre le texte au milieu des 2img*/
 
     h2{
         font-size: 22px
@@ -101,11 +101,11 @@ p{
 
     #image2{
         display: flex;
-        position: absolute;
+        position: absolute; 
         bottom : 3%;
         right: 7%;
         width: 25%;
         overflow: hidden;
-    }
-  }   /*adaptation image et texte grand écran*/
+    } /*placement de mon image pour qu'elle se retrouve en bas à droite*/
+  } /*adaptation image et texte grand écran*/
   

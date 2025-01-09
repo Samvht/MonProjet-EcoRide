@@ -23,12 +23,6 @@ footer{
   }
 
   @media (min-width : 1440px) {
-    /*footer{
-      position: absolute;
-      bottom:0; 
-      left:0;
-      right:0;
-    }*/
     .coordonnee{ font-size: 14px}
     .mention-legale{ font-size: 14px}
   }   /*adaptation image et texte grand écran*/

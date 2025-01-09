@@ -16,6 +16,7 @@
    <h1>Hello {{ controller_name }}! ✅</h1>
 </div>-->
 
+<!--formulaire connexion-->
 <form class="connexion" method="POST" action="{{ path('app_connexion') }}"><!--formulaire connexion-->
     {{ form_start(connexionForm) }}
     {{ form_row(connexionForm.pseudo) }}
@@ -27,6 +28,7 @@
 <br>
 <h3> Créer un compte</h3>
 
+<!--formulaire inscription-->
 <form class="inscription" method="POST" action="{{ path('app_connexion') }}"><!--formulaire s'inscrire-->
     {{ form_start(inscriptionForm) }}
     {{ form_row(inscriptionForm.pseudo) }}

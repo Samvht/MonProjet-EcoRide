@@ -19,18 +19,17 @@ header{
    max-height : 100%;
    padding-left : 5%;
 }
+
 .accueil{
   display: inline-block;
   margin: 0;
   padding:0;
   text-decoration: none;
-}
+}/*lien du logo, pour essayer d'enlever l'espace*/
 
 nav{ 
   width: 100%;
   margin: 0px auto;
-  padding : 10px auto;
-  top: 0px;
   font: 14px "poppins", arial,sans-serif;
 }/*style navigation*/
 
@@ -43,7 +42,7 @@ nav a{
 
 nav ul{
   list-style-type : none;
-}
+}/*.enleve les puces des liens*/
 
 nav li{
   float: left;
@@ -58,7 +57,7 @@ nav li{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
+}/*style bouton connexion*/
 
 @media (min-width : 1440px) {
   nav{ font-size: 25px}
