@@ -11,7 +11,7 @@ use App\Entity\Covoiturage;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home', methods:['GET', 'POST'])]
+    #[Route('/accueil', name: 'app_home', methods:['GET', 'POST'])]
     public function index(Request $request): Response
     { 
         $covoiturage = new Covoiturage();

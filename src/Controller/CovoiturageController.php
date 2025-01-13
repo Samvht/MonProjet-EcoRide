@@ -28,4 +28,18 @@ class CovoiturageController extends AbstractController
             'controller_name' => 'CovoiturageController',
         ]);
     }
+
+    #A decommenter lorsque la page /covoiturage/participer sera crée, redirection vers cette page
+    ##[Route('/covoiturage/participer/{id}', name: 'covoiturage_participer')] 
+    #public function participer(int $id): Response 
+    #{ 
+        #vérification utilisateur connecté ou non
+    #    if (!$this->isGranted('ROLE_USER')) { 
+    #        return $this->redirectToRoute('login'); 
+    #    } 
+            #si utilisateur connecté peut participer au covoit
+    #        return $this->render('covoiturage/participer.html.twig', [ 
+    #            'id' => $id 
+    #        ]); 
+    #    }
 }

@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-        driver : 'pdo_mysql'
+        driver : pdo_mysql
         charset : UTF8
 
         # IMPORTANT: You MUST configure your server version,

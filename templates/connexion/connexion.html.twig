@@ -19,7 +19,7 @@
 <!--formulaire connexion-->
 <form class="connexion" method="POST" action="{{ path('app_connexion') }}"><!--formulaire connexion-->
     {{ form_start(connexionForm) }}
-    {{ form_row(connexionForm.pseudo) }}
+    {{ form_row(connexionForm.email) }}
     {{ form_row(connexionForm.password) }}
     <button id="btn_connexion2" type="submit">Connexion</button>
     {{ form_end(connexionForm) }}

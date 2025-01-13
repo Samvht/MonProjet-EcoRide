@@ -1,8 +1,10 @@
 <IfModule mod-rewrite.c>
     Options -MultiViews
     RewriteEngine On
-    RewriteBase /C:\Users\samvh\Desktop\formation\évals\ECF ete 25\projet\dossier projet\MonProjet-EcoRide\public/
-    RewriteRule ^index\.php$ - [L]
+    RewriteBase /
+    # empeche accès direct aux fichiers PHP dans public
+    RewriteRule ^index\.php$ - [L] 
+    # Si le fichier n'existe pas, on redirige vers index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]

@@ -14,12 +14,12 @@ class Connexion extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('pseudo', TextType::class, [
+            ->add('email', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Pseudo'
+                    'placeholder' =>'Adresse mail'
                 ],
-                'label' => 'Pseudo'
+                'label' => 'Adresse mail'
             ])
             ->add('password', TextType::class, [
                 'attr' => [
