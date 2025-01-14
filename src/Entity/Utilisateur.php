@@ -19,10 +19,10 @@ use InvalidArgumentException; // Ajout de l'import pour InvalidArgumentException
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\Column(type: "uuid", unique: true)] 
+    #[ORM\Column(name:"utilisateur_id", type: "uuid", unique: true)] 
     #[ORM\GeneratedValue(strategy: "CUSTOM")] 
     #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")] 
-    private ?Uuid $id = null;
+    private ?Uuid $utilisateur_id = null;
 
     #[ORM\Column(type: "string", length: 50, unique: true, nullable: false)]
     private string $pseudo;
@@ -57,7 +57,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #liaison table avis
 
     #[ORM\ManyToOne(targetEntity: Configuration::class, inversedBy: "utilisateurs")] 
-    #[ORM\JoinColumn(name: "id", referencedColumnName: "id")] 
+    #[ORM\JoinColumn(name: "configuration_id", referencedColumnName: "configuration_id", nullable: false)] 
     private ?Configuration $configuration =null;
     #liaison table configuration qui correspond aussi au role de sécurité
 
@@ -69,15 +69,16 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct() 
     { 
+        $this->utilisateur_id = Uuid::v4();
         $this->voitures = new ArrayCollection(); 
         $this->covoiturages = new ArrayCollection();
         $this->avis = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
     }
 
-    public function getId(): uuid
+    public function getId(): Uuid
     {
-        return $this->id;
+        return $this->utilisateur_id;
     }
 
     public function getPseudo(): string {
@@ -136,7 +137,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array{
         $roles = []; 
-        foreach ($this->configuration as $role) { 
+        if ($this->configuration) { 
             $roles[] = $this->configuration->getName();
         }
         $roles[] = 'ROLE_USER';

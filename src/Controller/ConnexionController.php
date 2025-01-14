@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\Connexion;
 use App\Form\Inscription;
 use App\Entity\Utilisateur;
+use App\Entity\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,30 +24,34 @@ class ConnexionController extends AbstractController
     private $entityManager;
     private $passwordHasher;
     private $tokenStorage;
-    private $security;
+
 
     public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, TokenStorageInterface $tokenStorage, security $security)
     {
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
         $this->tokenStorage = $tokenStorage;
-        $this->security = $security;
     }
 
     #[Route('/connexion', name: 'app_connexion')]
-    public function connexion(Request $request, security $security) : Response
+    public function connexion(Request $request) : Response
     {
+        if ($this->getUser()) {
+            // Si l'utilisateur est déjà connecté, rediriger vers page utilisateur
+            return $this->redirectToRoute('app_utilisateur'); 
+        }
+
         $utilisateurConnexion = new Utilisateur();
         $connexionForm = $this->createForm(Connexion::class, $utilisateurConnexion); 
         $connexionForm->handleRequest($request); 
         if ($connexionForm->isSubmitted() && $connexionForm->isValid()) { 
             #récupération données formulaire
-            $data = $connexionForm->getData();
-            $email = $data['email'];
-            $password = $data['password'];
+            $utilisateurConnexion = $connexionForm->getData();
+            $email = $utilisateurConnexion->getEmail(); 
+            $password = $utilisateurConnexion->getPassword();
 
             #Verifier si l'utilisateur existe
-            $utilisateurConnexion = $this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
+            $utilisateurConnexion = $this->entityManager->getRepository(Utilisateur::class)->findOneByEmail(['email' => $email]);
             if ($utilisateurConnexion && $this->passwordHasher->isPasswordValid($utilisateurConnexion, $password)) {
                 $token = new UsernamePasswordToken(
                     $utilisateurConnexion, 
@@ -54,6 +59,11 @@ class ConnexionController extends AbstractController
                     ['main'], 
                     $utilisateurConnexion->getRoles());
                 $this->tokenStorage->setToken($token);
+                $this->addFlash('success', 'Connexion réussie.');
+
+                // **Vérifier si le token est bien stocké**
+                dump($this->tokenStorage->getToken());
+                 
             
             return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
         } else {
@@ -84,6 +94,15 @@ class ConnexionController extends AbstractController
                 $utilisateurInscription->setEmail($email);
                 $encodedPassword = $this->passwordHasher->hashPassword($utilisateurInscription, $password); 
                 $utilisateurInscription->setPassword($encodedPassword);
+
+                #Définit la config utilisateur part défaut
+                $configuration = $this->entityManager->getRepository(Configuration::class)->findOneBy(['name' => 'ROLE_USER']);
+                if (!$configuration) {
+                    $configuration = new Configuration();
+                    $configuration->setName('ROLE_USER');
+                    $this->entityManager->persist($configuration);
+                    $this->entityManager->flush();}
+                $utilisateurInscription->setConfiguration($configuration);
 
                 #créer nouvel utilisateur et l'envoyer dans la BDD
                 $this->entityManager->persist($utilisateurInscription);

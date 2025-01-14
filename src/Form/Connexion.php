@@ -17,14 +17,16 @@ class Connexion extends AbstractType
             ->add('email', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Adresse mail'
+                    'placeholder' =>'Adresse mail',
+                    'required' => true,
                 ],
                 'label' => 'Adresse mail'
             ])
             ->add('password', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Mot de passe sécurisé'
+                    'placeholder' =>'Mot de passe sécurisé',
+                    'required' => true,
                 ],
                 'label' => 'Mot de passe'
             ])

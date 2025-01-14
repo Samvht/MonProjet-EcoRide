@@ -12,8 +12,8 @@ class Configuration
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(name:'configuration_id')]
+    private ?int $configuration_id = null;
 
     #[ORM\Column(type: "string", length: 50, unique: true)] 
     private string $name; 
@@ -26,7 +26,7 @@ class Configuration
     }
     
     public function getId(): int { 
-        return $this->id; 
+        return $this->configuration_id; 
     } 
     
     public function getName(): string { 

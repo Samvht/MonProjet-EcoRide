@@ -16,16 +16,18 @@ security:
             security: false
         main:
             pattern: ^/
+            security: false
             lazy: true
             provider: app_user_provider 
             form_login: 
-                login_path: connexion 
-                check_path: connexion
-                default_target_path: page_utilisateur 
+                login_path: app_connexion 
+                check_path: app_connexion
+                username_parameter: email
+                password_parameter: password
+                default_target_path: app_utilisateur 
             logout: 
                 path: logout 
                 target: /connexion
-            security: false
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html # the-firewall
@@ -36,7 +38,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/accueil, roles: IS_AUTHENTICATED_ANONYMOUSLY } #apublic accès à accueil
+        - { path: ^/accueil, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès à accueil
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès page connexion
         - { path: ^/covoiturage, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès covoiturage
         #page à créer- { path: ^/covoiturage/details, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès aux détails covoiturage
