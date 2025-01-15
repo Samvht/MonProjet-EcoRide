@@ -1,0 +1,12 @@
+body{
+    background-color: #362D32;
+}
+
+.proposer{
+    display: flex;
+    flex-direction : column;
+    gap: 7px;
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right: 10%;
+}/*disposition formulaire proposer*/

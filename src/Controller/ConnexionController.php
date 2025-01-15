@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\Connexion;
-use App\Form\Inscription;
+
 use App\Entity\Utilisateur;
 use App\Entity\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +16,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
+use App\Form\Connexion;
+use App\Form\Inscription;
 
 
 class ConnexionController extends AbstractController

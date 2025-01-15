@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Form\Rechercher;
 use App\Entity\Covoiturage;
+use App\Form\Rechercher;
 
 class HomeController extends AbstractController
 {

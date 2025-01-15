@@ -2,3 +2,12 @@ body{
     background-color: #362D32;
 }
 
+a{
+    font: 18px, "montserrat", arial, sans-serif;
+    text-decoration: none;
+    color : #0FB09B;
+    padding-left:10%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
