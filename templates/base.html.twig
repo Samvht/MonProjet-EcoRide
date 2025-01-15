@@ -23,7 +23,12 @@
                     <ul id="MENU">
                             <li><a href="{{ path('app_covoiturage') }}">Covoiturage</a></li>
                             <li><a href="#">Contact</a></li>
-                            <li><a id="btn_connexion" href="{{ path('app_connexion') }}">Connexion</a></li>
+                            {% if app.user %}
+                    		<!-- Si l'utilisateur est connecté -->
+                    			<li><a id="btn_deconnexion" href="{{ path('logout') }}">Déconnexion</a></li>
+                            {% else %}
+                                <li><a id="btn_connexion" href="{{ path('app_connexion') }}">Connexion</a></li>
+                            {% endif %}    
                     </ul>
             </nav>
         </header>

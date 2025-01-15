@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\SecurityBundle\Security as security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -49,28 +50,30 @@ class ConnexionController extends AbstractController
             $utilisateurConnexion = $connexionForm->getData();
             $email = $utilisateurConnexion->getEmail(); 
             $password = $utilisateurConnexion->getPassword();
-
-            #Verifier si l'utilisateur existe
-            $utilisateurConnexion = $this->entityManager->getRepository(Utilisateur::class)->findOneByEmail(['email' => $email]);
-            if ($utilisateurConnexion && $this->passwordHasher->isPasswordValid($utilisateurConnexion, $password)) {
+        
+             #Verifier si l'utilisateur existe
+             $utilisateurConnexion = $this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
+             if ($utilisateurConnexion && $this->passwordHasher->isPasswordValid($utilisateurConnexion, $password)) {
                 $token = new UsernamePasswordToken(
                     $utilisateurConnexion, 
                     $password, 
                     ['main'], 
                     $utilisateurConnexion->getRoles());
                 $this->tokenStorage->setToken($token);
-                $this->addFlash('success', 'Connexion réussie.');
-
-                // **Vérifier si le token est bien stocké**
-                dump($this->tokenStorage->getToken());
-                 
-            
-            return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
-        } else {
-            #Message si identifiants incorrect
-            $this->addFlash('error', 'Identifiants incorrects');
+                dump($this->getUser());
+                $this->addFlash('success', 'Connexion réussie.');  
+             
+             return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
+            } else {
+             #Message si identifiants incorrect
+             $this->addFlash('error', 'Identifiants incorrects');
+            }
         }
-    }
+        
+
+
+
+
     
         $utilisateurInscription = new Utilisateur();
         $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription); 
@@ -108,8 +111,8 @@ class ConnexionController extends AbstractController
                 $this->entityManager->persist($utilisateurInscription);
                 $this->entityManager->flush();
             return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
-        } 
-    }
+            } 
+        }
 
         #retourne la vue
         return $this->render('connexion/connexion.html.twig', [
@@ -123,5 +126,6 @@ class ConnexionController extends AbstractController
     public function logout()
     {
     #deconnection géré par symfony directement, target rentré dans security.yaml
+    return $this->redirectToRoute('app_connexion');
     }
 }

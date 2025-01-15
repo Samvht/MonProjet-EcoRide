@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use InvalidArgumentException; // Ajout de l'import pour InvalidArgumentException
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'il y a déjà un compte avec cet identifiant')]
+#[UniqueEntity(fields: ['email'], message: 'il y a déjà un compte avec cet identifiant', groups: ['registration'])]
 #[ORM\Table(name: "utilisateur")]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -27,7 +27,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "string", length: 50, unique: true, nullable: false)]
     private string $pseudo;
 
-    #[ORM\Column(type: "string", length: 50, unique: true, nullable: false)]
+    #[ORM\Column(type: "string", length: 50, nullable: false)]
     private string $email;
 
     #[ORM\Column(type: "string", length: 255, nullable: false)]
