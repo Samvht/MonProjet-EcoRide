@@ -16,7 +16,7 @@ security:
             security: false
         public_area:
             pattern: ^/(?!connexion).*$
-            security: false
+            security: false # a remettre sur true une fois problème de connexion réglé, juste pour voir les pages dans l'immédiat
         main:
             pattern: ^/(?!connexion).*$
             security: true
@@ -25,8 +25,8 @@ security:
             form_login: 
                 login_path: app_connexion 
                 check_path: app_connexion
-                username_parameter: email
-                password_parameter: password
+                username_parameter: connexion [email]
+                password_parameter: connexion [password]
                 default_target_path: app_utilisateur 
             logout: 
                 path: app_logout 

@@ -12,8 +12,8 @@ class Role
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(name:'role_id')]
+    private ?int $role_id = null;
 
     #[ORM\Column(type: "string", length: 50, nullable: false)] 
     private string $libelle;
@@ -27,7 +27,7 @@ class Role
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->role_id;
     }
 
     public function getLibelle(): string { 

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/moncompte.css') }}">
+{% endblock %}
+
+{% block body %}
+
+
+<h1>Mon compte</h1>
+
+<div class="role">
+    <h3>Choisir un rôle</h3>
+    <form class="roleMetier" method="POST" action="{{ path('moncompte') }}"><!--formulaire rechercher-->
+        {{ form_start(roleMetierForm) }}
+        {{ form_row(roleMetierForm) }}
+        <button id="btn_proposer" type="submit">Valider</button>
+        {{ form_end(roleMetierForm) }}
+    </form>
+</div>
+
+<div class="vehicule">
+    <h3>Liste des Véhicules</h3> 
+    <table> 
+        <thead>
+            <tr> 
+                <th>Immatriculation</th> 
+                <th>Date 1ère mise en circulation</th> 
+                <th>Modèle</th> 
+                <th>Couleur</th> 
+                <th>Energie</th> 
+                <th>Marque</th> 
+            </tr> 
+        </thead>
+        <tbody>
+            {% for voiture in voiture %} 
+                <tr>
+                    <td>{{ voiture.immatriculation }}</td> 
+                    <td>{{ voiture.date_premiere_immatriculation }}</td>
+                    <td>{{ voiture.modele }}</td>
+                    <td>{{ voiture.couleur }}</td>
+                    <td>{{ voiture.energie }}</td>
+                    <td>
+                        {% if voiture.marque %}
+                            {{ voiture.marque.libelle}}
+                        {% else %} 
+                            Marque inconnue
+                        {% endfif %}
+                            
+                    </td>
+                </tr>
+                {% else %} 
+                    <tr>
+                        <td colspan="6">Aucun véhicule trouvé.</td> 
+                    </tr>  
+            {% endfor %} 
+        </tbody>
+    </table>
+    <a href="{{ path('ajouter_vehicule') }}">Ajouter un véhicule</a>
+</div>
+{% endblock %}

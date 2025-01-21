@@ -16,7 +16,7 @@
     <h1>Hello {{ controller_name }}! ✅</h1>-->
 
 <!--formulaire rechercher-->
-<form class="rechercher" method="POST" action="{{ path('app_home') }}"><!--formulaire rechercher-->
+<form class="rechercher" method="POST" action="{{ path('app_covoiturage') }}"><!--formulaire rechercher-->
     {{ form_start(form) }}
     {{ form_row(form.lieu_depart) }}
     {{ form_row(form.lieu_arrivee) }}
@@ -25,5 +25,13 @@
     {{ form_end(form) }}
 </form>
 
-
+{% if results is defined %}
+    <ul>
+        {% for covoiturage in results %}
+            <li>{{ covoiturage.lieu_depart }} -> {{ covoiturage.lieu_arrivee_arrivee }} ({ covoiturage.date_depart})</li>
+        {% else %}
+            <li>Aucun covoiturage trouvé pour ces critères.</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% endblock %}

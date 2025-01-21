@@ -13,8 +13,8 @@ class Covoiturage
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(name:'covoiturage_id')]
+    private ?int $covoiturage_id = null;
 
     #[ORM\Column(type: "string", length: 50, nullable: false)] 
     private string $date_depart;
@@ -44,7 +44,7 @@ class Covoiturage
     private string $prix_personne;
 
     #[ORM\ManyToOne(targetEntity: Voiture::class, inversedBy: "covoiturages")] 
-    #[ORM\JoinColumn(nullable: false)] 
+    #[ORM\JoinColumn(name: "utilisateur_id", nullable: false)] 
     private ?Voiture $voiture = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: "covoiturages")] 
@@ -55,7 +55,7 @@ class Covoiturage
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->covoiturage_id;
     }
 
     public function getDateDepart(): string { 
@@ -121,20 +121,20 @@ class Covoiturage
         return $this; 
     }
 
-    public function getNbre_place(): int { 
+    public function getNbrePlace(): int { 
         return $this->nbre_place; 
     } 
         
-    public function setNbre_place(int $nbre_place): self { 
+    public function setNbrePlace(int $nbre_place): self { 
         $this->nbre_place = $nbre_place; 
         return $this; 
     }
 
-    public function getPrix_personne(): float { 
+    public function getPrixPersonne(): float { 
         return $this->prix_personne; 
     } 
         
-    public function setPrix_personne(float $prix_personne): self { 
+    public function setPrixPersonne(float $prix_personne): self { 
         $this->prix_personne = $prix_personne; 
         return $this; 
     }

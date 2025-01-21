@@ -70,10 +70,6 @@ class ConnexionController extends AbstractController
             }
         }
         
-
-
-
-
     
         $utilisateurInscription = new Utilisateur();
         $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription); 

@@ -41,7 +41,6 @@ class Rechercher extends AbstractType
     {
         $resolver->setDefaults([
            'data_class' => Covoiturage::class,
-
         ]);
     }
 }

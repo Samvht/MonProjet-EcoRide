@@ -7,17 +7,22 @@
 {% endblock %}
 
 {% block body %}
+
+<div>
+    <h3>Proposer un voyage</h3>
+</div>
+
 <form class="proposer" method="POST" action="{{ path('proposercovoiturage') }}"><!--formulaire rechercher-->
-    {{ form_start(form) }}
-    {{ form_row(form.date_depart) }}
-    {{ form_row(form.heure_depart) }}
-    {{ form_row(form.lieu_depart) }}
-    {{ form_row(form.date_arrivee) }}
-    {{ form_row(form.heure_arrivee) }}
-    {{ form_row(form.lieu_arrivee) }}
-    {{ form_row(form.nbre_place) }}
-    {{ form_row(pris_personne) }}
+    {{ form_start(proposerForm) }}
+    {{ form_row(proposerForm.date_depart) }}
+    {{ form_row(proposerForm.heure_depart) }}
+    {{ form_row(proposerForm.lieu_depart) }}
+    {{ form_row(proposerForm.date_arrivee) }}
+    {{ form_row(proposerForm.heure_arrivee) }}
+    {{ form_row(proposerForm.lieu_arrivee) }}
+    {{ form_row(proposerForm.nbre_place) }}
+    {{ form_row(proposerForm.prix_personne) }}
     <button id="btn_proposer" type="submit">Proposer</button>
-    {{ form_end(form) }}
+    {{ form_end(proposerForm) }}
 </form>
 {% endblock %}

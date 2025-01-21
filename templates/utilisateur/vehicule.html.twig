@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un véhicule{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/vehicule.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<div>
+    <h3>Ajouter un véhicule</h3>
+</div>
+
+<form class="vehicule" method="POST" action="{{ path('proposercovoiturage') }}"><!--formulaire rechercher-->
+    {{ form_start(vehiculeForm) }}
+    {{ form_row(vehiculeForm.immatriculation) }}
+    {{ form_row(vehiculeForm.date_premiere_immatriculation) }}
+    {{ form_row(vehiculeForm.modele) }}
+    {{ form_row(vehiculeForm.couleur) }}
+    {{ form_row(vehiculeForm.energie) }}
+    {{ form_row(vehiculeForm.marque) }}
+    <button id="btn_ajouter" type="submit">Ajouter</button>
+    {{ form_end(vehiculeForm) }}
+</form>
+{% endblock %}

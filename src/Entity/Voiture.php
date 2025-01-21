@@ -13,8 +13,8 @@ class Voiture
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(name:'voiture_id')]
+    private ?int $voiture_id = null;
 
     #[ORM\Column(type: "string", length: 50, nullable: true)]
     private string $modele;
@@ -32,7 +32,7 @@ class Voiture
     private string $date_premiere_immatriculation;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: "voitures")] 
-    #[ORM\JoinColumn(nullable: false)] 
+    #[ORM\JoinColumn(name: "utilisateur_id", nullable: false)] 
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(targetEntity: Marque::class, inversedBy: "voiture")] 
@@ -48,7 +48,7 @@ class Voiture
 
     public function getId(): int
     {
-        return $this->id;
+        return $this->voiture_id;
     }
 
     public function getModele(): string {
@@ -87,11 +87,11 @@ public function setCouleur(string $couleur): self{
     return $this; 
 }
 
-public function getDate_premiere_immatriculation(): string {
+public function getDatePremiereImmatriculation(): string {
     return $this->date_premiere_immatriculation; 
 }
 
-public function setDate_premiere_immatriculation(string $date_premiere_immatriculation): self { 
+public function setDatePremiereImmatriculation(string $date_premiere_immatriculation): self { 
     $this->date_premiere_immatriculation = $date_premiere_immatriculation; 
     return $this; 
 }

@@ -12,8 +12,8 @@ class Avis
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(name:'avis_id')]
+    private ?int $avis_id = null;
 
     #[ORM\Column(type: "string", length: 50, nullable: false)] 
     private string $note;
@@ -33,7 +33,7 @@ class Avis
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->avis_id;
     }
 
     public function getNote(): string { 

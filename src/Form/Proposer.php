@@ -3,7 +3,8 @@
 namespace App\Form; 
 
 use App\Entity\Covoiturage;
-use Symfony\Component\Form\AbstractType; 
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface; 
 use Symfony\Component\OptionsResolver\OptionsResolver; 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,14 +24,14 @@ class Proposer extends AbstractType
              ->add('heure_depart', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Heure de depart'
+                    'placeholder' =>'Heure de départ'
             ],
             'label'=> false
         ])
             ->add('lieu_depart', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Adresse de depart'
+                    'placeholder' =>'Adresse de départ'
             ],
             'label'=> false
         ])
@@ -55,7 +56,7 @@ class Proposer extends AbstractType
             ],
             'label'=> false
         ])
-            ->add('nbre_place', TextType::class, [
+            ->add('nbre_place', NumberType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' =>'Nombre de place disponible'
