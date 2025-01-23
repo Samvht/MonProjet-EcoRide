@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mes informations{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+{% endblock %}
+
+{% block body %}
+
+
+<div>
+    <h3>Modifier mes informations</h3>
+</div>
+
+<form class="modifier" method="POST" action="{{ path('modification') }}"><!--formulaire modification-->
+    {{ form_start(modificationForm) }}
+    {{ form_row(modificationForm.pseudo) }}
+    {{ form_row(modificationForm.password) }}
+    {{ form_row(modificationForm.telephone) }}
+    {{ form_row(modificationForm.date_naissance) }}
+    {{ form_row(modificationForm.photo) }}
+    <button id="btn_mettre_jour" type="submit">Mettre à jour</button>
+    {{ form_end(modificationForm) }}
+</form>
+
+
+
+{% endblock %}

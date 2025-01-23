@@ -32,11 +32,11 @@ class Voiture
     private string $date_premiere_immatriculation;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: "voitures")] 
-    #[ORM\JoinColumn(name: "utilisateur_id", nullable: false)] 
+    #[ORM\JoinColumn(name: "utilisateur_id", referencedColumnName:"utilisateur_id", nullable: false)] 
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(targetEntity: Marque::class, inversedBy: "voiture")] 
-    #[ORM\JoinColumn(name:"marque_id",referencedColumnName:"marque_id", nullable: false)] 
+    #[ORM\JoinColumn(name:"marque_id", referencedColumnName:"marque_id", nullable: false)] 
     private ?Marque $marque = null;
 
     #[ORM\OneToMany(targetEntity: Covoiturage::class, mappedBy: "voiture")] 
@@ -46,7 +46,7 @@ class Voiture
         $this->covoiturages = new ArrayCollection(); 
     }
 
-    public function getId(): int
+    public function getVoitureId(): int
     {
         return $this->voiture_id;
     }

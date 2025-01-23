@@ -11,18 +11,36 @@
 
 <h1>Mon compte</h1>
 
+<h3>Mes informations</h3>
+<div>
+    <p><strong>Pseudo : </strong> {{utilisateur.pseudo}}</p>
+    <p><strong>Téléphone : </strong> {{utilisateur.telephone}}</p>
+    <p><strong>Date de Naissance : </strong> {{utilisateur.date_naissance}}</p>
+    
+    {% if user.photo %}
+        <p><strong>Photo de profil :</strong></p>
+        <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="Photo de profil" width="150">
+    {% else %}
+        <p><strong>Photo de profil :</strong> Aucune photo</p>
+    {% endif %}
+    
+    <a href="{{ path('modification')}}" class="infos">
+            <button id="btn_modifier">Modifier</button>
+    </a>
+</div>
+
+<h3>Choisir un rôle</h3>
 <div class="role">
-    <h3>Choisir un rôle</h3>
     <form class="roleMetier" method="POST" action="{{ path('moncompte') }}"><!--formulaire rechercher-->
         {{ form_start(roleMetierForm) }}
         {{ form_row(roleMetierForm) }}
-        <button id="btn_proposer" type="submit">Valider</button>
+        <button id="btn_valider" type="submit">Valider</button>
         {{ form_end(roleMetierForm) }}
     </form>
 </div>
 
+<h3>Liste des Véhicules</h3>
 <div class="vehicule">
-    <h3>Liste des Véhicules</h3> 
     <table> 
         <thead>
             <tr> 
@@ -47,7 +65,7 @@
                             {{ voiture.marque.libelle}}
                         {% else %} 
                             Marque inconnue
-                        {% endfif %}
+                        {% endif %}
                             
                     </td>
                 </tr>
@@ -58,6 +76,6 @@
             {% endfor %} 
         </tbody>
     </table>
-    <a href="{{ path('ajouter_vehicule') }}">Ajouter un véhicule</a>
+    <a href="{{ path('vehicule') }}">Ajouter un véhicule</a>
 </div>
 {% endblock %}

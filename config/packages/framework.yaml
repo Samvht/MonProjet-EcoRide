@@ -6,7 +6,7 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: 
         handler_id: null  # Utilisation du stockage de sessions par fichiers
-        cookie_secure: auto  # Dépend de ton environnement, utiliser true si en HTTPS
+        cookie_secure: auto  # Dépend l'environnement, utiliser true si en HTTPS
         cookie_samesite: lax  # Evite les problèmes de cookies entre différents sites
         cookie_lifetime: 3600  # Durée de vie des cookies de session (en secondes)
         storage_factory_id: session.storage.factory.native  # Utilisation du stockage de session natif

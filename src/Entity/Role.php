@@ -25,7 +25,7 @@ class Role
         $this->utilisateurs = new ArrayCollection(); 
     }
 
-    public function getId(): ?int
+    public function getRoleId(): ?int
     {
         return $this->role_id;
     }

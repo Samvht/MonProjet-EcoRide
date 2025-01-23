@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid; 
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use InvalidArgumentException; // Ajout de l'import pour InvalidArgumentException
+use InvalidArgumentException;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'il y a déjà un compte avec cet identifiant', groups: ['registration'])]
@@ -76,7 +76,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userRoles = new ArrayCollection();
     }
 
-    public function getId(): Uuid
+    public function getUtilisateurId(): Uuid
     {
         return $this->utilisateur_id;
     }

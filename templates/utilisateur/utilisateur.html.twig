@@ -13,10 +13,24 @@
 </style>-->
 
 <!--<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>-->
+    <h1>Hello {{ controller_name }}! ✅</h1></div>-->
+    <div>
+        <a href="{{ path('moncompte') }}">Mon Compte</a> 
+        <!--bouton Modifier pour accèder directement à /utilisateur/moncompte/modification-->
+        <a href="{{ path('modification')}}">
+            <button id="btn_modifier">Modifier</button>
+        </a>
+    </div>
+
+    <div>
+    <!--Partie role et préférences de l'utilisateur-->
+    </div>
 
     <div>
         <a href="{{ path('proposercovoiturage') }}">Proposer un voyage</a>
-    
+    </div>
+
+    <div>
+        <h3>Historique des covoiturage</h3>
     </div>
 {% endblock %}

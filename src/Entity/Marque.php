@@ -24,7 +24,7 @@ class Marque
     public function __construct() { 
         $this->voiture = new ArrayCollection(); }
 
-    public function getMarque_id(): ?int
+    public function getMarqueId(): ?int
     {
         return $this->marque_id;
     }

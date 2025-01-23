@@ -31,7 +31,7 @@ class Avis
         $this->utilisateurs = new ArrayCollection(); 
     }
 
-    public function getId(): ?int
+    public function getAVisId(): ?int
     {
         return $this->avis_id;
     }

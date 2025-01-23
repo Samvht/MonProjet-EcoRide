@@ -53,7 +53,7 @@ class Covoiturage
     public function __construct() { 
         $this->utilisateurs = new ArrayCollection(); }
 
-    public function getId(): ?int
+    public function getCovoiturageId(): ?int
     {
         return $this->covoiturage_id;
     }

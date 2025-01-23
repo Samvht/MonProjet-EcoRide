@@ -25,7 +25,7 @@ class Configuration
         $this->utilisateurs = new ArrayCollection(); 
     }
     
-    public function getId(): int { 
+    public function getConfigurationId(): int { 
         return $this->configuration_id; 
     } 
     
