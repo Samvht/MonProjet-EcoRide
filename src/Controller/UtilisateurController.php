@@ -35,6 +35,17 @@ class UtilisateurController extends AbstractController
             'controller_name' => 'UtilisateurController',
         ]);
     }
+    public function utilisateur(Request $request): Response
+{
+    $utilisateur = $this->getUser();
+    
+    if (!$utilisateur) {
+        // Si l'utilisateur n'est pas authentifié, redirige vers la connexion
+        return $this->redirectToRoute('app_connexion');
+    }
+
+    return $this->render('utilisateur/index.html.twig', ['utilisateur' => $utilisateur]);
+}
 
     #[Route('/utilisateur/moncompte', name: 'moncompte')]
     public function monCompte(Request $request, EntityManagerInterface $entityManager, VoitureRepository $voitureRepository): Response

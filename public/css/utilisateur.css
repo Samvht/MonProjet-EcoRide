@@ -4,6 +4,7 @@ body{
 
 a{
     font: 18px, "montserrat", arial, sans-serif;
+    font-weight: bold;
     text-decoration: none;
     color : #0FB09B;
     padding-left:10%;
