@@ -2,10 +2,10 @@ body{
     background-color: #362D32;
 }
 
-a{
+.mon_compte, .proposer_covoiturage{
     font: 18px, "montserrat", arial, sans-serif;
     text-decoration: none;
-    color : #0FB09B;
+    color: #0FB09B;
     padding-left:10%;
     padding-top: 5%;
     padding-bottom: 3%;

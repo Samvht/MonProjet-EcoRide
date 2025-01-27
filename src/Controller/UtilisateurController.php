@@ -81,7 +81,7 @@ class UtilisateurController extends AbstractController
         $modificationForm->handleRequest($request); 
         if ($modificationForm->isSubmitted() && $modificationForm->isValid()) { 
             #Si utilisateur modifie mot de passe
-            if (!empty($utilisateur>getPassword())) {
+            if (!empty($utilisateur->getPassword())) {
                 #pour hacher le nouveau mot de passe
                 $utilisateur->setPassword(password_hash($utilisateur->getPassword(), PASSWORD_DEFAULT));
             }

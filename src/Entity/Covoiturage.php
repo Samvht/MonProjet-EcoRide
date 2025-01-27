@@ -35,13 +35,13 @@ class Covoiturage
     private string $lieu_arrivee;
 
     #[ORM\Column(type: "string", length: 50, nullable: true)] 
-    private string $statut;
+    private ?string $statut;
 
     #[ORM\Column(type: "integer", nullable: false)] 
-    private string $nbre_place;
+    private int $nbre_place;
 
     #[ORM\Column(type: "float", nullable: false)] 
-    private string $prix_personne;
+    private float $prix_personne;
 
     #[ORM\ManyToOne(targetEntity: Voiture::class, inversedBy: "covoiturages")] 
     #[ORM\JoinColumn(name: "utilisateur_id", nullable: false)] 

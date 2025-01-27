@@ -44,15 +44,15 @@ class ConnexionController extends AbstractController
 
         $utilisateurConnexion = new Utilisateur();
         $connexionForm = $this->createForm(Connexion::class, $utilisateurConnexion); 
-        $connexionForm->handleRequest($request); 
+        /*$connexionForm->handleRequest($request); 
         if ($connexionForm->isSubmitted() && $connexionForm->isValid()) { 
             #récupération données formulaire
             $utilisateurConnexion = $connexionForm->getData();
             $email = $utilisateurConnexion->getEmail(); 
-            $password = $utilisateurConnexion->getPassword();
+            $password = $utilisateurConnexion->getPassword();*/
         
-             #Verifier si l'utilisateur existe
-             $utilisateurConnexion = $this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
+             #Verifier si l'utilisateur existe - enlever car gérer par connexion_check et la magie de symfony
+             /*$utilisateurConnexion = $this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
              if ($utilisateurConnexion && $this->passwordHasher->isPasswordValid($utilisateurConnexion, $password)) {
                 $token = new UsernamePasswordToken(
                     $utilisateurConnexion, 
@@ -68,7 +68,7 @@ class ConnexionController extends AbstractController
              #Message si identifiants incorrect
              $this->addFlash('error', 'Identifiants incorrects');
             }
-        }
+        }*/
         
     
         $utilisateurInscription = new Utilisateur();
@@ -117,6 +117,13 @@ class ConnexionController extends AbstractController
             'controller_name' => 'ConnexionController',
         ]);
     }
+
+    /*#[Route('/app_connexion_check', name: 'app_connexion_check')]
+    public function connexionCheck() : Response
+    {
+        return $this->redirectToRoute('app_utilisateur');
+    }*/
+
 
     #[Route('/logout', name: 'app_logout')]
     public function logout()

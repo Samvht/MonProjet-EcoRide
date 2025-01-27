@@ -17,7 +17,7 @@
     <body>
         <header> 
             <a class="accueil" href="{{ path('app_home') }}"> 
-                <img id="logo" src="logo EcoRide.jpg" alt="une voiture avec le nom du site EcoRide">
+                <img id="logo" src="{{ asset('logo EcoRide.jpg') }}" alt="une voiture avec le nom du site EcoRide">
             </a>
             <nav> <!--navigation menu-->
                     <ul id="MENU">
@@ -25,7 +25,7 @@
                             <li><a href="#">Contact</a></li>
                             {% if app.user %}
                     		<!-- Si l'utilisateur est connecté -->
-                    			<li><a id="btn_deconnexion" href="{{ path('logout') }}">Déconnexion</a></li>
+                    			<li><a id="btn_deconnexion" href="{{ path('app_logout') }}">Déconnexion</a></li>
                             {% else %}
                                 <li><a id="btn_connexion" href="{{ path('app_connexion') }}">Connexion</a></li>
                             {% endif %}    

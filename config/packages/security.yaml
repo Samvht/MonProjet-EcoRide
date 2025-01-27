@@ -14,26 +14,28 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        public_area:
-            pattern: ^/(?!connexion).*$
-            security: false # a remettre sur true une fois problème de connexion réglé, juste pour voir les pages dans l'immédiat
+    
         main:
-            pattern: ^/(?!connexion).*$
             security: true
             lazy: true
             provider: app_user_provider 
             form_login: 
                 login_path: app_connexion 
                 check_path: app_connexion
-                username_parameter: connexion [email]
-                password_parameter: connexion [password]
+                username_parameter: connexion[email]
+                password_parameter: connexion[password]
                 default_target_path: app_utilisateur 
+                form_only: true
+                post_only: true
             logout: 
                 path: app_logout 
                 target: /connexion
             # Utilisation cookie pour utilisateur reste connecté après authentification
             remember_me:
                 secret: '%env(APP_SECRET)%'
+        # public_area:
+            # pattern: 
+            # security: true # enlevé car bloquant pour l'authentification
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html # the-firewall
@@ -44,19 +46,18 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/accueil, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès à accueil
-        - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès page connexion
-        - { path: ^/covoiturage, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès covoiturage
-        #page à créer- { path: ^/covoiturage/details, roles: IS_AUTHENTICATED_ANONYMOUSLY } #public accès aux détails covoiturage
+        - { path: ^/accueil, roles: PUBLIC_ACCESS } #public accès à accueil
+        - { path: ^/connexion, roles: PUBLIC_ACCESS } #public accès page connexion
+        - { path: ^/covoiturage, roles: PUBLIC_ACCESS } #public accès covoiturage
+        #page à créer- { path: ^/covoiturage/details, roles: PUBLIC_ACCESS } #public accès aux détails covoiturage
         - { path: ^/admin, roles: ROLE_ADMIN } #admin accès à tous le site
         - { path: ^/utilisateur, roles: ROLE_USER } #utilisateur connecté accès à son historique covoiturage
         # page à créer- { path: ^/covoiturage/participer, roles: ROLE_USER } #utilisateur connecté peut participer à un covoit
         - { path: ^/, roles: ROLE_USER } #utilisateur connecté accès à tous le site
-        
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER #Admin possède tous les accès
-        ROLE_USER : IS_AUTHENTICATED_ANONYMOUSLY #utilisateur classique possède aussi les accès du public
+        ROLE_USER : PUBLIC_ACCESS #utilisateur classique possède aussi les accès du public
 
 when@test:
     security:

@@ -34,13 +34,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     #[ORM\Column(type: "string", length: 50, nullable: true)]
-    private string $telephone;
+    private ?string $telephone;
 
     #[ORM\Column(type: "string", length: 50, nullable: true)]
-    private string $dateNaissance;
+    private ?string $dateNaissance;
 
     #[ORM\Column(type: "blob", nullable: true)]
-    private string $photo;
+    private ?string $photo;
 
     #[ORM\OneToMany(targetEntity: Voiture::class, mappedBy: "utilisateur")] 
     private Collection $voitures;
@@ -108,20 +108,20 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this; 
     }
 
-    public function getTelephone(): string { 
+    public function getTelephone(): ?string { 
         return $this->telephone; 
     }
 
-    public function setTelephone(string $telephone): self { 
+    public function setTelephone(?string $telephone): self { 
         $this->telephone = $telephone; 
         return $this; 
     }
 
-    public function getDateNaissance(): string { 
+    public function getDateNaissance(): ?string { 
         return $this->dateNaissance; 
     }
 
-    public function setDateNaissance(string $dateNaissance): self { 
+    public function setDateNaissance(?string $dateNaissance): self { 
         $this->dateNaissance = $dateNaissance; 
         return $this; 
     }
