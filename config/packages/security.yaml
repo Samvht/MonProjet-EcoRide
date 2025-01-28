@@ -47,6 +47,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/accueil, roles: PUBLIC_ACCESS } #public accès à accueil
+        - { path: ^/contact, roles: PUBLIC_ACCESS } #public accès à contact
         - { path: ^/connexion, roles: PUBLIC_ACCESS } #public accès page connexion
         - { path: ^/covoiturage, roles: PUBLIC_ACCESS } #public accès covoiturage
         #page à créer- { path: ^/covoiturage/details, roles: PUBLIC_ACCESS } #public accès aux détails covoiturage

@@ -29,7 +29,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
-    public function index(): Response
+    public function utilisateur(): Response
     {
         return $this->render('utilisateur/utilisateur.html.twig', [
             'controller_name' => 'UtilisateurController',
@@ -53,7 +53,7 @@ class UtilisateurController extends AbstractController
         }
 
         #Récupérer la liste des véhicules de l'utilisateur
-        #utilisation querybuider, car findby erreur, ne retrouve pas 'libelle'
+        #utilisation querybuider, car findby erreur, ne retrouve pas 'libelle' car dans entité marque et non voiture
         $voiture = $entityManager->getRepository(Voiture::class)
         ->createQueryBuilder('v')
         ->leftJoin('v.marque', 'm')

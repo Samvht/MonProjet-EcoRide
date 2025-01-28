@@ -22,7 +22,7 @@
             <nav> <!--navigation menu-->
                     <ul id="MENU">
                             <li><a href="{{ path('app_covoiturage') }}">Covoiturage</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="{{ path('contact') }}">Contact</a></li>
                             {% if app.user %}
                     		<!-- Si l'utilisateur est connecté -->
                     			<li><a id="btn_deconnexion" href="{{ path('app_logout') }}">Déconnexion</a></li>
@@ -36,7 +36,7 @@
         {% block body %}{% endblock %}
 
         <footer>
-            <p class="coordonnee"> EcoRide - EcoRide@gmail.com</p>
+            <p class="coordonnee"> EcoRide - EcoRide2025@gmail.com</p>
             <a class="mention-legale" ref="#"> Mentions légales</a>
         </footer>
     </body>

@@ -7,28 +7,31 @@ h3{
     color : #0FB09B;
     padding-left:3%;
     padding-top: 3%;
+    padding-left:10%;
 }
 
-.modifier{
+.contact{
     display: flex;
     flex-direction : column;
     gap: 20px;
     padding-left: 10%;
     padding-top: 5%;
     padding-right: 10%;
-}
-.modifier label{
+    padding-bottom: 5%;
+}/*disposition formulaire contact*/
+
+.contact label{
     display: block;
     padding-bottom: 2%;
     color: #FAF5F9;
-}
+}/*disposition des label du formulaire contact*/
 
-.modifier input::placeholder{
+.contact input::placeholder{
     font: 12px "Montserrat", arial,sans-serif;
     color: #000000;
-}
+}/*changement placeholder (écriture dans champs)*/
 
-#btn_mettre_jour{
+#btn_envoyer{
     align-self: flex-end;
     padding-left: 2%;
     padding-right: 2%;
@@ -36,23 +39,22 @@ h3{
     color : #FAF5F9;
     font-size: 14px;
     background-color: #009B4D;
-}
+}/*style bouton envoyer*/
 
 
 @media (min-width : 1440px) {
-    .modifier{
-        padding-right: 30%;
-        padding-bottom: 3%;
+    .contact{
+        padding-right: 30%
     }
-    .modifier label{
+    .contact label{
         font-size: 14px;
         padding-top: 2%;
         padding-bottom: 1%;
     }
-    .modifier input::placeholder{
+    .contact input::placeholder{
         font-size: 16px
     }
-    #btn_mettre_jour{
+    #btn_envoyer{
         font-size: 20px
     }
     h3{font-size:35px}
