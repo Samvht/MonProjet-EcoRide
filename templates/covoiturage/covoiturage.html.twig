@@ -26,9 +26,10 @@
 </form>
 
 {% if results is defined %}
-    <ul>
+    <ul class="result">
         {% for covoiturage in results %}
-            <li>{{ covoiturage.lieu_depart }} -> {{ covoiturage.lieu_arrivee_arrivee }} ({ covoiturage.date_depart})</li>
+            <li>
+            {{ covoiturage.getLieuDepart() }} -> {{ covoiturage.getLieuArrivee() }} ({{ covoiturage.getDateDepart() }})</li>
         {% else %}
             <li>Aucun covoiturage trouvé pour ces critères.</li>
         {% endfor %}

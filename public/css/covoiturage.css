@@ -27,6 +27,12 @@ body{
     background-color: #009B4D;
 }/*mise en page bouton rechercher*/
 
+.result{
+    font : 12px "Montserrat", arial, sans-serif;
+    color : #ffffff;
+    padding-left: 5%;
+}
+
 @media (min-width : 1440px) {
     .rechercher{ 
         flex-direction : row; /*passer les champs en ligne*/

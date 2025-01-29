@@ -13,7 +13,7 @@
     <h3>Modifier mes informations</h3>
 </div>
 
-<form class="modifier" method="POST" action="{{ path('modification') }}"><!--formulaire modification-->
+<form class="modifier" method="POST" action="{{ path('modification') }}" enctype="multipart/form-data"><!--formulaire modification-->
     {{ form_start(modificationForm) }}
     {{ form_row(modificationForm.pseudo) }}
     {{ form_row(modificationForm.password) }}

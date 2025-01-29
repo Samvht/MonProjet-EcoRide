@@ -10,41 +10,40 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Psr\Log\LoggerInterface;
+
 
 
 class CovoiturageController extends AbstractController
 {
     #[Route('/covoiturage', name: 'app_covoiturage', methods:['GET', 'POST'])]
-    public function index(Request $request): Response
+    public function index(Request $request, CovoiturageRepository $covoiturageRepository, LoggerInterface $logger): Response
     {
+        #$logger->info('Contrôleur atteint');
 
         $covoiturage = new Covoiturage();
         $form = $this->createForm(Rechercher::class, $covoiturage); 
         $form->handleRequest($request); 
+
+        $results = [];
+
         if ($form->isSubmitted() && $form->isValid()) { 
-            $data = $form->getData(); 
-            return $this->redirectToRoute('app_covoiturage', [], response::HTTP_SEE_OTHER); 
-        } 
+            
+            $lieuDepart = $form->get('lieu_depart')->getData();
+            $lieuArrivee = $form->get('lieu_arrivee')->getData();
+            $dateDepart = $form->get('date_depart')->getData();
+            
+           
+            # Recherche des covoiturages correspondant aux critères
+            $results = $covoiturageRepository->searchCovoiturages($lieuDepart, $lieuArrivee, $dateDepart);
+            
+    }
+    
         
         return $this->render('covoiturage/covoiturage.html.twig', [
             'form' => $form->createView(),
+            'results' => $results,
             'controller_name' => 'CovoiturageController',
-        ]);
-    }
-
-    public function rechercher(Request $request, CovoiturageRepository $covoiturageRepository): Response
-    {
-        #Récupérer les paramètres de recherche depuis l'URL
-        $LieuDepart = $request->query->get('lieu_depart');
-        $LieuArrivee = $request->query->get('lieu_arrivee');
-        $DateDepart = $request->query->get('date_depart');
-    
-        #Recherche des covoiturages correspondant aux critères
-        $results = $covoiturageRepository->searchCovoiturages($LieuDepart, $LieuArrivee, $DateDepart);
-    
-        #Retourner la vue avec les résultats
-        return $this->render('covoiturage/covoiturage.html.twig', [
-                'results' => $results,
         ]);
     }
     

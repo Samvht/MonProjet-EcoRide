@@ -26,14 +26,16 @@ class CovoiturageRepository extends ServiceEntityRepository
         }
 
         if ($LieuArrivee) {
-            $queryBuilder->andWhere('c.lieu_arrivee = :villeArrivee')
-                         ->setParameter('villeArrivee', $LieuArrivee);
+            $queryBuilder->andWhere('c.lieu_arrivee = :LieuArrivee')
+                         ->setParameter('LieuArrivee', $LieuArrivee);
         }
 
         if ($DateDepart) {
-            $queryBuilder->andWhere('c.date_depart = :date')
-                         ->setParameter('date', $DateDepart);
+            $queryBuilder->andWhere('c.date_depart = :DateDepart')
+                         ->setParameter('DateDepart', $DateDepart);
         }
+
+    
 
         return $queryBuilder->getQuery()->getResult();
     }

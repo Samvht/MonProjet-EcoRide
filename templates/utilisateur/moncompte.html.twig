@@ -12,14 +12,14 @@
 <h1>Mon compte</h1>
 
 <h3>Mes informations</h3>
-<div>
+<div class="information">
     <p><strong>Pseudo : </strong> {{app.user.pseudo}}</p>
     <p><strong>Téléphone : </strong> {{app.user.telephone ?? ''}}</p>
-    <p><strong>Date de Naissance : </strong> {{app.user.date_naissance ?? ''}}</p>
+    <p><strong>Date de Naissance : </strong> {{ app.user.getDateNaissance}}</p>
     
     {% if app.user.photo %}
         <p><strong>Photo de profil :</strong></p>
-        <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Photo de profil" width="150">
+        <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Photo de profil">
     {% else %}
         <p><strong>Photo de profil :</strong> Aucune photo</p>
     {% endif %}
@@ -76,6 +76,8 @@
             {% endfor %} 
         </tbody>
     </table>
-    <a href="{{ path('vehicule') }}">Ajouter un véhicule</a>
+    <a href="{{ path('vehicule') }}">
+        <button id="btn_ajouter">Ajouter un véhicule</button>
+    </a>
 </div>
 {% endblock %}

@@ -37,9 +37,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $telephone;
 
     #[ORM\Column(type: "string", length: 50, nullable: true)]
-    private ?string $dateNaissance;
+    private ?string $date_naissance;
 
-    #[ORM\Column(type: "blob", nullable: true)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $photo;
 
     #[ORM\OneToMany(targetEntity: Voiture::class, mappedBy: "utilisateur")] 
@@ -76,7 +76,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userRoles = new ArrayCollection();
     }
 
-    public function getUtilisateurId(): Uuid
+    public function getUtilisateurId(): ?Uuid
     {
         return $this->utilisateur_id;
     }
@@ -118,19 +118,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getDateNaissance(): ?string { 
-        return $this->dateNaissance; 
+        return $this->date_naissance;
     }
 
-    public function setDateNaissance(?string $dateNaissance): self { 
-        $this->dateNaissance = $dateNaissance; 
+    public function setDateNaissance(?string $date_naissance): self{
+        $this->date_naissance = $date_naissance; 
         return $this; 
     }
 
-    public function getPhoto() {
+    public function getPhoto(): ?string {
         return $this->photo; 
     }
 
-    public function setPhoto($photo): self {
+    public function setPhoto(?string $photo): self {
         $this->photo = $photo; 
         return $this; 
     }

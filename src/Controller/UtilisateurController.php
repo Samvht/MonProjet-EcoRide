@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Form\Proposer;
 use App\Form\RoleMetier;
 use App\Form\Vehicule;
-use App\Repository\VoitureRepository;
 use App\Entity\Covoiturage;
 use App\Entity\Utilisateur;
 use App\Entity\Role;
@@ -18,14 +17,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UtilisateurController extends AbstractController
 {
     private $entityManager;
+    private LoggerInterface $logger;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
@@ -37,7 +41,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur/moncompte', name: 'moncompte')]
-    public function monCompte(Request $request, EntityManagerInterface $entityManager, VoitureRepository $voitureRepository): Response
+    public function monCompte(Request $request, EntityManagerInterface $entityManager): Response
     {
         #récupère l'utilisateur connecté
         $utilisateur = $this->getUser();
@@ -72,23 +76,40 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur/moncompte/modification', name: 'modification')]
-    public function ModifierProfil(Request $request, EntityManagerInterface $entityManager): Response
+    public function ModifierProfil(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
+        #redirection si utilisateur connecté
         $utilisateur = $this->getUser();
-        
-        $modificationForm = $this->createForm(Modification::class, $utilisateur); 
-        
-        $modificationForm->handleRequest($request); 
-        if ($modificationForm->isSubmitted() && $modificationForm->isValid()) { 
-            #Si utilisateur modifie mot de passe
-            if (!empty($utilisateur->getPassword())) {
-                #pour hacher le nouveau mot de passe
-                $utilisateur->setPassword(password_hash($utilisateur->getPassword(), PASSWORD_DEFAULT));
-            }
 
+        # Journalisation de $_FILES avant traitement du formulaire
+        $this->logger->info('$_FILES avant traitement du formulaire', ['files' => $_FILES]);
+        
+        #Sauvegarde mot de passe actuel
+        $currentPassword = $utilisateur->getPassword();
+
+        $modificationForm = $this->createForm(Modification::class, $utilisateur); 
+        $modificationForm->handleRequest($request);
+
+        if ($modificationForm->isSubmitted() && $modificationForm->isValid()) { 
+            
+            #Si utilisateur modifie mot de passe
+            $newPassword = $modificationForm->get('password')->getData();
+            if (!empty($newPassword)) {
+                #pour hacher le nouveau mot de passe
+                $utilisateur->setPassword($passwordHasher->hashPassword($utilisateur, $newPassword));
+            } else{
+                #conserver l'ancien mot de passe
+                $utilisateur->setPassword($currentPassword);
+            }
+        
+            
             #Gestion du fichier photo
             $photo = $modificationForm->get('photo')->getData();
-            if ($photo) {
+            if (($photo)) {
+                $this->logger->info('Photo reçue', ['photo' => $photo->getClientOriginalName()]);
+
+        
+                
                 # Générer un nom unique pour la photo
                 $newFilename = uniqid() . '.' . $photo->guessExtension();
 
@@ -98,14 +119,21 @@ class UtilisateurController extends AbstractController
                         $this->getParameter('photos_directory'),
                         $newFilename
                     );
+                    $this->logger->info('Photo déplacée avec succès');
+                    
                 } catch (FileException $e) {
+                    
+                    $this->logger->error('Erreur lors de l\'upload de la photo', ['exception' => $e->getMessage()]);
                     #Si une erreur se produit lors du déplacement du fichier, on peut afficher une erreur
                     $this->addFlash('error', 'Erreur lors de l\'upload de la photo.');
-                    return $this->redirectToRoute('modification_compte');
+                    return $this->redirectToRoute('modification');
                 }
 
                 $utilisateur->setPhoto($newFilename);
             }
+
+            #récupération date naissance (telephone fait automatiquement)
+            $utilisateur->setDateNaissance($modificationForm->get('date_naissance')->getData());
             
             $entityManager->persist($utilisateur);
             $entityManager->flush();
