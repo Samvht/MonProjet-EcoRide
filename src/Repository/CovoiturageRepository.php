@@ -35,7 +35,8 @@ class CovoiturageRepository extends ServiceEntityRepository
                          ->setParameter('DateDepart', $DateDepart);
         }
 
-    
+        #condition d'affichage = nbre de place supérieure à 0
+        $queryBuilder->andWhere('c.nbre_place > 0');
 
         return $queryBuilder->getQuery()->getResult();
     }

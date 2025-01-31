@@ -66,22 +66,43 @@ class CovoiturageController extends AbstractController
             throw $this->createNotFoundException('Covoiturage non trouvé');
         }
 
+        #récupération info voiture et marque en fonction covoiturage_id
+        $voiture = $covoiturage->getVoiture();
+        $marque = $voiture->getMarque();
+
+
+
         return $this->render('covoiturage/detail.html.twig', [
             'covoiturage' => $covoiturage,
+            'voiture' => $voiture,
+            'marque' => $marque,
         ]);
     }
 
-    #A decommenter lorsque trouver moyen au clic participer si connecté renvoi vers /utilisateur, si non connecté, renvoi vers /connexion
-    ##[Route('/covoiturage/participer/{id}', name: 'covoiturage_participer')] 
-    #public function participer(int $id): Response 
-    #{ 
-        #vérification utilisateur connecté ou non
-    #    if (!$this->isGranted('ROLE_USER')) { 
-    #        return $this->redirectToRoute('app_connexion'); 
-    #    } 
-            #si utilisateur connecté peut participer au covoit
-    #        return $this->redirectToRoute('app_utilisateur'); [ 
-    #            'id' => $id 
-    #        ]); 
-    #    }
+    #route pour action de participer
+    #[Route('/participer/{covoiturage_id}', name: 'covoiturage_participer', methods: ['POST'])]
+    public function participer(int $covoiturage_id, EntityManagerInterface $entityManager): Response
+    {
+        #ajoute utilisateur au covoiturag
+        $utilisateur = $this->getUser();
+        if (!$utilisateur) {
+            return $this->redirectToRoute('app_conenxion');
+        }
+
+        $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
+        if (!$covoiturage) {
+            throw $this->createNotFoundException('Covoiturage non trouvé');
+        }
+
+        #mets à jour le nbre de place dispo + envoi le tout dans la BDD
+        if ($covoiturage->getNbrePlace() > 0 && !$covoiturage->getUtilisateurs()->contains($utilisateur)) {
+            $covoiturage->addUtilisateur($utilisateur);
+            $covoiturage->setNbrePlace($covoiturage->getNbrePlace() - 1);
+            $entityManager->persist($covoiturage);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_utilisateur');
+    }
+    
 }

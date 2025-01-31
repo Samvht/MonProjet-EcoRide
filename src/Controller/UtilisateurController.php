@@ -36,6 +36,8 @@ class UtilisateurController extends AbstractController
     public function utilisateur(Request $request, EntityManagerInterface $entityManager): Response
     {
         $utilisateur = $this->getUser();
+        #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
+        #$uuidUtilisateur = $utilisateur->getUtilisateurID()->toBinary();
         
 
         #Récupérer les covoiturages de l'utilisateur

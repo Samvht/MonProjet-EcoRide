@@ -51,7 +51,9 @@ class Vehicule extends AbstractType
             ->add('energie', ChoiceType::class, [
                 'choices' => [
                     'Electrique' => 'Electrique',
-                    'Autres' => 'Autres',
+                    'Diesel' => 'Diesel',
+                    'Essence' => 'Essence',
+                    'Hybride' => 'Hybride',
                 ],
                 'expanded'=> true,   #Pour afficher cases à cocher
                 'multiple' => false,

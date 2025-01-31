@@ -43,6 +43,7 @@
                         <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart() }}</p>
                         <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee() }}</p>
                         <p>Nombre de place disponible : {{ covoiturage.getNbrePlace() }}</p>
+                        <p>Voyage écologique : {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
                         <p>Prix : {{ covoiturage.getPrixPersonne() }}</p>
                     </div>
 

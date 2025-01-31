@@ -32,7 +32,10 @@
                 <li>
                     <p>Trajet: {{ covoiturage.getLieuDepart ~ ' à ' ~ covoiturage.getLieuArrivee }}</p>
                     <p>Date de départ: {{ covoiturage.getDateDepart }}</p>
-                    <p>Véhicule: {{ covoiturage.getVoiture.getImmatriculation }}</p>
+                    <!--récupère voiture seulement si utilisateur = createur-->
+                    {% if covoiturage.getCreateur() == app.user %}
+                        <p>Véhicule: {{ covoiturage.getVoiture.getImmatriculation }}</p>
+                    {% endif %}
                 </li>
             {% else %}
                 <li>Aucun covoiturage.</li>

@@ -167,8 +167,15 @@ class Covoiturage
         return $this; 
     }
 
+    #POur récupérer le créateur du covoiturage et renvoyer dans la vue le pseudo et photo
     public function getCreateur(): ?Utilisateur
     {
         return $this->utilisateurs->first() ?: null;
+    }
+
+    #pour ensuite afficher dans la vue voyage écologique oui ou non 
+    public function isVoyageEcologique(): bool
+    {
+        return $this->voiture && $this->voiture->getEnergie() === 'electrique';
     }
 }

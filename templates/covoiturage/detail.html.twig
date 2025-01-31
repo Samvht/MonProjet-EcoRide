@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails des covoiturages{% endblock %}
+{% block title %}Détails du covoiturage{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/detail.css') }}">
@@ -8,4 +8,45 @@
 
 {% block body %}
 
+    <h1>Détails du Covoiturage</h1>
+
+        <div class="detail">
+            <div>>
+                {% set createur = covoiturage.getCreateur() %}
+                {% if createur.getPhoto() %}
+                    <img src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="100">
+                {% else %}
+                    <img src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="100">
+                {% endif %}
+                <p><strong>Conducteur :</strong> {{ createur.getPseudo() }}</p>
+            </div
+
+            <p><strong>Départ :</strong> {{ covoiturage.getLieuDepart() }}</p>
+            <p><strong>Arrivée :</strong> {{ covoiturage.getLieuArrivee() }}</p>
+            <p><strong>Date de départ :</strong> {{ covoiturage.getDateDepart() }}</p>
+            <p><strong>Heure de départ :</strong> {{ covoiturage.getHeureDepart() }}</p>
+            <p><strong>Heure d'arrivée :</strong> {{ covoiturage.getHeureArrivee() }}</p>
+            <p><strong>Nombre de places :</strong> {{ covoiturage.getNbrePlace() }}</p>
+            <p><strong>Prix :</strong> {{ covoiturage.getPrixPersonne() }} €</p>
+            <p><strong>Voyage écologique :</strong> {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
+            <p><strong>Marque :</strong> {{ marque.getLibelle() }}</p>
+
+            <!--formulaire + bouton participer-->
+            {% if covoiturage.getNbrePlace() > 0 %}
+                    <form id="participationForm" method="post" action="{{ path('covoiturage_participer', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
+                        <button type="button" class="btn btn-success" onclick="confirmParticipation()">Participer</button>
+                    </form>
+            {% else %}
+                <p class="text-danger">Aucune place disponible</p>
+            {% endif %}
+        </div>
+
+    <!--confirmation participation-->
+    <script>
+        function confirmParticipation() {
+            if (confirm("Voulez-vous vraiment participer à ce covoiturage ?")) {
+                document.getElementById('participationForm').submit();
+            }
+        }
+    </script>
 {% endblock %}
