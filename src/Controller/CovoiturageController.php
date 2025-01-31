@@ -5,17 +5,27 @@ namespace App\Controller;
 
 use App\Form\Rechercher;
 use App\Entity\Covoiturage;
+use Psr\Log\LoggerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CovoiturageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Psr\Log\LoggerInterface;
 
 
 
 class CovoiturageController extends AbstractController
 {
+    private $entityManager;
+    private LoggerInterface $logger;
+
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    {
+        $this->entityManager = $entityManager;
+        $this->logger = $logger;
+    }
+
     #[Route('/covoiturage', name: 'app_covoiturage', methods:['GET', 'POST'])]
     public function index(Request $request, CovoiturageRepository $covoiturageRepository, LoggerInterface $logger): Response
     {
@@ -47,6 +57,19 @@ class CovoiturageController extends AbstractController
         ]);
     }
     
+    #[Route('/covoiturage/detail/{covoiturage_id}', name: 'detail', methods:['GET', 'POST'])]
+    public function detail(int $covoiturage_id, EntityManagerInterface $entityManager): Response
+    { 
+        $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
+
+        if (!$covoiturage) {
+            throw $this->createNotFoundException('Covoiturage non trouvé');
+        }
+
+        return $this->render('covoiturage/detail.html.twig', [
+            'covoiturage' => $covoiturage,
+        ]);
+    }
 
     #A decommenter lorsque trouver moyen au clic participer si connecté renvoi vers /utilisateur, si non connecté, renvoi vers /connexion
     ##[Route('/covoiturage/participer/{id}', name: 'covoiturage_participer')] 

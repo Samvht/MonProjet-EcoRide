@@ -167,5 +167,8 @@ class Covoiturage
         return $this; 
     }
 
-
+    public function getCreateur(): ?Utilisateur
+    {
+        return $this->utilisateurs->first() ?: null;
+    }
 }

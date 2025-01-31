@@ -20,7 +20,11 @@ p{
     padding-left: 10%;
 }
 
-
+#photo{
+    width: 100px;
+    height: auto; 
+    padding-bottom: 2%;
+}
 
 #btn_modifier{
     display: flex;

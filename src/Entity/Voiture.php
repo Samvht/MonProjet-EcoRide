@@ -31,7 +31,7 @@ class Voiture
     #[ORM\Column(type: "string", length: 50, nullable: true)]
     private string $date_premiere_immatriculation;
 
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: "voitures")] 
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: "voiture")] 
     #[ORM\JoinColumn(name: "utilisateur_id", referencedColumnName:"utilisateur_id", nullable: false)] 
     private ?Utilisateur $utilisateur = null;
 

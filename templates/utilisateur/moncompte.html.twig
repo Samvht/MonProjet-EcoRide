@@ -19,12 +19,12 @@
     
     {% if app.user.photo %}
         <p><strong>Photo de profil :</strong></p>
-        <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Photo de profil">
+        <img id="photo" src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Photo de profil">
     {% else %}
         <p><strong>Photo de profil :</strong> Aucune photo</p>
     {% endif %}
     
-    <a href="{{ path('modification')}}" class="infos">
+    <a href="{{ path('modification')}}">
             <button id="btn_modifier">Modifier</button>
     </a>
 </div>
@@ -46,7 +46,6 @@
             <tr> 
                 <th>Immatriculation</th> 
                 <th>Date 1ère mise en circulation</th> 
-                <th>Modèle</th> 
                 <th>Couleur</th> 
                 <th>Energie</th> 
                 <th>Marque</th> 
@@ -55,11 +54,10 @@
         <tbody>
             {% for voiture in voiture %} 
                 <tr>
-                    <td>{{ voiture.immatriculation }}</td> 
-                    <td>{{ voiture.date_premiere_immatriculation }}</td>
-                    <td>{{ voiture.modele }}</td>
-                    <td>{{ voiture.couleur }}</td>
-                    <td>{{ voiture.energie }}</td>
+                    <td>{{ voiture.getImmatriculation }}</td> 
+                    <td>{{ voiture.getDatePremiereImmatriculation }}</td>
+                    <td>{{ voiture.getCouleur }}</td>
+                    <td>{{ voiture.getEnergie }}</td>
                     <td>
                         {% if voiture.marque %}
                             {{ voiture.marque.libelle}}
@@ -78,6 +76,12 @@
     </table>
     <a href="{{ path('vehicule') }}">
         <button id="btn_ajouter">Ajouter un véhicule</button>
+    </a>
+</div>
+
+<div>
+<a href="{{ path('app_utilisateur') }}">
+        <button id="btn_retour">Retour</button>
     </a>
 </div>
 {% endblock %}

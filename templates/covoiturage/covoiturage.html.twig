@@ -29,7 +29,29 @@
     <ul class="result">
         {% for covoiturage in results %}
             <li>
-            {{ covoiturage.getLieuDepart() }} -> {{ covoiturage.getLieuArrivee() }} ({{ covoiturage.getDateDepart() }})</li>
+                <div>
+                    {% set createur = covoiturage.getCreateur() %}
+                    {% if createur.getPhoto() %}
+                        <img src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="50">
+                    {% else %}
+                        <img src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="50">
+                    {% endif %}
+                    <p>{{ createur.getPseudo() }}</p>
+                
+
+                    <div>
+                        <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart() }}</p>
+                        <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee() }}</p>
+                        <p>Nombre de place disponible : {{ covoiturage.getNbrePlace() }}</p>
+                        <p>Prix : {{ covoiturage.getPrixPersonne() }}</p>
+                    </div>
+
+                    <a href="{{ path('detail', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
+                        <button id="btn_detail">Détails</button>
+                    </a>
+
+                </div>
+            </li>
         {% else %}
             <li>Aucun covoiturage trouvé pour ces critères.</li>
         {% endfor %}

@@ -12,11 +12,10 @@
     <h3>Ajouter un véhicule</h3>
 </div>
 
-<form class="vehicule" method="POST" action="{{ path('proposercovoiturage') }}"><!--formulaire rechercher-->
+<form class="vehicule" method="POST" action="{{ path('vehicule') }}"><!--formulaire rechercher-->
     {{ form_start(vehiculeForm) }}
     {{ form_row(vehiculeForm.immatriculation) }}
     {{ form_row(vehiculeForm.date_premiere_immatriculation) }}
-    {{ form_row(vehiculeForm.modele) }}
     {{ form_row(vehiculeForm.couleur) }}
     {{ form_row(vehiculeForm.energie) }}
     {{ form_row(vehiculeForm.marque) }}

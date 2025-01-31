@@ -33,10 +33,18 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
-    public function utilisateur(): Response
+    public function utilisateur(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $utilisateur = $this->getUser();
+        
+
+        #Récupérer les covoiturages de l'utilisateur
+        $covoiturages = $utilisateur->getCovoiturages();
+
+
         return $this->render('utilisateur/utilisateur.html.twig', [
-            'controller_name' => 'UtilisateurController',
+            'utilisateur' =>$utilisateur,
+            'covoiturages' => $covoiturages,
         ]);
     }
 
@@ -45,6 +53,9 @@ class UtilisateurController extends AbstractController
     {
         #récupère l'utilisateur connecté
         $utilisateur = $this->getUser();
+        #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
+        $uuidUtilisateur = $utilisateur->getUtilisateurID()->toBinary();
+        
 
         #création formulaire
         $roleMetier = new Role();
@@ -63,10 +74,10 @@ class UtilisateurController extends AbstractController
         ->leftJoin('v.marque', 'm')
         ->addSelect('m')
         ->where('v.utilisateur = :utilisateur')
-        ->setParameter('utilisateur', $utilisateur)
+        ->setParameter('utilisateur', $uuidUtilisateur)
         ->getQuery()
         ->getResult();
-    
+
 
         return $this->render('utilisateur/moncompte.html.twig', [
             'utilisateur' => $utilisateur,
@@ -78,12 +89,9 @@ class UtilisateurController extends AbstractController
     #[Route('/utilisateur/moncompte/modification', name: 'modification')]
     public function ModifierProfil(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
-        #redirection si utilisateur connecté
+        #récupère utilisateur connecté
         $utilisateur = $this->getUser();
 
-        # Journalisation de $_FILES avant traitement du formulaire
-        $this->logger->info('$_FILES avant traitement du formulaire', ['files' => $_FILES]);
-        
         #Sauvegarde mot de passe actuel
         $currentPassword = $utilisateur->getPassword();
 
@@ -106,10 +114,8 @@ class UtilisateurController extends AbstractController
             #Gestion du fichier photo
             $photo = $modificationForm->get('photo')->getData();
             if (($photo)) {
-                $this->logger->info('Photo reçue', ['photo' => $photo->getClientOriginalName()]);
+            
 
-        
-                
                 # Générer un nom unique pour la photo
                 $newFilename = uniqid() . '.' . $photo->guessExtension();
 
@@ -119,7 +125,6 @@ class UtilisateurController extends AbstractController
                         $this->getParameter('photos_directory'),
                         $newFilename
                     );
-                    $this->logger->info('Photo déplacée avec succès');
                     
                 } catch (FileException $e) {
                     
@@ -149,35 +154,54 @@ class UtilisateurController extends AbstractController
     #[Route('/utilisateur/moncompte/vehicule', name: 'vehicule')]
     public function ajouterVehicule(Request $request, EntityManagerInterface $entityManager): Response
     {
+        #récupère utilisateur connecté
+        $utilisateur = $this->getUser();
 
         $vehicule = new Voiture();
         $vehiculeForm = $this->createForm(Vehicule::class, $vehicule);
         $vehiculeForm->handleRequest($request);
+        
 
-        if ($vehiculeForm->isSubmitted() && $vehiculeForm->isValid()){
+        if ($vehiculeForm->isSubmitted() &&  $vehiculeForm->isValid()){
+            $vehicule->setUtilisateur($utilisateur);
+        
             $entityManager->persist($vehicule);
             $entityManager->flush();
 
             return $this->redirectToRoute('moncompte', [], response::HTTP_SEE_OTHER);
-        }
+        } 
+    
         return $this->render('utilisateur/vehicule.html.twig', [
             'vehiculeForm' => $vehiculeForm->createView(),
         ]);
     }
 
     #[Route('/utilisateur/proposercovoiturage', name: 'proposercovoiturage', methods:['GET', 'POST'])]
-    public function proposerCovoiturage(Request $request): Response
+    public function proposerCovoiturage(Request $request, EntityManagerInterface $entityManager): Response
     {
+        #récupère utilisateur connecté
+        $utilisateur = $this->getUser();
+        # Convertir l'UUID en binaire pour être sûr de la récupération de l'utilisateur_id
+        $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
+        
+
         #création formulaire
         $covoiturage = new Covoiturage();
-        $proposerForm = $this->createForm(Proposer::class, $covoiturage); 
+        $proposerForm = $this->createForm(Proposer::class, $covoiturage, [ 
+            #POur filtrer seulement les voitures de utilisateur
+            'user' => $utilisateur 
+        ]); 
         $proposerForm->handleRequest($request); 
         #soummission formulaire et récupération données
         if ($proposerForm->isSubmitted() && $proposerForm->isValid()) { 
-        
-            $covoiturageData = $proposerForm->getData();
+           
+            
+            #Ajoute utilisateur au covoiturage (la relation ManyToMany)
+            $covoiturage->addUtilisateur($utilisateur);
+
+
             #envoi nouveau covoit dans la BDD
-            $this->entityManager->persist($covoiturageData);
+            $this->entityManager->persist($covoiturage);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 

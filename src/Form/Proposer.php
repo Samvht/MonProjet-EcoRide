@@ -3,16 +3,22 @@
 namespace App\Form; 
 
 use App\Entity\Covoiturage;
+use App\Entity\Voiture;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface; 
 use Symfony\Component\OptionsResolver\OptionsResolver; 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Doctrine\ORM\EntityRepository;
 
 class Proposer extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
+        #Récupérer l'utilisateur connecté depuis les options
+        $user = $options['user']; 
+
         $builder
             ->add('date_depart', TextType::class, [
                 'attr' => [
@@ -70,6 +76,18 @@ class Proposer extends AbstractType
             ],
             'label'=> false
         ])
+        ->add('voiture', EntityType::class, [ #champ  lié à Voiture donc utlisation de EntityType
+                    'class' => Voiture::class,
+                    'query_builder' => function (EntityRepository $er) use ($options) {
+                        return $er->createQueryBuilder('v')
+                            ->where('v.utilisateur = :utilisateur')
+                            ->setParameter('utilisateur', $options['user']->getUtilisateurId()->toBinary());
+                },
+                    'choice_label' => 'immatriculation',
+                    'placeholder' => 'Sélectionnez un véhicule',
+                    'mapped' =>true,
+                    'label'=> false
+            ]);
     ;
     }
 
@@ -78,5 +96,6 @@ class Proposer extends AbstractType
         $resolver->setDefaults([
            'data_class' => Covoiturage::class,
         ]);
+        $resolver->setRequired(['user']);
     }
 }

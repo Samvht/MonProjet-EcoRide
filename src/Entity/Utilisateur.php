@@ -48,6 +48,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Covoiturage::class, inversedBy: "utilisateurs")] 
     #[ORM\JoinTable(name: "utilisateur_covoiturage")] 
+    #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'utilisateur_id')]
+    #[ORM\InverseJoinColumn(name: 'covoiturage_id', referencedColumnName: 'covoiturage_id')]
     private Collection $covoiturages;
     #liaison table covoiturage
 
@@ -79,6 +81,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUtilisateurId(): ?Uuid
     {
         return $this->utilisateur_id;
+    }
+
+    #rajout setter Id pour visualiser covoiturage
+    public function setUtilisateurId(uuid $utilisateur_id): self
+    {
+        $this->utilisateur_id = $utilisateur_id;
+        return $this;
     }
 
     public function getPseudo(): string {

@@ -28,21 +28,25 @@ class Vehicule extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Date de la 1ère mise en circulation'
                 ],
-                'label'=> false
+                'label'=> false, 
+                'required' =>false
             ])
+            /* choix d'enlever modèle pour une question de simplicité
             ->add('modele', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Modele du véhicule'
                 ],
-                'label'=> false
-            ])
+                'label'=> false,
+                'required' => false
+            ])*/
             ->add('couleur', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Couleur du véhicule'
                 ],
-                'label'=> false
+                'label'=> false, 
+                'required' => false
             ])
             ->add('energie', ChoiceType::class, [
                 'choices' => [

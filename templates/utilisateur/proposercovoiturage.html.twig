@@ -12,7 +12,7 @@
     <h3>Proposer un voyage</h3>
 </div>
 
-<form class="proposer" method="POST" action="{{ path('proposercovoiturage') }}"><!--formulaire rechercher-->
+<form class="proposer" method="POST" action="{{ path('proposercovoiturage') }}"><!--formulaire-->
     {{ form_start(proposerForm) }}
     {{ form_row(proposerForm.date_depart) }}
     {{ form_row(proposerForm.heure_depart) }}
@@ -22,6 +22,7 @@
     {{ form_row(proposerForm.lieu_arrivee) }}
     {{ form_row(proposerForm.nbre_place) }}
     {{ form_row(proposerForm.prix_personne) }}
+    {{ form_row(proposerForm.voiture)}}
     <button id="btn_proposer" type="submit">Proposer</button>
     {{ form_end(proposerForm) }}
 </form>
