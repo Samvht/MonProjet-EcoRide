@@ -22,6 +22,7 @@ class RoleMetier extends AbstractType
                 ],
                 'expanded'=> true,   #Pour afficher cases à cocher
                 'multiple' => false, #Ne selectionne qu'une seule case
+                'label' => false,
             ]);
     } 
         

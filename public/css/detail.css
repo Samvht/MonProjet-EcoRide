@@ -2,17 +2,99 @@ body{
     background-color: #362D32;
 }
 
-h1{
-    font: 18px, "montserrat", arial, sans-serif;
-    color : #0FB09B;
-    padding-left:15%;
-    padding-top: 5%;
+.retour{
+    display: inline-block;
+    padding-top: 3%;
     padding-bottom: 3%;
+    padding-left: 2%;
+    text-decoration: none;
+    color: #FAF5F9;
+    font-size: 12px;
+}
+
+h1{
+    font: 18px "montserrat", arial, sans-serif;
+    color : #0FB09B;
+    padding-left:10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 .detail{
-    font: 12px "Montserrat", arial,sans-serif;
+    font: 12px "Poppins", arial,sans-serif;
     color: #ffffff;
-    padding-left: 10%;
+    padding-left: 15%;
     padding-bottom: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.photo{
+    width: 200px;
+    margin-right: 50px;
+}
+
+.pseudo{
+    font: 16px "montserrat", arial, sans-serif;
+    padding-top: 5%;
+}
+
+.createur{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 5%;
+}
+
+.infos p{
+    padding-bottom: 3%;
+}
+
+.participer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 15%;
+}/*disposer btn participer à droite*/
+
+.btn-success{
+    align-self: flex-end;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 16px;
+    background-color: #009B4D;
+}/*mise en page bouton participer*/
+
+@media (min-width : 1440px) {
+    .retour{
+        font-size: 14px;
+        padding-bottom: 2%;
+    }
+    h1{
+        font-size: 25px;
+        padding-top: 1%;
+        padding-bottom: 3%;
+    }
+    .createur{padding-bottom: 3%;}
+    .detail{
+        font-size: 16px;
+        padding-left: 15%;
+    }
+    .photo{
+        width: 300px;
+        margin-right: 10%;
+    }
+    .pseudo{
+        font-size: 25px;
+        padding-top: 5%;
+    }
+    .infos p{padding-bottom: 1%;}
+    .participer{padding-right: 40%;}
+    .btn-success{
+        font-size:25px;
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
 }

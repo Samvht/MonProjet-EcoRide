@@ -5,16 +5,20 @@ body{
 .rechercher{
     display: flex;
     flex-direction : column;
-    gap: 7px;
+    gap: 10px;
     padding-left: 10%;
     padding-top: 5%;
-    padding-right: 10%;
+    padding-right: 15%;
     padding-bottom: 5%;
 }/*disposition formulaire rechercher*/
 
 .rechercher input::placeholder{
-    font: 12px "Montserrat", arial,sans-serif;
+    font: 12px "Poppins", arial,sans-serif;
     color: #000000;
+}
+
+.rechercher input{
+    width: 50%;
 }
 
 #btn_rechercher{
@@ -28,10 +32,59 @@ body{
 }/*mise en page bouton rechercher*/
 
 .result{
-    font : 12px "Montserrat", arial, sans-serif;
+    font : 12px "poppins", arial, sans-serif;
     color : #ffffff;
     padding-left: 5%;
+    list-style: none;
+    padding-right: 15%;
 }
+
+.result li{
+    margin-bottom: 20px;
+} /*espace entre les résultats*/
+
+.covoiturage{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.photo{
+    width: 100px;
+}
+
+.pseudo{
+    font: 18px "montserrat", arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+.place{
+    display: none;
+}/*ne pas afficher nbre place sur version mobile*/
+
+.ecologique{
+    display: none;
+}
+
+.prix{
+    font: 18px "montsserrat", arial, sans-serif;
+    color: #0FB09B;
+    margin-bottom: 30px;
+}
+#lien_detail{
+    font: 14px "montserrat", arial, sans-serif;
+    color: #00964D;
+}
+
+.details{
+    padding-right: 10%;
+}
+
+.prix_detail{
+    padding-left: 10%;
+}
+
 
 @media (min-width : 1440px) {
     .rechercher{ 
@@ -39,10 +92,36 @@ body{
         justify-content: space-between;
         align-items: center;
         gap: 5%;
-        padding-right: 30%;
+        padding-right: 20%;
+        padding-left: 12%
     }
     .rechercher input::placeholder{
         font-size: 16px;
     }
+    .rechercher input{width: 150%;}
     #btn_rechercher{font-size: 20px}
+    .result{
+        font-size: 16px;
+        padding-left: 10%;
+    }
+    .covoiturage{margin-bottom: 50px}
+    .photo{width: 300px;}
+    .pseudo{
+        font-size: 25px;
+        margin-bottom: 50px;
+    }
+    .place{display: flex;}/*faire appareitre info sur bureau*/
+    .ecologique{display: flex;}
+    .prix{
+        font-size: 35px;
+        margin-bottom: 70px;
+    }
+    #lien_detail{font-size: 20px;}
+    .details{padding-right: 20%;}
+    .prix_detail{padding-right: 7%;}
+
+
+
   }   /*adaptation formulaire grand écran*/
+
+

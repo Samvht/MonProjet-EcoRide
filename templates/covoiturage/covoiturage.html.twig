@@ -7,13 +7,6 @@
 {% endblock %}
 
 {% block body %}
-<!--<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>-->
-
-<!--<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>-->
 
 <!--formulaire rechercher-->
 <form class="rechercher" method="POST" action="{{ path('app_covoiturage') }}"><!--formulaire rechercher-->
@@ -29,27 +22,28 @@
     <ul class="result">
         {% for covoiturage in results %}
             <li>
-                <div>
+                <div class="covoiturage">
                     {% set createur = covoiturage.getCreateur() %}
                     {% if createur.getPhoto() %}
-                        <img src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="50">
+                        <img class="photo" src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="50">
                     {% else %}
-                        <img src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="50">
+                        <img class="photo" src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="50">
                     {% endif %}
-                    <p>{{ createur.getPseudo() }}</p>
+                    
                 
-
-                    <div>
+                    <div class="details">
+                        <p class="pseudo">{{ createur.getPseudo() }}</p>
                         <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart() }}</p>
                         <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee() }}</p>
-                        <p>Nombre de place disponible : {{ covoiturage.getNbrePlace() }}</p>
-                        <p>Voyage écologique : {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
-                        <p>Prix : {{ covoiturage.getPrixPersonne() }}</p>
+                        <p class="place">Nombre de place disponible : {{ covoiturage.getNbrePlace() }}</p>
+                        <p class="ecologique">Voyage écologique : {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
+                        
                     </div>
 
-                    <a href="{{ path('detail', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
-                        <button id="btn_detail">Détails</button>
-                    </a>
+                    <div class="prix_detail">
+                    <p class="prix">{{ covoiturage.getPrixPersonne() }} Crédits</p>
+                    <a id="lien_detail" href="{{ path('detail', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">Détails</a>
+                    </div>
 
                 </div>
             </li>

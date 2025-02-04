@@ -6,9 +6,9 @@ body{
     display: flex;
     flex-direction : column;
     gap: 20px;
-    padding-left: 10%;
+    padding-left: 15%;
     padding-top: 5%;
-    padding-right: 10%;
+    padding-right: 20%;
 }/*disposition formulaire connexion*/
 
 .connexion label{
@@ -18,7 +18,7 @@ body{
 }/*disposition des label du formulaire connexion*/
 
 .connexion input::placeholder{
-    font: 12px "Montserrat", arial,sans-serif;
+    font: 12px "Poppins", arial,sans-serif;
     color: #000000;
 }/*changement placeholder (écriture dans champs)*/
 
@@ -33,7 +33,7 @@ body{
 }/*style bouton connexion*/
 
 h3{
-    font: 18px, "montserrat", arial, sans-serif;
+    font: 18px "montserrat", arial, sans-serif;
     color : #0FB09B;
     padding-left:10%;
     padding-top: 3%;
@@ -43,9 +43,9 @@ h3{
     display: flex;
     flex-direction : column;
     gap: 7px;
-    padding-left: 10%;
+    padding-left: 15%;
     padding-top: 5%;
-    padding-right: 10%;
+    padding-right: 20%;
 }/*mise en page formulaire inscription*/
 
 .inscription label{
@@ -55,7 +55,7 @@ h3{
 }/*disposition label*/
 
 .inscription input::placeholder{
-    font: 12px "Montserrat", arial,sans-serif;
+    font: 12px "Poppins", arial,sans-serif;
     color: #000000;
 }
 
@@ -89,4 +89,7 @@ h3{
         font-size: 20px
     }
     h3{font-size:35px}
+    .connexion input, .inscription input {
+        width : 30%;
+    }
 }

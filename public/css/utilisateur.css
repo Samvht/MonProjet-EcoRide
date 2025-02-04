@@ -7,16 +7,29 @@ body{
     padding-top: 5%;
     padding-bottom: 3%;
 }
+.mon_compte{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 15%;
+}
+
+#btn_modifier{
+    align-self: flex-end;
+    padding-left: 7%;
+    padding-right: 7%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}
 
 a{
-    text-decoration: none;
-    font: 18px, "montserrat", arial, sans-serif;
-    font-weight: bold;
+    font: 18px "montserrat", arial, sans-serif;
     color: #0FB09B;
 }
 
 h3{
-    font: 18px, "montserrat", arial, sans-serif;
+    font: 18px "montserrat", arial, sans-serif;
     color : #0FB09B;
     padding-left:3%;
     padding-top: 3%;
@@ -25,8 +38,22 @@ h3{
 }
 
 .covoiturage{
-    font: 12px "Montserrat", arial,sans-serif;
+    font: 12px "Poppins", arial,sans-serif;
     color: #ffffff;
     padding-left: 10%;
     padding-bottom: 3%;
 }
+
+ul.covoiturage li{
+    margin-bottom: 3%;
+}
+
+
+@media (min-width : 1440px) {
+    #btn_modifier{font-size: 20px}
+    a{font-size: 22px;}
+    h3{font-size: 22px;}
+    .mon_compte{padding-right: 50%;}
+    .covoiturage{font-size: 18px;}
+}
+

@@ -8,40 +8,49 @@
 
 {% block body %}
 
+
+<a class="retour" href="{{ path('app_covoiturage')}}">
+  &#8592; Retour
+</a>
+
     <h1>Détails du Covoiturage</h1>
 
         <div class="detail">
-            <div>>
+            <div class="createur">
                 {% set createur = covoiturage.getCreateur() %}
                 {% if createur.getPhoto() %}
-                    <img src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="100">
+                    <img class="photo" src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="100">
                 {% else %}
-                    <img src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="100">
+                    <img class="photo" src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="100">
                 {% endif %}
-                <p><strong>Conducteur :</strong> {{ createur.getPseudo() }}</p>
-            </div
+                <p class="pseudo">{{ createur.getPseudo() }}</p>
+            </div>
+            <div class="infos">
+                <p><strong>Départ :</strong> {{ covoiturage.getLieuDepart() }}</p>
+                <p><strong>Arrivée :</strong> {{ covoiturage.getLieuArrivee() }}</p>
+                <p><strong>Date de départ :</strong> {{ covoiturage.getDateDepart() }}</p>
+                <p><strong>Heure de départ :</strong> {{ covoiturage.getHeureDepart() }}</p>
+                <p><strong>Date d'arrivée' :</strong> {{ covoiturage.getDateArrivee() }}</p>
+                <p><strong>Heure d'arrivée :</strong> {{ covoiturage.getHeureArrivee() }}</p>
+                <p><strong>Voyage écologique :</strong> {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
+                <p><strong>Marque et couleur de la voiture :</strong> {{ marque.getLibelle() }} ~ {{ voiture.getCouleur() }}</p>
+                <p><strong>Nombre de places :</strong> {{ covoiturage.getNbrePlace() }}</p>
+                <p><strong>Prix :</strong> {{ covoiturage.getPrixPersonne() }} Crédits</p>
+            </div>
 
-            <p><strong>Départ :</strong> {{ covoiturage.getLieuDepart() }}</p>
-            <p><strong>Arrivée :</strong> {{ covoiturage.getLieuArrivee() }}</p>
-            <p><strong>Date de départ :</strong> {{ covoiturage.getDateDepart() }}</p>
-            <p><strong>Heure de départ :</strong> {{ covoiturage.getHeureDepart() }}</p>
-            <p><strong>Heure d'arrivée :</strong> {{ covoiturage.getHeureArrivee() }}</p>
-            <p><strong>Nombre de places :</strong> {{ covoiturage.getNbrePlace() }}</p>
-            <p><strong>Prix :</strong> {{ covoiturage.getPrixPersonne() }} €</p>
-            <p><strong>Voyage écologique :</strong> {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
-            <p><strong>Marque :</strong> {{ marque.getLibelle() }}</p>
-
+            <div class="participer">
             <!--formulaire + bouton participer-->
-            {% if covoiturage.getNbrePlace() > 0 %}
-                    <form id="participationForm" method="post" action="{{ path('covoiturage_participer', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
-                        <button type="button" class="btn btn-success" onclick="confirmParticipation()">Participer</button>
-                    </form>
-            {% else %}
-                <p class="text-danger">Aucune place disponible</p>
-            {% endif %}
+                {% if covoiturage.getNbrePlace() > 0 %}
+                        <form id="participationForm" method="post" action="{{ path('covoiturage_participer', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
+                            <button type="button" class="btn btn-success" onclick="confirmParticipation()">Participer</button>
+                        </form>
+                {% else %}
+                    <p class="text-danger">Aucune place disponible</p>
+                {% endif %}
+            </div>
         </div>
 
-    <!--confirmation participation-->
+    <!--confirmation participation en JS-->
     <script>
         function confirmParticipation() {
             if (confirm("Voulez-vous vraiment participer à ce covoiturage ?")) {

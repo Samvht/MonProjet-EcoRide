@@ -8,17 +8,22 @@
 
 {% block body %}
 
+<a class="retour" href="{{ path('app_utilisateur')}}">
+  &#8592; Retour
+</a>
+
 
 <h1>Mon compte</h1>
+    
 
 <h3>Mes informations</h3>
 <div class="information">
-    <p><strong>Pseudo : </strong> {{app.user.pseudo}}</p>
-    <p><strong>Téléphone : </strong> {{app.user.telephone ?? ''}}</p>
-    <p><strong>Date de Naissance : </strong> {{ app.user.getDateNaissance}}</p>
+    <p class="label"><strong>Pseudo : </strong> {{app.user.pseudo}}</p>
+    <p class="label"><strong>Téléphone : </strong> {{app.user.telephone ?? ''}}</p>
+    <p class="label"><strong>Date de Naissance : </strong> {{ app.user.getDateNaissance}}</p>
     
     {% if app.user.photo %}
-        <p><strong>Photo de profil :</strong></p>
+        <p class="label"><strong>Photo de profil :</strong></p>
         <img id="photo" src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Photo de profil">
     {% else %}
         <p><strong>Photo de profil :</strong> Aucune photo</p>
@@ -31,9 +36,9 @@
 
 <h3>Choisir un rôle</h3>
 <div class="role">
-    <form class="roleMetier" method="POST" action="{{ path('moncompte') }}"><!--formulaire rechercher-->
+    <form method="POST" action="{{ path('moncompte') }}">
         {{ form_start(roleMetierForm) }}
-        {{ form_row(roleMetierForm) }}
+        {{ form_row(roleMetierForm.libelle) }}
         <button id="btn_valider" type="submit">Valider</button>
         {{ form_end(roleMetierForm) }}
     </form>
@@ -51,6 +56,7 @@
                 <th>Marque</th> 
             </tr> 
         </thead>
+        
         <tbody>
             {% for voiture in voiture %} 
                 <tr>
@@ -79,9 +85,8 @@
     </a>
 </div>
 
-<div>
-<a href="{{ path('app_utilisateur') }}">
-        <button id="btn_retour">Retour</button>
-    </a>
-</div>
+<a class="retour" href="{{ path('app_utilisateur')}}">
+  &#8592; Retour
+</a>
+
 {% endblock %}

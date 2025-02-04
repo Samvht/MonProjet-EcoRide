@@ -2,11 +2,21 @@ body{
     background-color: #362D32;
 }
 
-h3{
-    font: 18px, "montserrat", arial, sans-serif;
-    color : #0FB09B;
-    padding-left:3%;
+
+.retour{
+    display: inline-block;
     padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 2%;
+    text-decoration: none;
+    color: #FAF5F9;
+    font-size: 12px;
+}
+h3{
+    font: 18px "montserrat", arial, sans-serif;
+    color : #0FB09B;
+    padding-left:5%;
+    padding-top: 2%;
 }
 
 .modifier{
@@ -15,7 +25,8 @@ h3{
     gap: 20px;
     padding-left: 10%;
     padding-top: 5%;
-    padding-right: 10%;
+    padding-right: 15%;
+    padding-bottom: 5%;
 }
 .modifier label{
     display: block;
@@ -24,14 +35,14 @@ h3{
 }
 
 .modifier input::placeholder{
-    font: 12px "Montserrat", arial,sans-serif;
+    font: 12px "Poppins", arial,sans-serif;
     color: #000000;
 }
 
 #btn_mettre_jour{
     align-self: flex-end;
-    padding-left: 2%;
-    padding-right: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
     border-radius: 5px;
     color : #FAF5F9;
     font-size: 14px;
@@ -40,9 +51,14 @@ h3{
 
 
 @media (min-width : 1440px) {
+    .retour{
+        font-size: 14px;
+        padding-bottom: 1%;
+    }
     .modifier{
-        padding-right: 30%;
+        padding-right: 40%;
         padding-bottom: 3%;
+        padding-top: 2%;
     }
     .modifier label{
         font-size: 14px;
@@ -52,8 +68,13 @@ h3{
     .modifier input::placeholder{
         font-size: 16px
     }
+    .modifier input{
+        width :30%;
+    }
     #btn_mettre_jour{
         font-size: 20px
     }
-    h3{font-size:35px}
+    h3{
+        font-size:35px;
+        padding-top: 1%;}
 }

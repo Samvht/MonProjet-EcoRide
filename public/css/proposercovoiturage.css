@@ -2,17 +2,27 @@ body{
     background-color: #362D32;
 }
 
+.retour{
+    display: inline-block;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 2%;
+    text-decoration: none;
+    color: #FAF5F9;
+    font-size: 12px;
+}
+
 h3{
-    font: 18px, "montserrat", arial, sans-serif;
+    font: 18px "montserrat", arial, sans-serif;
     color : #0FB09B;
-    padding-left:3%;
+    padding-left:5%;
     padding-top: 3%;
 }
 
 .proposer{
     display: flex;
     flex-direction : column;
-    gap: 7px;
+    gap: 20px;
     padding-left: 10%;
     padding-top: 5%;
     padding-right: 10%;
@@ -20,9 +30,17 @@ h3{
 }/*disposition formulaire proposer*/
 
 .proposer input::placeholder{
-    font: 12px "Montserrat", arial,sans-serif;
+    font: 12px "Poppins", arial,sans-serif;
     color: #000000;
     padding-right: 30%;
+}
+
+.proposer input{
+    width: 50%;
+}
+
+#proposer_voiture{
+    width: 50%;
 }
 
 #btn_proposer{
@@ -36,8 +54,11 @@ h3{
 }/*mise en page bouton proposer*/
 
 @media (min-width : 1440px) {
+    .retour{padding-bottom: 1%}
     .proposer{
         padding-right: 30%;
+        gap: 25px;
+        padding-top: 3%;
     }
     .proposer input::placeholder{
         font-size: 16px
@@ -46,5 +67,6 @@ h3{
     h3{
         font-size:35px;
         padding-left: 5%;
+        padding-top: 1%;
     }
 }
