@@ -48,6 +48,23 @@ ul.covoiturage li{
     margin-bottom: 3%;
 }
 
+/*.annuler {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 15%;
+}*//*disposer btn annuler à droite*/
+
+.btn-annuler{
+    align-self: flex-end;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 16px;
+    background-color: #009B4D;
+}/*mise en page bouton annuler*/
+
 
 @media (min-width : 1440px) {
     #btn_modifier{font-size: 20px}

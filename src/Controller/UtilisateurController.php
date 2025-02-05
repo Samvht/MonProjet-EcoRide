@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -33,22 +35,96 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
-    public function utilisateur(Request $request, EntityManagerInterface $entityManager): Response
+    public function utilisateur(EntityManagerInterface $entityManager): Response
     {
         $utilisateur = $this->getUser();
         #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
-        #$uuidUtilisateur = $utilisateur->getUtilisateurID()->toBinary();
+        $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
         
 
-        #Récupérer les covoiturages de l'utilisateur
-        $covoiturages = $utilisateur->getCovoiturages();
+        #Récupére les covoiturages créés par l'utilisateur
+        $covoituragesCrees = [];
+        foreach ($entityManager->getRepository(Covoiturage::class)->findAll() as $covoiturage) {
+            if ($covoiturage->getCreateur() === $utilisateur) {
+                $covoituragesCrees[] = $covoiturage;
+            }
+        }
 
+        #Récupére les covoiturages auxquels l'utilisateur participe
+        $covoituragesParticipes = $entityManager->createQueryBuilder()
+            ->select('c')
+            ->from(Covoiturage::class, 'c')
+            ->innerJoin('c.utilisateurs', 'u')
+            ->where('u.utilisateur_id = :utilisateur')
+            ->setParameter('utilisateur', $uuidUtilisateur)
+            ->getQuery()
+            ->getResult();
+
+        #Combine les deux listes de covoiturages sans doublons
+        $covoiturages = array_unique(array_merge($covoituragesCrees, $covoituragesParticipes), SORT_REGULAR);
+
+
+        $covoituragesWithParticipation = [];
+        foreach ($covoiturages as $covoiturage) {
+            $isUserParticipating = $covoiturage->getUtilisateurs()->contains($utilisateur)|| $covoiturage->getCreateur() === $utilisateur;
+            $covoituragesWithParticipation[] = [
+                'covoiturage' => $covoiturage,
+                'isUserParticipating' => $isUserParticipating
+            ];
+        }
 
         return $this->render('utilisateur/utilisateur.html.twig', [
             'utilisateur' =>$utilisateur,
-            'covoiturages' => $covoiturages,
+            'covoiturages' => $covoituragesWithParticipation,
         ]);
     }
+
+    #route d'action pour l'annulation du covoiturage
+    #[Route('/annuler/{covoiturage_id}', name: 'covoiturage_annuler', methods: ['POST'])]
+    public function annuler(Request $request, int $covoiturage_id, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
+{
+    #verifie utilisateur connecté ou renvoi vers la connexion
+    $utilisateur = $this->getUser();
+    if (!$utilisateur) {
+        return $this->redirectToRoute('app_connexion');
+    }
+
+    $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
+    if (!$covoiturage) {
+        $logger->error('Covoiturage non trouvé', ['covoiturage_id' => $covoiturage_id]);
+        throw $this->createNotFoundException('Covoiturage non trouvé');
+    }
+
+    $logger->info('Utilisateur trouvé', ['utilisateur' => $utilisateur->getUtilisateurId()]);
+
+    #Vérification du CSRF token
+    if (!$this->isCsrfTokenValid('annuler'.$covoiturage_id, $request->request->get('_token'))) {
+        $this->addFlash('error', 'Token CSRF invalide.');
+        return $this->redirectToRoute('app_utilisateur');
+    }
+
+    #si l'utilisateur est le créateur, supprime de la BDD
+    if ($utilisateur === $covoiturage->getCreateur()) {
+        $entityManager->remove($covoiturage);
+        $entityManager->flush();
+
+        // Envoyer un email aux participants (ajouter le code pour l'envoi d'email ici)
+
+        $this->addFlash('success', 'Le covoiturage a été supprimé et les participants ont été informés.');
+    } else {
+        #si c'est juste un utilisateur, supprime de la liste et met le nbre de place à jour dans la BDD
+        $covoiturage->removeUtilisateur($utilisateur);
+        $covoiturage->setNbrePlace($covoiturage->getNbrePlace() + 1);
+        $entityManager->persist($covoiturage);
+        $entityManager->flush();
+
+        $logger->info('Utilisateur retiré du covoiturage', ['covoiturage' => $covoiturage->getCovoiturageId()]);
+        $this->addFlash('success', 'Votre participation est bien annulée.');
+        $logger->info('Covoiturage supprimé', ['covoiturage_id' => $covoiturage->getCovoiturageId()]);
+    }
+
+    return $this->redirectToRoute('app_utilisateur'); 
+}
 
     #[Route('/utilisateur/moncompte', name: 'moncompte')]
     public function monCompte(Request $request, EntityManagerInterface $entityManager): Response
@@ -56,7 +132,7 @@ class UtilisateurController extends AbstractController
         #récupère l'utilisateur connecté
         $utilisateur = $this->getUser();
         #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
-        $uuidUtilisateur = $utilisateur->getUtilisateurID()->toBinary();
+        $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
         
 
         #création formulaire

@@ -28,19 +28,41 @@
         <h3>Historique des covoiturage</h3>
 
         <ul class="covoiturage">
-            {% for covoiturage in covoiturages %}
+            {% for covoiturageWithParticipation in covoiturages %}
+                {% set covoiturage = covoiturageWithParticipation.covoiturage %}
+                {% set isUserParticipating = covoiturageWithParticipation.isUserParticipating %}
                 <li>
                     <p>Trajet: {{ covoiturage.getLieuDepart ~ ' à ' ~ covoiturage.getLieuArrivee }}</p>
                     <p>Date de départ: {{ covoiturage.getDateDepart }}</p>
+                    <p>Horaires : {{ covoiturage.getHeureDepart ~ ' - ' ~ covoiturage.getHeureArrivee }}</p>
                     <!--récupère voiture seulement si utilisateur = createur-->
                     {% if covoiturage.getCreateur() == app.user %}
                         <p>Véhicule: {{ covoiturage.getVoiture.getImmatriculation }}</p>
                     {% endif %}
+                     <!--formulaire + bouton annuler pour qhaque covoiturage-->
+                    {% if isUserParticipating %}
+                        <form id="annulationForm_{{ covoiturage.getCovoiturageId() }}" method="post" action="{{ path('covoiturage_annuler', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
+                            <input type="hidden" name="_token" value=" {{ csrf_token('annuler' ~ covoiturage.getCovoiturageId()) }}">
+                            <button type="button" class="btn btn-annuler" onclick="confirmAnnulation({{ covoiturage.getCovoiturageId() }})">Annuler</button>
+                        </form>
+                {% endif %}
                 </li>
+
             {% else %}
                 <li>Aucun covoiturage.</li>
             {% endfor %}
-</ul>
-
+        </ul>
     </div>
+
+    <script>
+        function confirmAnnulation(covoiturage_id) {
+            if (confirm("Etes-vous sûr de vouloir annuler votre participation à ce covoiturage?")) {
+                 console.log("Confirmation acceptée pour le covoiturage ID:", covoiturage_id);
+                document.getElementById('annulationForm_' + covoiturage_id).submit();
+            } else {
+            console.log("Confirmation refusée pour le covoiturage ID:", covoiturage_id);
+            }
+        }
+    </script>
+
 {% endblock %}

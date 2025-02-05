@@ -83,10 +83,10 @@ class CovoiturageController extends AbstractController
     #[Route('/participer/{covoiturage_id}', name: 'covoiturage_participer', methods: ['POST'])]
     public function participer(int $covoiturage_id, EntityManagerInterface $entityManager): Response
     {
-        #ajoute utilisateur au covoiturag
+        #récupère utilisateur connecté ou bien le redirige pour connexion
         $utilisateur = $this->getUser();
         if (!$utilisateur) {
-            return $this->redirectToRoute('app_conenxion');
+            return $this->redirectToRoute('app_connexion');
         }
 
         $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
