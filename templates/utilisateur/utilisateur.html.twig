@@ -57,10 +57,10 @@
     <script>
         function confirmAnnulation(covoiturage_id) {
             if (confirm("Etes-vous sûr de vouloir annuler votre participation à ce covoiturage?")) {
-                 console.log("Confirmation acceptée pour le covoiturage ID:", covoiturage_id);
+                console.log("Confirmation acceptée pour le covoiturage ID:", covoiturage_id);
                 document.getElementById('annulationForm_' + covoiturage_id).submit();
             } else {
-            console.log("Confirmation refusée pour le covoiturage ID:", covoiturage_id);
+                console.log("Confirmation refusée pour le covoiturage ID:", covoiturage_id);
             }
         }
     </script>

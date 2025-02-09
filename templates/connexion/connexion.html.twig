@@ -22,7 +22,7 @@
 <h3> Créer un compte</h3>
 
 <!--formulaire inscription-->
-<form class="inscription" method="POST" action="{{ path('app_connexion') }}"><!--formulaire s'inscrire-->
+<form class="inscription"  onsubmit='inscription(this); return false;'>
     {{ form_start(inscriptionForm) }}
     {{ form_row(inscriptionForm.pseudo) }}
     {{ form_row(inscriptionForm.email) }}
@@ -30,7 +30,34 @@
     <button id="btn_inscription" type="submit" name="action" value="inscription">S'inscrire</button>
     {{ form_end(inscriptionForm) }}
 </form>
+<div id="inscription_erreur"></div>
 <br>
 <br>
+
+<script>
+    async function inscription(form) {
+        const formData = new FormData(form);
+
+        const response = await fetch("{{ path('inscription') }}", {
+            method: "POST",
+            body: formData,
+        }); //soumet le formulaire inscription
+
+        if ( response.status === 200 ) {
+            document.location.href = "{{ path('app_utilisateur') }}";
+            return; //si inscritpion ok redirection page /utlisateur
+        }
+
+        if ( response.status === 400 ) {
+            const data = await response.json();
+            document.getElementById('inscription_erreur').innerText = data.erreur;
+            return;
+        } //si erreur, renvoi erreur en json pour choisir l'erreur renvoyé
+    }
+</script>
+
+
+
+
 
 {% endblock %}
