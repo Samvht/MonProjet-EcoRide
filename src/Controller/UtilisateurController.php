@@ -69,7 +69,7 @@ class UtilisateurController extends AbstractController
             $isUserParticipating = $covoiturage->getUtilisateurs()->contains($utilisateur)|| $covoiturage->getCreateur() === $utilisateur;
             $covoituragesWithParticipation[] = [
                 'covoiturage' => $covoiturage,
-                'isUserParticipating' => $isUserParticipating
+                'isUserParticipating' => $isUserParticipating,
             ];
         }
 
@@ -162,6 +162,30 @@ class UtilisateurController extends AbstractController
             'roleMetierForm' => $roleMetierForm->createView(),
             'voiture' => $voiture,
         ]);
+    }
+
+    #Route action pour supprimer véhicule
+    #[Route('/voiture/supprimer/{voiture_id}', name: 'voiture_supprimer', methods: ['POST'])]
+    public function supprimer(int $voiture_id, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $voiture = $entityManager->getRepository(Voiture::class)->find($voiture_id);
+
+        if (!$voiture) {
+            throw $this->createNotFoundException('Véhicule non trouvé.');
+        }
+
+        #Vérification du token CSRF
+        if (!$this->isCsrfTokenValid('supprimer' . $voiture_id, $request->request->get('_token'))) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('moncompte');
+        }
+
+        $entityManager->remove($voiture);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Véhicule supprimé avec succès.');
+
+        return $this->redirectToRoute('moncompte');
     }
 
     #[Route('/utilisateur/moncompte/modification', name: 'modification')]

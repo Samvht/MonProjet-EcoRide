@@ -30,8 +30,7 @@ class Connexion extends AbstractType
                     'required' => true,
                 ],
                 'label' => 'Mot de passe'
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver):void

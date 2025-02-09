@@ -1,0 +1,25 @@
+body{
+    background-color: #362D32;
+}
+
+h2{
+    font: 18px "montserrat", arial, sans-serif;
+    color : #0FB09B;
+    padding-left:3%;
+    padding-top: 3%;
+    padding-left:10%;
+    padding-bottom: 3%;
+}
+
+.utilisateur{
+    font: 12px "Poppins", arial,sans-serif;
+    color: #ffffff;
+    padding-left: 10%;
+    padding-bottom: 3%;
+}
+
+
+
+@media (min-width : 1440px) {
+    h2{font-size: 22px;}
+}

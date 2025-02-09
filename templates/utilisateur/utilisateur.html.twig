@@ -39,7 +39,7 @@
                     {% if covoiturage.getCreateur() == app.user %}
                         <p>Véhicule: {{ covoiturage.getVoiture.getImmatriculation }}</p>
                     {% endif %}
-                     <!--formulaire + bouton annuler pour qhaque covoiturage-->
+                     <!--formulaire + bouton annuler pour chaque covoiturage dont la date n'est pas passée-->
                     {% if isUserParticipating %}
                         <form id="annulationForm_{{ covoiturage.getCovoiturageId() }}" method="post" action="{{ path('covoiturage_annuler', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
                             <input type="hidden" name="_token" value=" {{ csrf_token('annuler' ~ covoiturage.getCovoiturageId()) }}">

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administrateur{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/administrateur.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<h2>Nombre de Covoiturages par Jour</h2>
+    <canvas id="covoituragesChart" width="400" height="200"></canvas><!-- définbit espace où graphique sera rendu-->
+
+    <script>
+        var ctx = document.getElementById('covoituragesChart').getContext('2d');//récupère le contexte de rendu 2D
+        var covoituragesChart = new Chart(ctx, { //crée nouveau graphique 
+            type: 'line',
+            data: {
+                labels: {{ labels|json_encode|raw }},
+                datasets: [{
+                    label: 'Covoiturages par jour',
+                    data: {{ data|json_encode|raw }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+<h2>Liste des Utilisateurs</h2>
+    <table class='utilisateur'>
+        <thead>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    <td>{{ utilisateur.pseudo }}</td>
+                    <td>{{ utilisateur.email }}</td>
+                    <td>
+                        <form method="post" action="{{ path('admin_suspendre_utilisateur', { 'utilisateur_id': utilisateur.getUtilisateurId() }) }}" onsubmit="return confirm('Etes-vous sûr de vouloir suspendre ce compte utilisateur ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('suspendre' ~ utilisateur.getUtilisateurId()) }}">
+                            <button type="submit" class="btn btn-warning">Suspendre</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

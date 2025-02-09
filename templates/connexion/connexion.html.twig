@@ -14,7 +14,7 @@
     {{ form_start(connexionForm) }}
     {{ form_row(connexionForm.email) }}
     {{ form_row(connexionForm.password) }}
-    <button id="btn_connexion2" type="submit">Connexion</button>
+    <button id="btn_connexion2" type="submit" name="action" value="connexion">Connexion</button>
     {{ form_end(connexionForm) }}
 </form>
 
@@ -27,7 +27,7 @@
     {{ form_row(inscriptionForm.pseudo) }}
     {{ form_row(inscriptionForm.email) }}
     {{ form_row(inscriptionForm.password) }}
-    <button id="btn_inscription" type="submit">S'inscrire</button>
+    <button id="btn_inscription" type="submit" name="action" value="inscription">S'inscrire</button>
     {{ form_end(inscriptionForm) }}
 </form>
 <br>
