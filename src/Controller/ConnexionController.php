@@ -48,40 +48,34 @@ class ConnexionController extends AbstractController
             #Si l'utilisateur est déjà connecté, rediriger vers page utilisateur
             return $this->redirectToRoute('app_utilisateur'); 
         }
+
+        /*
+         // get the login error if there is one
+         $error = $authenticationUtils->getLastAuthenticationError();
+        */
        
         $utilisateurConnexion = new Utilisateur();
         $connexionForm = $this->createForm(Connexion::class, $utilisateurConnexion); 
-        /*$connexionForm->handleRequest($request); 
-        if ($connexionForm->isSubmitted() && $connexionForm->isValid()) { 
-            #récupération données formulaire
-            $utilisateurConnexion = $connexionForm->getData();
-            $email = $utilisateurConnexion->getEmail(); 
-            $password = $utilisateurConnexion->getPassword();*/
         
-             #Verifier si l'utilisateur existe - enlever car gérer par connexion_check et la magie de symfony
-             /*$utilisateurConnexion = $this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
-             if ($utilisateurConnexion && $this->passwordHasher->isPasswordValid($utilisateurConnexion, $password)) {
-                $token = new UsernamePasswordToken(
-                    $utilisateurConnexion, 
-                    $password, 
-                    ['main'], 
-                    $utilisateurConnexion->getRoles());
-                $this->tokenStorage->setToken($token);
-                dump($this->getUser());
-                $this->addFlash('success', 'Connexion réussie.');  
-             
-             return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
-            } else {
-             #Message si identifiants incorrect
-             $this->addFlash('error', 'Identifiants incorrects');
-            }
-        }*/
+        $utilisateurInscription = new Utilisateur();
+        $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription); 
         
-    
+
+        #retourne la vue
+        return $this->render('connexion/connexion.html.twig', [
+            'connexionForm' => $connexionForm->createView(),
+            'inscriptionForm'=> $inscriptionForm->createView(),
+            'controller_name' => 'ConnexionController',
+        ]);
+    }
+
+    #Route pour action d'inscription pour éviter la connexion automatique
+    #[Route('/inscription', name: 'inscription')]
+    public function inscription(Request $request, AuthenticationUtils $authenticationUtils) : Response
+    { 
         $utilisateurInscription = new Utilisateur();
         $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription); 
         $inscriptionForm->handleRequest($request); 
-
         
         if ($inscriptionForm->isSubmitted() && $inscriptionForm->isValid()) {
             #Récupération des données du formulaire d'inscription
@@ -120,34 +114,21 @@ class ConnexionController extends AbstractController
             return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
             } 
         }
-    
-    
 
-        #retourne la vue
-        return $this->render('connexion/connexion.html.twig', [
-            'connexionForm' => $connexionForm->createView(),
-            'inscriptionForm'=> $inscriptionForm->createView(),
-            'controller_name' => 'ConnexionController',
-        ]);
-    }
+        return $this->json(['erreur' => 'Je ne sais pas'], 400); #celui là conseillé
+
+        return new Response('{ "erreur": "Je ne sais pas" }', 400); # à supprimer si utilise celui du haut
+     }
+
 
     #Fonction pour connecter l'utilisateur manuellement après l'inscription
-    private function loginUser(Utilisateur $utilisateur): void
-        {
-       
+    private function loginUser(Utilisateur $utilisateur): void {
         #crée un token identification utilisateur
-        $token = new UsernamePasswordToken($utilisateur, "", ['main'], $utilisateur->getRoles());
+        $token = new UsernamePasswordToken($utilisateur, "main", $utilisateur->getRoles());
         #Stocke le token dans la session
         $this->tokenStorage->setToken($token);
         $this->requestStack->getCurrentRequest()->getSession()->set('_security_main', serialize($token));
     }
-
-    /*#[Route('/app_connexion_check', name: 'app_connexion_check')]
-    public function connexionCheck() : Response
-    {
-        return $this->redirectToRoute('app_utilisateur');
-    }*/
-
 
     #[Route('/logout', name: 'app_logout')]
     public function logout()

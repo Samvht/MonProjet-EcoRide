@@ -50,6 +50,7 @@ security:
         - { path: ^/accueil, roles: PUBLIC_ACCESS } #public accès à accueil
         - { path: ^/contact, roles: PUBLIC_ACCESS } #public accès à contact
         - { path: ^/connexion, roles: PUBLIC_ACCESS } #public accès page connexion
+        - { path: ^/inscription, roles: PUBLIC_ACCESS} #public accès pour l'inscription
         - { path: ^/covoiturage, roles: PUBLIC_ACCESS } #public accès covoiturage
         #page à créer- { path: ^/covoiturage/details, roles: PUBLIC_ACCESS } #public accès aux détails covoiturage
         - { path: ^/admin, roles: ROLE_ADMIN } #admin accès à tous le site
