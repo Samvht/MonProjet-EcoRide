@@ -11,15 +11,36 @@ h2{
     padding-bottom: 3%;
 }
 
+#covoituragesChart{
+    font: 12px "Poppins", arial,sans-serif;
+    color: #ffffff;
+}
+
 .utilisateur{
     font: 12px "Poppins", arial,sans-serif;
     color: #ffffff;
-    padding-left: 10%;
-    padding-bottom: 3%;
+    margin-left: 10%;
+    margin-bottom: 5%;
 }
 
+.utilisateur table{
+    border-spacing: 30px 10px;
+}
 
+#btn_suspendre{
+    display: flex;
+    padding-left: 4%;
+    padding-right: 4%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}
 
 @media (min-width : 1440px) {
-    h2{font-size: 22px;}
+    h2{font-size: 25px;}
+    .utilisateur{
+        font-size: 16px;}
+        .utilisateur table{
+            border-spacing: 50px 20px;}
 }

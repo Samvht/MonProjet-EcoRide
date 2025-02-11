@@ -65,6 +65,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: "utilisateurs")] 
     #[ORM\JoinTable(name: "utilisateur_role")] 
+    #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'utilisateur_id')]
+    #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'role_id')]
     private Collection $userRoles;
     #liaison table role (chauffeur ou passager, soit 2 roles les 2)
     #renommage de $roles en userRoles pour éviter le conflit avec la methods getRoles() de la sécurité
@@ -235,11 +237,11 @@ public function addRole(Role $role): self {
 }
 
 public function removeRole(Role $role): self { 
-if ($this->userRoles->contains($role)) { 
-    $this->userRoles->removeElement($role); 
-    $role->removeUtilisateur($this);
-} 
-return $this; 
+    if ($this->userRoles->contains($role)) { 
+        $this->userRoles->removeElement($role); 
+        $role->removeUtilisateur($this);
+    } 
+    return $this; 
 }
 
 public function getConfiguration(): ?Configuration { 

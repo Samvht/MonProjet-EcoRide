@@ -61,6 +61,7 @@ h1{
 
 .role input{
   margin-bottom: 20px;
+  margin-right: 7px;
 }
 
 .role label{
@@ -136,6 +137,7 @@ h3{
         padding-left: 2%;
         padding-right: 2%;
     }
+    .role input{margin-right: 10px;}
     .role label{font-size: 16px}
     #btn_valider{
         font-size: 20px;

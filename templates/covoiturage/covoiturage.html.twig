@@ -8,48 +8,84 @@
 
 {% block body %}
 
-<!--formulaire rechercher-->
-<form class="rechercher" method="POST" action="{{ path('app_covoiturage') }}"><!--formulaire rechercher-->
-    {{ form_start(form) }}
-    {{ form_row(form.lieu_depart) }}
-    {{ form_row(form.lieu_arrivee) }}
-    {{ form_row(form.date_depart) }}
-    <button id="btn_rechercher" type="submit">Rechercher</button>
-    {{ form_end(form) }}
-</form>
+    <!--formulaire rechercher-->
+    <form class="rechercher" method="POST" action="{{ path('app_covoiturage') }}"><!--formulaire rechercher-->
+        {{ form_start(form) }}
+        {{ form_row(form.lieu_depart) }}
+        {{ form_row(form.lieu_arrivee) }}
+        {{ form_row(form.date_depart) }}
+        <button id="btn_rechercher" type="submit">Rechercher</button>
+        {{ form_end(form) }}
+    </form>
 
-{% if results is defined %}
-    <ul class="result">
-        {% for covoiturage in results %}
-            <li>
-                <div class="covoiturage">
-                    {% set createur = covoiturage.getCreateur() %}
-                    {% if createur.getPhoto() %}
-                        <img class="photo" src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="50">
-                    {% else %}
-                        <img class="photo" src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="50">
-                    {% endif %}
+    {% if results is not empty %}
+        <ul class="result">
+            {% for covoiturage in results %}
+                <li>
+                    <div class="covoiturage">
+                        {% set createur = covoiturage.getCreateur() %}
+                        {% if createur.getPhoto() %}
+                            <img class="photo" src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="50">
+                        {% else %}
+                            <img class="photo" src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="50">
+                        {% endif %}
                     
                 
-                    <div class="details">
-                        <p class="pseudo">{{ createur.getPseudo() }}</p>
-                        <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart() }}</p>
-                        <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee() }}</p>
-                        <p class="place">Nombre de place disponible : {{ covoiturage.getNbrePlace() }}</p>
-                        <p class="ecologique">Voyage écologique : {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
-                        
-                    </div>
+                        <div class="details">
+                            <p class="pseudo">{{ createur.getPseudo() }}</p>
+                            <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart() }}</p>
+                            <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee() }}</p>
+                            <p class="place">Nombre de place disponible : {{ covoiturage.getNbrePlace() }}</p>
+                            <p class="ecologique">Voyage écologique : {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
+                        </div>
 
-                    <div class="prix_detail">
-                    <p class="prix">{{ covoiturage.getPrixPersonne() }} Crédits</p>
-                    <a id="lien_detail" href="{{ path('detail', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">Détails</a>
+                        <div class="prix_detail">
+                        <p class="prix">{{ covoiturage.getPrixPersonne() }} Crédits</p>
+                        <a id="lien_detail" href="{{ path('detail', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">Détails</a>
+                        </div>
                     </div>
+                </li>
+            <div class="no_results">
+                {% else %}
+                    <p>Aucun covoiturage trouvé pour ces critères.</p>
+                {% endfor %}
+            </div>
+        </ul>
 
-                </div>
-            </li>
-        {% else %}
-            <li>Aucun covoiturage trouvé pour ces critères.</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+
+        <div class="navigation">
+            {% if currentPage > 1 %}
+                <a href="{{ path('app_covoiturage', { page: currentPage - 1 }) }}">Précédente</a>
+            {% endif %}
+
+            {% for page in 1..totalPages %}
+                {% if page == currentPage %}
+                    <span>{{ page }}</span>
+                {% else %}
+                    <a href="{{ path('app_covoiturage', { page: page }) }}">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if currentPage < totalPages %}
+                <a href="{{ path('app_covoiturage', { page: currentPage + 1 }) }}">Suivante</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p class="no_results">Aucun covoiturage trouvé pour ces critères.</p>
+        {% if suggestedDate %}
+            <p id="no_date">Nous vous suggérons de modifier la date de recherche au {{ suggestedDate|date('d/m/Y') }}.</p>
+        {% endif %}
+    {% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const noResultsElement = document.getElementById('no_results');
+        if (noResultsElement) {
+            console.log('Element found: ', noResultsElement);
+        } else {
+            console.log('Element not found or id was removed');
+        }
+    });
+</script>
 {% endblock %}

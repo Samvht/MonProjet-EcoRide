@@ -59,6 +59,13 @@ h3{
     color: #000000;
 }
 
+.form-check-inline {
+    display: flex;
+    align-items: center;
+    margin-right: 15%;
+    gap: 7%;
+}
+
 #btn_inscription{
     align-self: flex-end;
     padding-left: 3%;
@@ -91,5 +98,10 @@ h3{
     h3{font-size:35px}
     .connexion input, .inscription input {
         width : 30%;
+    }
+    .form-check-inline {
+        margin-right: 80%;
+        margin-top: 2%;
+        gap: 10px;
     }
 }

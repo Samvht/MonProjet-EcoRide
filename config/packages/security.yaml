@@ -25,9 +25,12 @@ security:
                 check_path: app_connexion
                 username_parameter: connexion[email]
                 password_parameter: connexion[password]
+                success_handler: App\Security\CustomAuthenticationSuccessHandler #créer pour modifier page en focntion du role de l'utilisateur
+                always_use_default_target_path: false
                 default_target_path: app_utilisateur 
                 form_only: true
                 post_only: true
+                
             logout: 
                 path: app_logout 
                 target: /connexion
@@ -52,10 +55,10 @@ security:
         - { path: ^/connexion, roles: PUBLIC_ACCESS } #public accès page connexion
         - { path: ^/inscription, roles: PUBLIC_ACCESS} #public accès pour l'inscription
         - { path: ^/covoiturage, roles: PUBLIC_ACCESS } #public accès covoiturage
-        #page à créer- { path: ^/covoiturage/details, roles: PUBLIC_ACCESS } #public accès aux détails covoiturage
+        - { path: ^/covoiturage/details, roles: PUBLIC_ACCESS } #public accès aux détails covoiturage
         - { path: ^/admin, roles: ROLE_ADMIN } #admin accès à tous le site
         - { path: ^/utilisateur, roles: ROLE_USER } #utilisateur connecté accès à son historique covoiturage
-        # page à créer- { path: ^/covoiturage/participer, roles: ROLE_USER } #utilisateur connecté peut participer à un covoit
+        - { path: ^/covoiturage/participer, roles: ROLE_USER } #utilisateur connecté peut participer à un covoit
         - { path: ^/, roles: ROLE_USER } #utilisateur connecté accès à tous le site
 
     role_hierarchy:

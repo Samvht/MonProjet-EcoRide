@@ -85,6 +85,17 @@ body{
     padding-left: 10%;
 }
 
+#no_date{
+    font : 12px "poppins", arial, sans-serif;
+    color : #ffffff;
+    padding-left: 5%; 
+}
+.no_results{
+    font : 12px "poppins", arial, sans-serif;
+    color : #ffffff;
+    padding-left: 5%; 
+}
+
 
 @media (min-width : 1440px) {
     .rechercher{ 
@@ -119,7 +130,14 @@ body{
     #lien_detail{font-size: 20px;}
     .details{padding-right: 20%;}
     .prix_detail{padding-right: 7%;}
-
+    #no_date{
+        font-size : 16px; 
+        padding-left: 10%; 
+    }
+    .no_results{
+        font-size : 16px; 
+        padding-left: 10%; 
+    }
 
 
   }   /*adaptation formulaire grand écran*/

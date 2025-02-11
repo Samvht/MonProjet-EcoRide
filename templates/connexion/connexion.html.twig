@@ -27,6 +27,7 @@
     {{ form_row(inscriptionForm.pseudo) }}
     {{ form_row(inscriptionForm.email) }}
     {{ form_row(inscriptionForm.password) }}
+    {{ form_row(inscriptionForm.userRoles) }}
     <button id="btn_inscription" type="submit" name="action" value="inscription">S'inscrire</button>
     {{ form_end(inscriptionForm) }}
 </form>
@@ -34,7 +35,7 @@
 <br>
 <br>
 
-<script>
+<script> // JS pour gérer inscription en parallèle sur une autre route
     async function inscription(form) {
         const formData = new FormData(form);
 

@@ -21,17 +21,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Psr\Log\LoggerInterface;
+use App\Service\EmailService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class UtilisateurController extends AbstractController
 {
     private $entityManager;
     private LoggerInterface $logger;
+    private $emailService; 
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EmailService $emailService)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
+        $this->emailService = $emailService;
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
@@ -103,12 +107,17 @@ class UtilisateurController extends AbstractController
         return $this->redirectToRoute('app_utilisateur');
     }
 
-    #si l'utilisateur est le créateur, supprime de la BDD
+    #si l'utilisateur est le créateur
     if ($utilisateur === $covoiturage->getCreateur()) {
-        $entityManager->remove($covoiturage);
-        $entityManager->flush();
+        #récupère les participants du covoiturage
+        $participants = $covoiturage->getParticipants()->toArray();
+        #Envoi tout dans la BDD
+        $this->$entityManager->remove($covoiturage);
+        $this->$entityManager->flush();
 
-        // Envoyer un email aux participants (ajouter le code pour l'envoi d'email ici)
+        // Envoyer un email aux participants
+        // Envoyer un email aux participants
+        $this->emailService->sendCancellationEmail($participants, $covoiturage);
 
         $this->addFlash('success', 'Le covoiturage a été supprimé et les participants ont été informés.');
     } else {
@@ -134,13 +143,12 @@ class UtilisateurController extends AbstractController
         #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
         $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
         
-
         #création formulaire
-        $roleMetier = new Role();
-        $roleMetierForm = $this->createForm(roleMetier::class, $roleMetier);
+        $roleMetierForm = $this->createForm(roleMetier::class, $utilisateur);
         $roleMetierForm->handleRequest($request);
 
-        if($roleMetierForm->isSubmitted() && $roleMetierForm->isValid()){
+        if($roleMetierForm->isSubmitted() && $roleMetierForm->isValid()) {
+            $entityManager->persist($utilisateur);
             $entityManager->flush(); #POur enregistrer le role
             $this->addFlash('success', 'Rôle mis à jour avec succès!');
         }

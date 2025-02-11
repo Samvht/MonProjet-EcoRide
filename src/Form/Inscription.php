@@ -2,13 +2,15 @@
 
 namespace App\Form; 
 
+use App\Entity\Role;
 use App\Entity\Utilisateur;
+use Symfony\Component\Form\AbstractType; 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormBuilderInterface; 
+use Symfony\Component\OptionsResolver\OptionsResolver; 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\AbstractType; 
-use Symfony\Component\Form\FormBuilderInterface; 
-use Symfony\Component\OptionsResolver\OptionsResolver; 
 
 
 
@@ -38,6 +40,15 @@ class Inscription extends AbstractType
                 ],
                 'label' => 'Mot de passe'
             ])
+            ->add('userRoles', EntityType::class, [
+                'class' => Role::class,
+                'choice_label' => 'libelle',
+                'multiple' => true,
+                'expanded' => true,
+                'label'=> false,
+            'attr' => [
+                'class' => 'form-check-inline' ]
+            ]);
         ;
     }
 

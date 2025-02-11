@@ -34,8 +34,11 @@ class CovoiturageController extends AbstractController
         $covoiturage = new Covoiturage();
         $form = $this->createForm(Rechercher::class, $covoiturage); 
         $form->handleRequest($request); 
+        
 
         $results = [];
+        $page = $request->query->getInt('page', 1);
+        $itemsPerPage = 10;
 
         if ($form->isSubmitted() && $form->isValid()) { 
             
@@ -45,17 +48,41 @@ class CovoiturageController extends AbstractController
             
            
             # Recherche des covoiturages correspondant aux critères
-            $results = $covoiturageRepository->searchCovoiturages($lieuDepart, $lieuArrivee, $dateDepart);
-            
-    }
-    
+            $resultsQuery = $covoiturageRepository->searchCovoiturages($lieuDepart, $lieuArrivee, $dateDepart, $itemsPerPage, ($page - 1) * $itemsPerPage);
+            $results = $resultsQuery['results'];
+            $totalResults = $resultsQuery['total'];
+
+            # Si aucun covoiturage trouvé, suggérer la date la plus proche
+            if ( $totalResults === 0) {
+                $closestCovoiturageData = $covoiturageRepository->findClosestCovoiturage($lieuDepart, $lieuArrivee, $dateDepart);
+                if ($closestCovoiturageData['result'] !== null) {
+                    $closestCovoiturage = $closestCovoiturageData['result'];
+                    $suggestedDate = \DateTime::createFromFormat('d/m/Y', $closestCovoiturage->getDateDepart());
+                } else {
+                    $closestCovoiturage = null;
+                    $suggestedDate = null;
+                }
+            } else {
+                $suggestedDate = null;
+            }
+            $totalPages = ceil($totalResults / $itemsPerPage);
+        } else {
+            $suggestedDate = null;
+            $totalPages = 1;
+
+        }
         
         return $this->render('covoiturage/covoiturage.html.twig', [
             'form' => $form->createView(),
             'results' => $results,
+            'suggestedDate' => $suggestedDate,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
             'controller_name' => 'CovoiturageController',
         ]);
     }
+
+    
     
     #[Route('/covoiturage/detail/{covoiturage_id}', name: 'detail', methods:['GET', 'POST'])]
     public function detail(int $covoiturage_id, EntityManagerInterface $entityManager): Response

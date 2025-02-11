@@ -38,7 +38,7 @@
 <div class="role">
     <form method="POST" action="{{ path('moncompte') }}">
         {{ form_start(roleMetierForm) }}
-        {{ form_row(roleMetierForm.libelle) }}
+        {{ form_row(roleMetierForm.userRoles) }}
         <button id="btn_valider" type="submit">Valider</button>
         {{ form_end(roleMetierForm) }}
     </form>

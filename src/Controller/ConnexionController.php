@@ -45,8 +45,13 @@ class ConnexionController extends AbstractController
     public function connexion(Request $request, AuthenticationUtils $authenticationUtils) : Response
     {
         if ($this->getUser()) {
-            #Si l'utilisateur est déjà connecté, rediriger vers page utilisateur
-            return $this->redirectToRoute('app_utilisateur'); 
+            #Si l'utilisateur est déjà connecté, rediriger vers page en fonction role
+            $roles = $this->getUser()->getRoles();
+            if (in_array('ROLE_ADMIN', $roles)) {
+                return $this->redirectToRoute('administrateur'); // Redirige vers la page administrateur
+            } else {
+                return $this->redirectToRoute('app_utilisateur'); // Redirige vers la page utilisateur
+            }
         }
 
         /*
@@ -115,7 +120,7 @@ class ConnexionController extends AbstractController
             } 
         }
 
-        return $this->json(['erreur' => 'Je ne sais pas'], 400); #celui là conseillé
+        return $this->json(['erreur' => 'Je ne sais pas'], 400); #celui là conseillé, à modifier
 
         return new Response('{ "erreur": "Je ne sais pas" }', 400); # à supprimer si utilise celui du haut
      }

@@ -7,6 +7,13 @@ parameters:
     photos_directory: '%kernel.project_dir%/public/uploads/photos'
 
 services:
+    App\Service\EmailService:
+        arguments:
+            $mailer: '@mailer.mailer'
+    #ajout pour redirection de la page en fonction du role
+    App\Security\CustomAuthenticationSuccessHandler:
+        arguments:
+            $router: '@router'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

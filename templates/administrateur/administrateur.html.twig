@@ -9,7 +9,7 @@
 {% block body %}
 
 <h2>Nombre de Covoiturages par Jour</h2>
-    <canvas id="covoituragesChart" width="400" height="200"></canvas><!-- définbit espace où graphique sera rendu-->
+    <canvas id="covoituragesChart" width="300" height="100"></canvas><!-- définbit espace où graphique sera rendu-->
 
     <script>
         var ctx = document.getElementById('covoituragesChart').getContext('2d');//récupère le contexte de rendu 2D
@@ -35,7 +35,8 @@
     </script>
 
 <h2>Liste des Utilisateurs</h2>
-    <table class='utilisateur'>
+<div class='utilisateur'>
+    <table>
         <thead>
             <tr>
                 <th>Nom d'utilisateur</th>
@@ -51,11 +52,30 @@
                     <td>
                         <form method="post" action="{{ path('admin_suspendre_utilisateur', { 'utilisateur_id': utilisateur.getUtilisateurId() }) }}" onsubmit="return confirm('Etes-vous sûr de vouloir suspendre ce compte utilisateur ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('suspendre' ~ utilisateur.getUtilisateurId()) }}">
-                            <button type="submit" class="btn btn-warning">Suspendre</button>
+                            <button type="submit" class="btn btn-warning" id="btn_suspendre">Suspendre</button>
                         </form>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<div class="navigation"><!--naviguer pour les pages d'utilisateurs-->
+        {% if currentPage > 1 %}
+            <a href="{{ path('administrateur', { page: currentPage - 1 }) }}">Précédente</a>
+        {% endif %}
+
+        {% for page in 1..totalPages %}
+            {% if page == currentPage %}
+                <span>{{ page }}</span>
+            {% else %}
+                <a href="{{ path('administrateur', { page: page }) }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if currentPage < totalPages %}
+            <a href="{{ path('administrateur', { page: currentPage + 1 }) }}">Suivante</a>
+        {% endif %}
+    </div>
 {% endblock %}
