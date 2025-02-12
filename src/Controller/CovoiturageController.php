@@ -12,18 +12,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\RoleService;
 
 
 
 class CovoiturageController extends AbstractController
 {
     private $entityManager;
-    private LoggerInterface $logger;
+    private LoggerInterface $logger; 
+    private $roleService; 
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, RoleService $roleService)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
+        $this ->roleService = $roleService;
     }
 
     #[Route('/covoiturage', name: 'app_covoiturage', methods:['GET', 'POST'])]
@@ -97,12 +100,14 @@ class CovoiturageController extends AbstractController
         $voiture = $covoiturage->getVoiture();
         $marque = $voiture->getMarque();
 
-
+        #récupère role métier (chauffeur, passager ou les 2)
+        $rolesMetier = $this->roleService->getUserRolesMetier();
 
         return $this->render('covoiturage/detail.html.twig', [
             'covoiturage' => $covoiturage,
             'voiture' => $voiture,
             'marque' => $marque,
+            'rolesMetier'=> $rolesMetier,
         ]);
     }
 

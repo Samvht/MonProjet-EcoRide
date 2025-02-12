@@ -19,10 +19,13 @@
     <div>
     <!--Partie role et préférences de l'utilisateur-->
     </div>
-
-    <div class= "proposer_covoiturage">
-        <a href="{{ path('proposercovoiturage') }}">Proposer un voyage</a>
-    </div>
+    <!--utilisation rolesMetier, pour lien n'apparaisse que si role chauffeur-->
+    {% set rolesMetier = rolesMetier|default([]) %}
+    {% if 1 in rolesMetier %}
+        <div class= "proposer_covoiturage">
+            <a href="{{ path('proposercovoiturage') }}">Proposer un voyage</a>
+        </div>
+    {% endif %}
 
     <div>
         <h3>Historique des covoiturage</h3>

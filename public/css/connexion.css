@@ -2,6 +2,13 @@ body{
     background-color: #362D32;
 }
 
+.error-message{
+    font: 12px "Poppins", arial,sans-serif;
+    color: #ffffff;
+    padding-left: 5%;
+    padding-top: 3%;
+}
+
 .connexion{
     display: flex;
     flex-direction : column;
@@ -76,7 +83,18 @@ h3{
     background-color: #009B4D;
 }/*style bouton s'inscrire*/
 
+#inscription_erreur{
+    font: 12px "Poppins", arial,sans-serif;
+    color: #ffffff;
+    padding-left: 5%;
+    padding-bottom: 3%;
+}
+
 @media (min-width : 1440px) {
+    .error-message{
+        font-size: 14px;
+        padding-left: 10%;
+    }
     .connexion{
         padding-right: 30%
     }
@@ -103,5 +121,9 @@ h3{
         margin-right: 80%;
         margin-top: 2%;
         gap: 10px;
+    }
+    #inscription_erreur{
+        font-size: 14px;
+        padding-left: 10%;
     }
 }

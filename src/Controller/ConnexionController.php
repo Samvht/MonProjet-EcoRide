@@ -54,10 +54,8 @@ class ConnexionController extends AbstractController
             }
         }
 
-        /*
-         // get the login error if there is one
-         $error = $authenticationUtils->getLastAuthenticationError();
-        */
+        # Récupère l'erreur de connexion s'il y en a une / ne peux utiliser json car formulaire action 
+        $error = $authenticationUtils->getLastAuthenticationError();
        
         $utilisateurConnexion = new Utilisateur();
         $connexionForm = $this->createForm(Connexion::class, $utilisateurConnexion); 
@@ -70,6 +68,7 @@ class ConnexionController extends AbstractController
         return $this->render('connexion/connexion.html.twig', [
             'connexionForm' => $connexionForm->createView(),
             'inscriptionForm'=> $inscriptionForm->createView(),
+            'error' => $error,
             'controller_name' => 'ConnexionController',
         ]);
     }
@@ -88,11 +87,11 @@ class ConnexionController extends AbstractController
             $pseudo = $utilisateurInscription->getPseudo(); 
             $email = $utilisateurInscription->getEmail(); 
             $password = $utilisateurInscription->getPassword();
-
+        
             #Vérifier si l'email existe déjà
             $existingUser = $this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
             if ($existingUser) {
-                $this->addFlash('error', 'Cet email est déjà utilisé.');
+                    return $this->json(['erreur' => 'Cet email est déjà utilisé.'], 400);
             } else {
                 #créer un nouvel utilisateur et hash le mot de passe
                 $utilisateurInscription->setPseudo($pseudo);
@@ -120,9 +119,9 @@ class ConnexionController extends AbstractController
             } 
         }
 
-        return $this->json(['erreur' => 'Je ne sais pas'], 400); #celui là conseillé, à modifier
+        return $this->json(['erreur' => 'Une erreur est survenue.'], 400); #celui là conseillé, à modifier
 
-        return new Response('{ "erreur": "Je ne sais pas" }', 400); # à supprimer si utilise celui du haut
+        #return new Response('{ "erreur": "Je ne sais pas" }', 400); # à supprimer si utilise celui du haut
      }
 
 

@@ -8,57 +8,58 @@
 
 {% block body %}
 
+    {% if error %} <!--gestion erreur formulaire connexion, car action non onsubmit-->
+        <div class="error-message">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
 
-<!--formulaire connexion-->
-<form class="connexion" method="POST" action="{{ path('app_connexion') }}"><!--formulaire connexion-->
-    {{ form_start(connexionForm) }}
-    {{ form_row(connexionForm.email) }}
-    {{ form_row(connexionForm.password) }}
-    <button id="btn_connexion2" type="submit" name="action" value="connexion">Connexion</button>
-    {{ form_end(connexionForm) }}
-</form>
+    <!--formulaire connexion-->
+    <form class="connexion" method="POST" action="{{ path('app_connexion') }}"><!--formulaire connexion-->
+        {{ form_start(connexionForm) }}
+        {{ form_row(connexionForm.email) }}
+        {{ form_row(connexionForm.password) }}
+        <button id="btn_connexion2" type="submit" name="action" value="connexion">Connexion</button>
+        {{ form_end(connexionForm) }}
+    </form>
 
-<br>
-<h3> Créer un compte</h3>
+    <br>
+    <h3> Créer un compte</h3>
 
-<!--formulaire inscription-->
-<form class="inscription"  onsubmit='inscription(this); return false;'>
-    {{ form_start(inscriptionForm) }}
-    {{ form_row(inscriptionForm.pseudo) }}
-    {{ form_row(inscriptionForm.email) }}
-    {{ form_row(inscriptionForm.password) }}
-    {{ form_row(inscriptionForm.userRoles) }}
-    <button id="btn_inscription" type="submit" name="action" value="inscription">S'inscrire</button>
-    {{ form_end(inscriptionForm) }}
-</form>
-<div id="inscription_erreur"></div>
-<br>
-<br>
+    <!--formulaire inscription-->
+    <form class="inscription"  onsubmit='inscription(this); return false;'>
+        {{ form_start(inscriptionForm) }}
+        {{ form_row(inscriptionForm.pseudo) }}
+        {{ form_row(inscriptionForm.email) }}
+        {{ form_row(inscriptionForm.password) }}
+        {{ form_row(inscriptionForm.userRoles) }}
+        <button id="btn_inscription" type="submit" name="action" value="inscription">S'inscrire</button>
+        {{ form_end(inscriptionForm) }}
+    </form>
+    <div id="inscription_erreur"></div>
+    <br>
+    <br>
 
-<script> // JS pour gérer inscription en parallèle sur une autre route
-    async function inscription(form) {
-        const formData = new FormData(form);
+    <script> // JS pour gérer inscription en parallèle sur une autre route
+        async function inscription(form) {
+            const formData = new FormData(form);
 
-        const response = await fetch("{{ path('inscription') }}", {
-            method: "POST",
-            body: formData,
-        }); //soumet le formulaire inscription
+            const response = await fetch("{{ path('inscription') }}", {
+                method: "POST",
+                body: formData,
+            }); //soumet le formulaire inscription
 
-        if ( response.status === 200 ) {
-            document.location.href = "{{ path('app_utilisateur') }}";
-            return; //si inscritpion ok redirection page /utlisateur
+            if ( response.status === 200 ) {
+                document.location.href = "{{ path('app_utilisateur') }}";
+                return; //si inscritpion ok redirection page /utlisateur
+            }
+
+            if ( response.status === 400 ) {
+                const data = await response.json();
+                document.getElementById('inscription_erreur').innerText = data.erreur;
+                return;
+            } //si erreur, renvoi erreur en json pour choisir l'erreur renvoyé
         }
-
-        if ( response.status === 400 ) {
-            const data = await response.json();
-            document.getElementById('inscription_erreur').innerText = data.erreur;
-            return;
-        } //si erreur, renvoi erreur en json pour choisir l'erreur renvoyé
-    }
-</script>
-
-
-
-
+    </script>
 
 {% endblock %}

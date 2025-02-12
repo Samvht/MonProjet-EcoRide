@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Psr\Log\LoggerInterface;
 use App\Service\EmailService;
+use App\Service\RoleService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -30,12 +31,14 @@ class UtilisateurController extends AbstractController
     private $entityManager;
     private LoggerInterface $logger;
     private $emailService; 
+    private $roleService;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EmailService $emailService)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EmailService $emailService, RoleService $roleService)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
         $this->emailService = $emailService;
+        $this->roleService = $roleService;
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
@@ -45,6 +48,8 @@ class UtilisateurController extends AbstractController
         #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
         $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
         
+        #récupère role metier de l'utilisateur
+        $rolesMetier = $this->roleService->getUserRolesMetier();
 
         #Récupére les covoiturages créés par l'utilisateur
         $covoituragesCrees = [];
@@ -80,6 +85,7 @@ class UtilisateurController extends AbstractController
         return $this->render('utilisateur/utilisateur.html.twig', [
             'utilisateur' =>$utilisateur,
             'covoiturages' => $covoituragesWithParticipation,
+            'rolesMetier' => $rolesMetier,
         ]);
     }
 
@@ -142,6 +148,9 @@ class UtilisateurController extends AbstractController
         $utilisateur = $this->getUser();
         #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
         $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
+
+        #récupère role metier de l'utilisateur
+        $rolesMetier = $this->roleService->getUserRolesMetier();
         
         #création formulaire
         $roleMetierForm = $this->createForm(roleMetier::class, $utilisateur);
@@ -169,11 +178,12 @@ class UtilisateurController extends AbstractController
             'utilisateur' => $utilisateur,
             'roleMetierForm' => $roleMetierForm->createView(),
             'voiture' => $voiture,
+            'rolesMetier' => $rolesMetier,
         ]);
     }
 
     #Route action pour supprimer véhicule
-    #[Route('/voiture/supprimer/{voiture_id}', name: 'voiture_supprimer', methods: ['POST'])]
+    /*#[Route('/voiture/supprimer/{voiture_id}', name: 'voiture_supprimer', methods: ['POST'])]
     public function supprimer(int $voiture_id, EntityManagerInterface $entityManager, Request $request): Response
     {
         $voiture = $entityManager->getRepository(Voiture::class)->find($voiture_id);
@@ -194,7 +204,7 @@ class UtilisateurController extends AbstractController
         $this->addFlash('success', 'Véhicule supprimé avec succès.');
 
         return $this->redirectToRoute('moncompte');
-    }
+    }*/#Annulation du bouton annuler car si supprime voiture lié covoiturage dans historique = erreur
 
     #[Route('/utilisateur/moncompte/modification', name: 'modification')]
     public function ModifierProfil(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
@@ -267,6 +277,13 @@ class UtilisateurController extends AbstractController
         #récupère utilisateur connecté
         $utilisateur = $this->getUser();
 
+        #affichage page en fonction du role métier (chauffeur, passager ou les 2)
+        $rolesMetier = $this->roleService->getUserRolesMetier();
+
+        if (!in_array(1, $rolesMetier)) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas accès à cette page.');
+        }
+
         $vehicule = new Voiture();
         $vehiculeForm = $this->createForm(Vehicule::class, $vehicule);
         $vehiculeForm->handleRequest($request);
@@ -283,6 +300,7 @@ class UtilisateurController extends AbstractController
     
         return $this->render('utilisateur/vehicule.html.twig', [
             'vehiculeForm' => $vehiculeForm->createView(),
+            'rolesMetier' => $rolesMetier,
         ]);
     }
 
@@ -294,6 +312,12 @@ class UtilisateurController extends AbstractController
         # Convertir l'UUID en binaire pour être sûr de la récupération de l'utilisateur_id
         $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
         
+        #affichage page en fonction du role métier (chauffeur, passager ou les 2)
+        $rolesMetier = $this->roleService->getUserRolesMetier();
+
+        if (!in_array(1, $rolesMetier)) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas accès à cette page.');
+        }
 
         #création formulaire
         $covoiturage = new Covoiturage();
@@ -319,6 +343,7 @@ class UtilisateurController extends AbstractController
         
         return $this->render('utilisateur/proposercovoiturage.html.twig', [
             'proposerForm' => $proposerForm->createView(),
+            'rolesMetier' => $rolesMetier, #pour les transmettre à la vue
         ]);
     }
 }
