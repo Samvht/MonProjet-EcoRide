@@ -1,12 +1,12 @@
 <IfModule mod-rewrite.c>
-    Options -MultiViews
+    # Options -MultiViews
     RewriteEngine On
-    RewriteBase /
+    
     # empeche accès direct aux fichiers PHP dans public
-    RewriteRule ^index\.php$ - [L] 
+    # RewriteRule ^index\.php$ - [L] 
     # Si le fichier n'existe pas, on redirige vers index.php
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]
     
 </IfModule>
