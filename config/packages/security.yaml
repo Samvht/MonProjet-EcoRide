@@ -25,7 +25,7 @@ security:
                 check_path: app_connexion
                 username_parameter: connexion[email]
                 password_parameter: connexion[password]
-                success_handler: App\Security\CustomAuthenticationSuccessHandler #créer pour modifier page en focntion du role de l'utilisateur
+                success_handler: App\Security\CustomAuthenticationSuccessHandler #créer pour modifier page en fonction du role de l'utilisateur
                 always_use_default_target_path: false
                 default_target_path: app_utilisateur 
                 form_only: true
