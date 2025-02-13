@@ -10,7 +10,10 @@ use App\Entity\Utilisateur;
 use App\Entity\Role;
 use App\Entity\Voiture;
 use App\Entity\Marque;
+use App\Document\Preference;
 use App\Form\Modification;
+use App\Form\Preferences;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -92,54 +95,73 @@ class UtilisateurController extends AbstractController
     #route d'action pour l'annulation du covoiturage
     #[Route('/annuler/{covoiturage_id}', name: 'covoiturage_annuler', methods: ['POST'])]
     public function annuler(Request $request, int $covoiturage_id, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
-{
-    #verifie utilisateur connecté ou renvoi vers la connexion
-    $utilisateur = $this->getUser();
-    if (!$utilisateur) {
-        return $this->redirectToRoute('app_connexion');
+    {
+        #verifie utilisateur connecté ou renvoi vers la connexion
+        $utilisateur = $this->getUser();
+        if (!$utilisateur) {
+            return $this->redirectToRoute('app_connexion');
+        }
+
+        $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
+        if (!$covoiturage) {
+            $logger->error('Covoiturage non trouvé', ['covoiturage_id' => $covoiturage_id]);
+            throw $this->createNotFoundException('Covoiturage non trouvé');
+        }
+
+        $logger->info('Utilisateur trouvé', ['utilisateur' => $utilisateur->getUtilisateurId()]);
+
+        #Vérification du CSRF token
+        if (!$this->isCsrfTokenValid('annuler'.$covoiturage_id, $request->request->get('_token'))) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('app_utilisateur');
+        }
+
+        #si l'utilisateur est le créateur
+        if ($utilisateur === $covoiturage->getCreateur()) {
+            #récupère les participants du covoiturage
+            $participants = $covoiturage->getParticipants()->toArray();
+            #Envoi tout dans la BDD
+            $this->$entityManager->remove($covoiturage);
+            $this->$entityManager->flush();
+
+            #Envoyer un email aux participants
+            $this->emailService->sendCancellationEmail($participants, $covoiturage);
+
+            $this->addFlash('success', 'Le covoiturage a été supprimé et les participants ont été informés.');
+        } else {
+            #si c'est juste un utilisateur, supprime de la liste et met le nbre de place à jour dans la BDD
+            $covoiturage->removeUtilisateur($utilisateur);
+            $covoiturage->setNbrePlace($covoiturage->getNbrePlace() + 1);
+            $entityManager->persist($covoiturage);
+            $entityManager->flush();
+
+            $logger->info('Utilisateur retiré du covoiturage', ['covoiturage' => $covoiturage->getCovoiturageId()]);
+            $this->addFlash('success', 'Votre participation est bien annulée.');
+            $logger->info('Covoiturage supprimé', ['covoiturage_id' => $covoiturage->getCovoiturageId()]);
+        }
+
+        return $this->redirectToRoute('app_utilisateur'); 
     }
 
-    $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
-    if (!$covoiturage) {
-        $logger->error('Covoiturage non trouvé', ['covoiturage_id' => $covoiturage_id]);
-        throw $this->createNotFoundException('Covoiturage non trouvé');
+    #[Route('/utilisateur/preference', name: 'preference', methods:['GET', 'POST'])]
+    public function new(Request $request, DocumentManager $dm): Response
+    {
+        $preferences = new Preference();
+        $form = $this->createForm(Preference::class, $preferences);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dm->persist($preferences);
+            $dm->flush();
+
+            return $this->redirectToRoute('preferences_success');
+        }
+
+        return $this->render('preferences/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
-
-    $logger->info('Utilisateur trouvé', ['utilisateur' => $utilisateur->getUtilisateurId()]);
-
-    #Vérification du CSRF token
-    if (!$this->isCsrfTokenValid('annuler'.$covoiturage_id, $request->request->get('_token'))) {
-        $this->addFlash('error', 'Token CSRF invalide.');
-        return $this->redirectToRoute('app_utilisateur');
-    }
-
-    #si l'utilisateur est le créateur
-    if ($utilisateur === $covoiturage->getCreateur()) {
-        #récupère les participants du covoiturage
-        $participants = $covoiturage->getParticipants()->toArray();
-        #Envoi tout dans la BDD
-        $this->$entityManager->remove($covoiturage);
-        $this->$entityManager->flush();
-
-        // Envoyer un email aux participants
-        // Envoyer un email aux participants
-        $this->emailService->sendCancellationEmail($participants, $covoiturage);
-
-        $this->addFlash('success', 'Le covoiturage a été supprimé et les participants ont été informés.');
-    } else {
-        #si c'est juste un utilisateur, supprime de la liste et met le nbre de place à jour dans la BDD
-        $covoiturage->removeUtilisateur($utilisateur);
-        $covoiturage->setNbrePlace($covoiturage->getNbrePlace() + 1);
-        $entityManager->persist($covoiturage);
-        $entityManager->flush();
-
-        $logger->info('Utilisateur retiré du covoiturage', ['covoiturage' => $covoiturage->getCovoiturageId()]);
-        $this->addFlash('success', 'Votre participation est bien annulée.');
-        $logger->info('Covoiturage supprimé', ['covoiturage_id' => $covoiturage->getCovoiturageId()]);
-    }
-
-    return $this->redirectToRoute('app_utilisateur'); 
-}
 
     #[Route('/utilisateur/moncompte', name: 'moncompte')]
     public function monCompte(Request $request, EntityManagerInterface $entityManager): Response

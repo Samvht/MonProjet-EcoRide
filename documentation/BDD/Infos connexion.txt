@@ -2,6 +2,10 @@ Boite gmail :
 	Adresse : EcoRide2025@gmail.com
 	MDP	: StudiEcoRide2025!
 
+Connexion MongoDB:
+	Jose
+	EcoRide13
+
 Compte Administrateur: 
 	Admin
 	José@EcoRide.com
