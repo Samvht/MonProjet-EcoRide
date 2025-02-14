@@ -1,13 +1,31 @@
 <IfModule mod-rewrite.c>
     # Options -MultiViews
+    Options +FollowSymlinks
     RewriteEngine On
     
+    # Ensure that Authorization header is passed along
+    # RewriteCond %{HTTP:Authorization} .
+    # RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     # empeche accès direct aux fichiers PHP dans public
     # RewriteRule ^index\.php$ - [L] 
     # Si le fichier n'existe pas, on redirige vers index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    # RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-f  
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteRule ^(.*)$ index.php [QSA,L] / à remettre
+    RewriteRule ^ index.php [QSA,L]
     
+
+    # Removes the /index.php/ part from a URL, if present
+    RewriteCond %{ENV:REDIRECT_STATUS} =""
+    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
 </IfModule>
+
+# <IfModule !mod_rewrite.c>
+    # <IfModule mod_alias.c>
+        # RedirectMatch 302 ^/$ /index.php/
+    # </IfModule>
+# </IfModule>
+
+
 

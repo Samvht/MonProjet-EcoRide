@@ -97,7 +97,8 @@ p{
     }/*pour bien mettre le texte au milieu des 2img*/
 
     h2{
-        font-size: 22px
+        font-size: 22px;
+        padding-top: 0%;
     }
     p{
         font-size: 16px 
