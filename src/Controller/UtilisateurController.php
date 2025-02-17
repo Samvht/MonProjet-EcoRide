@@ -322,7 +322,7 @@ class UtilisateurController extends AbstractController
         #création formulaire
         $covoiturage = new Covoiturage();
         $proposerForm = $this->createForm(Proposer::class, $covoiturage, [ 
-            #POur filtrer seulement les voitures de utilisateur
+            #Pour filtrer seulement les voitures de utilisateur
             'user' => $utilisateur 
         ]); 
         $proposerForm->handleRequest($request); 

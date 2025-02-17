@@ -1,0 +1,179 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="25.0.2">
+  <diagram name="Page-1" id="OTMRvSfPWN0tR5AdVdyN">
+    <mxGraphModel dx="1418" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="700" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-2" value="Utilisateurs" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="280" width="230" height="140" as="geometry">
+            <mxRectangle x="20" y="280" width="100" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-3" value="&lt;u&gt;utilisateur_id&lt;/u&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; AUTO_INCREMENT&lt;div&gt;pseudo&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; VARCHAR (50)&lt;/div&gt;&lt;div&gt;email&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;VARCHAR (50)&lt;/div&gt;&lt;div&gt;password&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; VARCHAR (255)&lt;/div&gt;&lt;div&gt;telephone&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; VARCHAR (50)&lt;/div&gt;&lt;div&gt;Date_naissance&amp;nbsp; &amp;nbsp; VARCHAR(50)&lt;/div&gt;&lt;div&gt;photo&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;BLOB&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-2" vertex="1">
+          <mxGeometry y="25" width="230" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.993;exitY=0.923;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="2sEK6RnWvm8x6aFzvgyC-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="943" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-4" value="Voiture" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="500" y="240" width="300" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-5" value="&lt;u&gt;voiture&lt;/u&gt;&lt;u&gt;_id&lt;/u&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;AUTO_INCREMENT&lt;div&gt;modèle&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;VARCHAR (50)&lt;/div&gt;&lt;div&gt;immatriculation&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;VARCHAR (50)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;energie&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;VARCHAR (50)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;couleur&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;VARCHAR (50)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;date_première_immatriculation&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;VARCHAR (50)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;u&gt;utilisateur&lt;/u&gt;&lt;/span&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;_id&lt;/u&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;INT&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;u&gt;marque&lt;/u&gt;&lt;/span&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;_id&lt;/u&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;&lt;/u&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;INT&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-4" vertex="1">
+          <mxGeometry y="20" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-7" value="Marque" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="943" y="235" width="215" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-10" value="1 utilisateur = plrs voitures" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="270" y="270" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-11" value="1 voiture =&amp;nbsp; 1 utilisateur" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="410" y="330" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-12" value="1 voiture = 1&amp;nbsp; marque" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="805" y="350" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-13" value="1 marque =&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;plrs voiture&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="863" y="240" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-14" value="Role" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="610" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-15" value="&lt;u&gt;role&lt;/u&gt;&lt;u&gt;_id&lt;/u&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;AUTO_INCREMENT&lt;div&gt;libelle&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;VARCHAR (50)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; background-color: initial;&quot;&gt;id_utilisateurs%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%221%20voiture%20%3D%26amp%3Bnbsp%3B%20marque%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22710%22%20y%3D%22380%22%20width%3D%2280%22%20height%3D%2230%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-14" vertex="1">
+          <mxGeometry y="20" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-17" value="1 utilisateur = plrs roles (chauffeur, passager, les 2)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="30" y="430" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-18" value="1 role = plrs utilisateurs&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="20" y="590" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-19" value="Avis" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="310" y="620" width="220" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-20" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;u&gt;avis&lt;/u&gt;&lt;/span&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;_id&lt;/u&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; AUTO_INCREMENT&lt;/span&gt;&lt;/div&gt;&lt;div&gt;note&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; VARCHAR(50)&lt;/div&gt;&lt;div&gt;commentaire&amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;VARCHAR(255)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;statut&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;VARCHAR(50)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-19" vertex="1">
+          <mxGeometry y="25" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-24" value="1 utilisateur = plrs avis" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="270" y="440" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-25" value="Possède (Utilisateur_Role)" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="60" y="490" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-26" value="&lt;u&gt;utilisateurs&lt;/u&gt;&lt;u&gt;_id&lt;/u&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; INT&lt;div&gt;&lt;u&gt;role&lt;/u&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;_id&lt;/u&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;INT&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-25" vertex="1">
+          <mxGeometry y="20" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-23" value="1 avis = plrs utilisateurs" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="300" y="590" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.004;entryY=0.136;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.004;exitY=0.325;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="2sEK6RnWvm8x6aFzvgyC-26" target="2sEK6RnWvm8x6aFzvgyC-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="61" y="526" />
+              <mxPoint x="30" y="526" />
+              <mxPoint x="30" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.004;entryY=0.243;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="2sEK6RnWvm8x6aFzvgyC-15" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="541" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="20" y="541" />
+              <mxPoint x="20" y="647" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-30" value="Dépose ( Utilisateur_Avis)" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="320" y="510" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-31" value="&lt;u&gt;utilisateur&lt;/u&gt;&lt;u&gt;_id&lt;/u&gt;&amp;nbsp; &amp;nbsp;INT&lt;div&gt;&lt;u&gt;avis&lt;/u&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;_id&lt;/u&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; INT&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-30" vertex="1">
+          <mxGeometry y="30" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.009;entryY=0.1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.375;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="2sEK6RnWvm8x6aFzvgyC-31" target="2sEK6RnWvm8x6aFzvgyC-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="555" />
+              <mxPoint x="310" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.005;entryY=0.16;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="2sEK6RnWvm8x6aFzvgyC-31" target="2sEK6RnWvm8x6aFzvgyC-20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="570" />
+              <mxPoint x="300" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-36" value="Covoiturage" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="750" y="570" width="230" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-37" value="&lt;u&gt;covoiturage&lt;/u&gt;&lt;u&gt;_id&lt;/u&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; AUTO_INCREMENT&lt;div&gt;date_depart&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; DATE&lt;/div&gt;&lt;div&gt;heur_depart&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; DATE&lt;/div&gt;&lt;div&gt;lieu_depart&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;VARCHAR (50)&lt;/div&gt;&lt;div&gt;&lt;div&gt;date_arrivée&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;DATE&lt;/div&gt;&lt;div&gt;heur_arrivée&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;DATE&lt;/div&gt;&lt;div&gt;lieu_arrivée&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;VARCHAR (50)&lt;/div&gt;&lt;/div&gt;&lt;div&gt;statut&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; VARCHAR (50)&lt;/div&gt;&lt;div&gt;nbre_place&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; INT (50)&lt;/div&gt;&lt;div&gt;prix_personne&amp;nbsp; &amp;nbsp; &amp;nbsp; FLOAT&lt;/div&gt;&lt;div&gt;&lt;u&gt;voiture&lt;/u&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;_id&lt;/u&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;AUTO_INCREMENT&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-36" vertex="1">
+          <mxGeometry y="25" width="230" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-38" value="Participe (Utilisateur_Covoiturage)" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" parent="1" vertex="1">
+          <mxGeometry x="570" y="430" width="230" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-39" value="&lt;u&gt;utilisateur&lt;/u&gt;&lt;u&gt;_id&lt;/u&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; INT&lt;div&gt;&lt;u&gt;covoiturage&lt;/u&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;_id&lt;/u&gt;&lt;u style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;&lt;/u&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; &amp;nbsp; &amp;nbsp;INT&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="2sEK6RnWvm8x6aFzvgyC-38" vertex="1">
+          <mxGeometry y="35" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-41" value="1 utilisateur = plrs covoit" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="480" y="450" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-43" value="1covoit = plrs utilisateurs" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="600" y="580" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.004;entryY=0.095;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="2sEK6RnWvm8x6aFzvgyC-37" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="569" y="496" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="550" y="496" />
+              <mxPoint x="550" y="613" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.082;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="2sEK6RnWvm8x6aFzvgyC-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="360" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="500" y="358" />
+              <mxPoint x="420" y="358" />
+              <mxPoint x="420" y="314" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.993;entryY=0.131;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.853;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="2sEK6RnWvm8x6aFzvgyC-37" target="2sEK6RnWvm8x6aFzvgyC-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="757" />
+              <mxPoint x="1000" y="430" />
+              <mxPoint x="810" y="430" />
+              <mxPoint x="810" y="277" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-48" value="1 voiture = plrs covoit" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="810" y="400" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-49" value="1 covoit = 1 voiture" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="1000" y="730" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-40" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.017;exitY=0.375;exitDx=0;exitDy=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;entryX=1.004;entryY=0.127;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="2sEK6RnWvm8x6aFzvgyC-39" target="2sEK6RnWvm8x6aFzvgyC-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="320" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="400" y="480" />
+              <mxPoint x="400" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2sEK6RnWvm8x6aFzvgyC-8" value="&lt;u&gt;marque&lt;/u&gt;&lt;u&gt;_id&lt;/u&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; AUTO-INCREMENT&lt;div&gt;libelle&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;VARCHAR (50)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="948" y="255" width="210" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
