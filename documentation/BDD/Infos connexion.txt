@@ -6,19 +6,15 @@ Compte Admin:
 	José@EcoRide.com
 	JoséEcoRide1
 
-UserTest 1 : 
+UserTest 1 : 'chauffeur'
 	UserTest@gmail.com
 	MotDPTest1
 
-UserTest 2 :
+UserTest 2 : 'passager'
 	UserTest2@gmail.com
 	MDPTest2
 
-JON59:
-	Jon59@gmail.com
-	MotDPJon59
-
-UserTest3: 
+UserTest3: 'chauffeur et passager'
 	Alberto46
 	UserTest3@gmail.com
 	MDPTest3

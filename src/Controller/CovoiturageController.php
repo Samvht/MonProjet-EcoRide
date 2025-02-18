@@ -50,7 +50,7 @@ class CovoiturageController extends AbstractController
             $dateDepart = $form->get('date_depart')->getData();
             
            
-            # Recherche des covoiturages correspondant aux critères
+            # Recherche des covoiturages correspondant aux critères + pagination
             $resultsQuery = $covoiturageRepository->searchCovoiturages($lieuDepart, $lieuArrivee, $dateDepart, $itemsPerPage, ($page - 1) * $itemsPerPage);
             $results = $resultsQuery['results'];
             $totalResults = $resultsQuery['total'];

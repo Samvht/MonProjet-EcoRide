@@ -23,7 +23,7 @@
         <p class="label"><strong>Date de Naissance : </strong> {{ app.user.getDateNaissance}}</p>
     
         {% if app.user.photo %}
-            <p class="label"><strong>Photo de profil :</strong></p>
+            <p class="label"><strong class="label">Photo de profil :</strong></p>
             <img id="photo" src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Photo de profil">
         {% else %}
             <p><strong>Photo de profil :</strong> Aucune photo</p>
