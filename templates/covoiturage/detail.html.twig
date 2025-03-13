@@ -37,6 +37,16 @@
                 <p><strong>Nombre de places :</strong> {{ covoiturage.getNbrePlace() }}</p>
                 <p><strong>Prix :</strong> {{ covoiturage.getPrixPersonne() }} Crédits</p>
             </div>
+            <div>
+            {% if preferences %}
+                <h2>Préférences de l'utilisateur</h2>
+                </br>
+                <p>Fumeur : {{ preferenceForm.fumeur ? 'Oui' : 'Non' }}</p>
+                <p>Animal : {{ preferenceForm.animal ? 'Oui' : 'Non' }}</p>
+                <p>Préférences supplémentaires : {{ preferenceForm.preferencesSupplementaires }}</p>
+            {% else %}
+                <p>Pas de préférences définies pour cet utilisateur.</p>
+            {% endif %}
 
             <div class="participer">
             <!--formulaire + bouton participer-->

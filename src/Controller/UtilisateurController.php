@@ -45,7 +45,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
-    public function utilisateur(EntityManagerInterface $entityManager): Response
+    public function utilisateur(EntityManagerInterface $entityManager, DocumentManager $dm): Response
     {
         $utilisateur = $this->getUser();
         #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
@@ -53,6 +53,9 @@ class UtilisateurController extends AbstractController
         
         #récupère role metier de l'utilisateur
         $rolesMetier = $this->roleService->getUserRolesMetier();
+
+        #récupère les préférences de l'utilisateur
+        $preferences = $dm->getRepository(Preferences::class)->findOneBy(['utilisateurId' => $utilisateur->getUtiisateurId()]);
 
         #Récupére les covoiturages créés par l'utilisateur
         $covoituragesCrees = [];
@@ -89,6 +92,7 @@ class UtilisateurController extends AbstractController
             'utilisateur' =>$utilisateur,
             'covoiturages' => $covoituragesWithParticipation,
             'rolesMetier' => $rolesMetier,
+            'preferences' => $preferences,
         ]);
     }
 

@@ -5,6 +5,9 @@ namespace App\Controller;
 
 use App\Form\Rechercher;
 use App\Entity\Covoiturage;
+use App\Entity\Utilisateur;
+use App\Document\Preference;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CovoiturageRepository;
@@ -21,12 +24,14 @@ class CovoiturageController extends AbstractController
     private $entityManager;
     private LoggerInterface $logger; 
     private $roleService; 
+    private $preferences;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, RoleService $roleService)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, RoleService $roleService, Preference $preferences)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
         $this ->roleService = $roleService;
+        $this ->preferences = $preferences;
     }
 
     #[Route('/covoiturage', name: 'app_covoiturage', methods:['GET', 'POST'])]
@@ -88,7 +93,7 @@ class CovoiturageController extends AbstractController
     
     
     #[Route('/covoiturage/detail/{covoiturage_id}', name: 'detail', methods:['GET', 'POST'])]
-    public function detail(int $covoiturage_id, EntityManagerInterface $entityManager): Response
+    public function detail(int $covoiturage_id, EntityManagerInterface $entityManager, DocumentManager $dm): Response
     { 
         $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
 
@@ -103,11 +108,18 @@ class CovoiturageController extends AbstractController
         #récupère role métier (chauffeur, passager ou les 2)
         $rolesMetier = $this->roleService->getUserRolesMetier();
 
+        #récupération préférences utilisateur
+        $utilisateur = $covoiturage->getCreateur();
+        $preferences = $dm->getRepository(Preference::class)->findOneBy(['utilisateur_id' => $utilisateur->getUtilisateurId()]);
+
+
         return $this->render('covoiturage/detail.html.twig', [
             'covoiturage' => $covoiturage,
             'voiture' => $voiture,
             'marque' => $marque,
             'rolesMetier'=> $rolesMetier,
+            'utilisateur' => $utilisateur,
+            'preferences' => $preferences,
         ]);
     }
 
