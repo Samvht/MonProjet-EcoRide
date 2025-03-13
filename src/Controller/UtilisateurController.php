@@ -143,23 +143,37 @@ class UtilisateurController extends AbstractController
         return $this->redirectToRoute('app_utilisateur'); 
     }
 
-    #[Route('/utilisateur/preference', name: 'preference', methods:['GET', 'POST'])]
+    #[Route('/utilisateur/preferences', name: 'preferences', methods:['GET', 'POST'])]
     public function new(Request $request, DocumentManager $dm): Response
     {
+        #récupère l'utilisateur connecté
+        $utilisateur = $this->getUser();
+        #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
+        $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
+
+        #affichage page en fonction du role métier (chauffeur, ou les 2)
+        $rolesMetier = $this->roleService->getUserRolesMetier();
+
+        if (!in_array(1, $rolesMetier)) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas accès à cette page.');
+        }
+
         $preferences = new Preference();
         $form = $this->createForm(Preference::class, $preferences);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $preferences->setUtilisateurId($utilisateur->getUtilisateurId());
             $dm->persist($preferences);
             $dm->flush();
 
-            return $this->redirectToRoute('preferences_success');
+            return $this->redirectToRoute('app_utilisateur');
         }
 
         return $this->render('preferences/new.html.twig', [
-            'form' => $form->createView(),
+            'preferenceForm' => $form->createView(),
+            'rolesMetier' => $rolesMetier,
         ]);
     }
 
@@ -299,7 +313,7 @@ class UtilisateurController extends AbstractController
         #récupère utilisateur connecté
         $utilisateur = $this->getUser();
 
-        #affichage page en fonction du role métier (chauffeur, passager ou les 2)
+        #affichage page en fonction du role métier (chauffeur, ou les 2)
         $rolesMetier = $this->roleService->getUserRolesMetier();
 
         if (!in_array(1, $rolesMetier)) {
