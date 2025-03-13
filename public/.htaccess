@@ -17,8 +17,10 @@
     
 
     # Removes the /index.php/ part from a URL, if present
-    RewriteCond %{ENV:REDIRECT_STATUS} =""
-    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+    # RewriteCond %{ENV:REDIRECT_STATUS} =""
+    # RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+    RewriteCond %{THE_REQUEST} \s/index\.php [NC]
+    RewriteRule ^index\.php(?:/(.*)|$) /$1 [R=301,L]
 </IfModule>
 
 # <IfModule !mod_rewrite.c>

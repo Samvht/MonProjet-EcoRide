@@ -118,10 +118,9 @@ class UtilisateurController extends AbstractController
         #récupère les participants du covoiturage
         $participants = $covoiturage->getParticipants()->toArray();
         #Envoi tout dans la BDD
-        $this->$entityManager->remove($covoiturage);
-        $this->$entityManager->flush();
+        $entityManager->remove($covoiturage);
+        $entityManager->flush();
 
-        // Envoyer un email aux participants
         // Envoyer un email aux participants
         $this->emailService->sendCancellationEmail($participants, $covoiturage);
 

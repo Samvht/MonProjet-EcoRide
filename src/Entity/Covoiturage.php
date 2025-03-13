@@ -173,6 +173,14 @@ class Covoiturage
         return $this->utilisateurs->first() ?: null;
     }
 
+    #Pour récupérer les autres utilisateurs participants au covoiturage, pour l'envoi du mail
+    public function getParticipants(): Collection
+    {
+        return $this->utilisateurs->filter(function (Utilisateur $utilisateur) {
+            return $utilisateur !== $this->getCreateur();
+    });
+}
+
     #pour ensuite afficher dans la vue voyage écologique oui ou non 
     public function isVoyageEcologique(): bool
     {
