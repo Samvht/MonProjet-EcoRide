@@ -55,7 +55,7 @@ class UtilisateurController extends AbstractController
         $rolesMetier = $this->roleService->getUserRolesMetier();
 
         #récupère les préférences de l'utilisateur
-        $preferences = $dm->getRepository(Preferences::class)->findOneBy(['utilisateurId' => $utilisateur->getUtiisateurId()]);
+        $preferences = $dm->getRepository(Preference::class)->findOneBy(['utilisateurId' => $utilisateur->getUtiisateurId()]);
 
         #Récupére les covoiturages créés par l'utilisateur
         $covoituragesCrees = [];
