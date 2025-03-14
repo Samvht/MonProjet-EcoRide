@@ -163,7 +163,7 @@ class UtilisateurController extends AbstractController
         }
 
         $preferences = new Preference();
-        $form = $this->createForm(Preference::class, $preferences);
+        $form = $this->createForm(Preferences::class, $preferences);
 
         $form->handleRequest($request);
 
