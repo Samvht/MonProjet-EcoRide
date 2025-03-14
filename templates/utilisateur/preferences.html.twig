@@ -16,11 +16,11 @@
 </div>
 
 <form class="preferences" method="POST" action="{{ path('preferences') }}"><!--formulaire-->
-    {{ form_start(preferenceForm) }}
-    {{ form_row(preferenceForm.fumeur) }}
-    {{ form_row(preferenceForm.animal) }}
-    {{ form_row(preferenceForm.PreferenceSupplementaire) }}
+    {{ form_start(preferencesForm) }}
+    {{ form_row(preferencesForm.fumeur) }}
+    {{ form_row(preferencesForm.animal) }}
+    {{ form_row(preferencesForm.PreferenceSupplementaire) }}
     <button id="btn_proposer" type="submit">Proposer</button>
-    {{ form_end(preferenceForm) }}
+    {{ form_end(preferencesForm) }}
 </form>
 {% endblock %}

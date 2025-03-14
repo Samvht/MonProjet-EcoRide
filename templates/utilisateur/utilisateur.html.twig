@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{%extends 'base.html.twig' %}
 
 {% block title %}Utilisateur{% endblock %}
 
@@ -23,9 +23,9 @@
             <h3>Préférences</h3>
 
             {% if preferences %}
-                <p>Fumeur : {{ preferenceForm.fumeur ? 'Oui' : 'Non' }}</p>
-                <p>Animal : {{ preferenceForm.animal ? 'Oui' : 'Non' }}</p>
-                <p>Préférences supplémentaires : {{ preferenceForm.preferencesSupplementaires }}</p>
+                <p>Fumeur : {{ preferencesForm.fumeur ? 'Oui' : 'Non' }}</p>
+                <p>Animal : {{ preferencesForm.animal ? 'Oui' : 'Non' }}</p>
+                <p>Préférences supplémentaires : {{ preferencesForm.preferencesSupplementaires }}</p>
             {% else %}
                 <p>Aucune préférence enregistrée</p>
             {% endif %}

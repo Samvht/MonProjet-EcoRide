@@ -41,9 +41,9 @@
             {% if preferences %}
                 <h2>Préférences de l'utilisateur</h2>
                 </br>
-                <p>Fumeur : {{ preferenceForm.fumeur ? 'Oui' : 'Non' }}</p>
-                <p>Animal : {{ preferenceForm.animal ? 'Oui' : 'Non' }}</p>
-                <p>Préférences supplémentaires : {{ preferenceForm.preferencesSupplementaires }}</p>
+                <p>Fumeur : {{ preferencesForm.fumeur ? 'Oui' : 'Non' }}</p>
+                <p>Animal : {{ preferencesForm.animal ? 'Oui' : 'Non' }}</p>
+                <p>Préférences supplémentaires : {{ preferencesForm.preferencesSupplementaires }}</p>
             {% else %}
                 <p>Pas de préférences définies pour cet utilisateur.</p>
             {% endif %}
