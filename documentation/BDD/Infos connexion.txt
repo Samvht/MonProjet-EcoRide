@@ -3,6 +3,12 @@ Boite gmail :
 	MDP	: StudiEcoRide2025!
 
 Compte Admin: 
+Connexion MongoDB:
+	Jose
+	EcoRide13
+
+Compte Administrateur: 
+	Admin
 	José@EcoRide.com
 	JoséEcoRide1
 

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter des préférences{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/preferences.css') }}">
+{% endblock %}
+
+{% block body %}
+<a class="retour" href="{{ path('app_utilisateur')}}">
+  &#8592; Retour
+</a>
+
+<div>
+    <h3>Ajouter des préférences</h3>
+</div>
+
+<form class="preferences" method="POST" action="{{ path('preferences') }}"><!--formulaire-->
+    {{ form_start(preferencesForm) }}
+    {{ form_row(preferencesForm.fumeur) }}
+    {{ form_row(preferencesForm.animal) }}
+    {{ form_row(preferencesForm.preferenceSupplementaire) }}
+    <button id="btn_proposer" type="submit">Proposer</button>
+    {{ form_end(preferencesForm) }}
+</form>
+{% endblock %}

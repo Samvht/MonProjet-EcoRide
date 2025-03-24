@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{%extends 'base.html.twig' %}
 
 {% block title %}Utilisateur{% endblock %}
 
@@ -16,9 +16,26 @@
         </a>
     </div>
 
-    <div>
     <!--Partie role et préférences de l'utilisateur-->
-    </div>
+    <h3>Préférences</h3>
+    {% set rolesMetier = rolesMetier|default([]) %}
+    {% if 1 in rolesMetier %}
+        <div class= "preferences">
+            
+
+            {% if preferences %}
+                <p>Fumeur : {{ preferences.fumeur ? 'Oui' : 'Non' }}</p>
+                <p>Animal : {{ preferences.animal ? 'Oui' : 'Non' }}</p>
+                <p>Préférences supplémentaires : {{ preferences.preferenceSupplementaire }}</p>
+            {% else %}
+                <p>Aucune préférence enregistrée</p>
+            {% endif %}
+            <a href="{{ path('preferences')}}">
+            <button id="btn_modifier">Modifier</button>
+            </a>
+        </div>
+    {% endif %}
+    
     <!--utilisation rolesMetier, pour lien n'apparaisse que si role chauffeur-->
     {% set rolesMetier = rolesMetier|default([]) %}
     {% if 1 in rolesMetier %}
@@ -27,8 +44,9 @@
         </div>
     {% endif %}
 
-    <div>
-        <h3>Historique des covoiturage</h3>
+    <h3>Historique des covoiturage</h3>
+    <div class="covoiturage">
+        
 
         <ul class="covoiturage">
             {% for covoiturageWithParticipation in covoiturages %}

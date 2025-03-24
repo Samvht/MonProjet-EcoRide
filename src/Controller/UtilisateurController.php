@@ -10,7 +10,10 @@ use App\Entity\Utilisateur;
 use App\Entity\Role;
 use App\Entity\Voiture;
 use App\Entity\Marque;
+use App\Document\Preference;
 use App\Form\Modification;
+use App\Form\Preferences;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +45,8 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
-    public function utilisateur(EntityManagerInterface $entityManager): Response
+    
+    public function utilisateur(EntityManagerInterface $entityManager, DocumentManager $dm): Response
     {
         $utilisateur = $this->getUser();
         #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
@@ -50,6 +54,9 @@ class UtilisateurController extends AbstractController
         
         #récupère role metier de l'utilisateur
         $rolesMetier = $this->roleService->getUserRolesMetier();
+
+        #récupère les préférences de l'utilisateur
+        $preferences = $dm->getRepository(Preference::class)->findOneBy(['utilisateur_id' => $utilisateur->getUtilisateurId()]);
 
         #Récupére les covoiturages créés par l'utilisateur
         $covoituragesCrees = [];
@@ -86,26 +93,28 @@ class UtilisateurController extends AbstractController
             'utilisateur' =>$utilisateur,
             'covoiturages' => $covoituragesWithParticipation,
             'rolesMetier' => $rolesMetier,
+            'preferences' => $preferences,
         ]);
     }
+    
 
     #route d'action pour l'annulation du covoiturage
     #[Route('/annuler/{covoiturage_id}', name: 'covoiturage_annuler', methods: ['POST'])]
     public function annuler(Request $request, int $covoiturage_id, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
-{
-    #verifie utilisateur connecté ou renvoi vers la connexion
-    $utilisateur = $this->getUser();
-    if (!$utilisateur) {
-        return $this->redirectToRoute('app_connexion');
-    }
+    {
+        #verifie utilisateur connecté ou renvoi vers la connexion
+        $utilisateur = $this->getUser();
+        if (!$utilisateur) {
+            return $this->redirectToRoute('app_connexion');
+        }
 
-    $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
-    if (!$covoiturage) {
-        $logger->error('Covoiturage non trouvé', ['covoiturage_id' => $covoiturage_id]);
-        throw $this->createNotFoundException('Covoiturage non trouvé');
-    }
+        $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
+        if (!$covoiturage) {
+            $logger->error('Covoiturage non trouvé', ['covoiturage_id' => $covoiturage_id]);
+            throw $this->createNotFoundException('Covoiturage non trouvé');
+        }
 
-    $logger->info('Utilisateur trouvé', ['utilisateur' => $utilisateur->getUtilisateurId()]);
+        $logger->info('Utilisateur trouvé', ['utilisateur' => $utilisateur->getUtilisateurId()]);
 
     #Vérification du CSRF token
     if (!$this->isCsrfTokenValid('annuler'.$covoiturage_id, $request->request->get('_token'))) {
@@ -113,15 +122,15 @@ class UtilisateurController extends AbstractController
         return $this->redirectToRoute('app_utilisateur');
     }
 
-    #si l'utilisateur est le créateur
-    if ($utilisateur === $covoiturage->getCreateur()) {
-        #récupère les participants du covoiturage
-        $participants = $covoiturage->getParticipants()->toArray();
-        #Envoi tout dans la BDD
-        $entityManager->remove($covoiturage);
-        $entityManager->flush();
+        #si l'utilisateur est le créateur
+        if ($utilisateur === $covoiturage->getCreateur()) {
+            #récupère les participants du covoiturage
+            $participants = $covoiturage->getParticipants()->toArray();
+            #Envoi tout dans la BDD
+            $entityManager->remove($covoiturage);
+            $entityManager->flush();
 
-        // Envoyer un email aux participants
+        # Envoyer un email aux participants
         $this->emailService->sendCancellationEmail($participants, $covoiturage);
 
         $this->addFlash('success', 'Le covoiturage a été supprimé et les participants ont été informés.');
@@ -139,6 +148,40 @@ class UtilisateurController extends AbstractController
 
     return $this->redirectToRoute('app_utilisateur'); 
 }
+
+#[Route('/utilisateur/preferences', name: 'preferences', methods:['GET', 'POST'])]
+public function new(Request $request, DocumentManager $dm): Response
+{
+        #récupère l'utilisateur connecté
+        $utilisateur = $this->getUser();
+        #convertir uuid en binary pour être sûr de la récupération de l'utilisateur_id
+        $uuidUtilisateur = $utilisateur->getUtilisateurId()->toBinary();
+
+        #affichage page en fonction du role métier (chauffeur, ou les 2)
+        $rolesMetier = $this->roleService->getUserRolesMetier();
+
+        if (!in_array(1, $rolesMetier)) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas accès à cette page.');
+        }
+
+        $preferences = new Preference();
+        $preferencesForm = $this->createForm(Preferences::class, $preferences);
+
+        $preferencesForm->handleRequest($request);
+
+        if ($preferencesForm->isSubmitted() && $preferencesForm->isValid()) {
+            $preferences->setUtilisateurId($utilisateur->getUtilisateurId());
+            $dm->persist($preferences);
+            $dm->flush();
+
+            return $this->redirectToRoute('app_utilisateur');
+        }
+
+        return $this->render('utilisateur/preferences.html.twig', [
+            'preferencesForm' => $preferencesForm->createView(),
+            'rolesMetier' => $rolesMetier,
+        ]);
+    }
 
     #[Route('/utilisateur/moncompte', name: 'moncompte')]
     public function monCompte(Request $request, EntityManagerInterface $entityManager): Response
@@ -276,7 +319,7 @@ class UtilisateurController extends AbstractController
         #récupère utilisateur connecté
         $utilisateur = $this->getUser();
 
-        #affichage page en fonction du role métier (chauffeur, passager ou les 2)
+        #affichage page en fonction du role métier (chauffeur, ou les 2)
         $rolesMetier = $this->roleService->getUserRolesMetier();
 
         if (!in_array(1, $rolesMetier)) {
