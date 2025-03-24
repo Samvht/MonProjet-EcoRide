@@ -31,22 +31,30 @@ a{
 h3{
     font: 18px "montserrat", arial, sans-serif;
     color : #0FB09B;
-    padding-left:3%;
     padding-top: 3%;
-    padding-left:10%;
     padding-bottom: 3%;
+    padding-left : 10%;
 }
 
-.covoiturage{
+.preferences{
     font: 12px "Poppins", arial,sans-serif;
     color: #ffffff;
     padding-left: 10%;
     padding-bottom: 3%;
 }
 
+.covoiturage{
+    font: 12px "Poppins", arial,sans-serif;
+    color: #ffffff;
+    padding-left: 5%;
+    padding-bottom: 3%;
+}
+
 ul.covoiturage li{
     margin-bottom: 3%;
 }
+
+p{padding-bottom: 2%;}
 
 
 
@@ -55,6 +63,8 @@ ul.covoiturage li{
     a{font-size: 22px;}
     h3{font-size: 22px;}
     .mon_compte{padding-right: 50%;}
-    .covoiturage{font-size: 18px;}
-}
+    .covoiturage{font-size: 16px;}
+    .preferences{font-size: 16px;}
+    p{padding-bottom: 1%}
+};
 

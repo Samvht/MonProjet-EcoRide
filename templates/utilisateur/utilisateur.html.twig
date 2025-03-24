@@ -17,15 +17,16 @@
     </div>
 
     <!--Partie role et préférences de l'utilisateur-->
+    <h3>Préférences</h3>
     {% set rolesMetier = rolesMetier|default([]) %}
     {% if 1 in rolesMetier %}
         <div class= "preferences">
-            <h3>Préférences</h3>
+            
 
             {% if preferences %}
-                <p>Fumeur : {{ preferencesForm.fumeur ? 'Oui' : 'Non' }}</p>
-                <p>Animal : {{ preferencesForm.animal ? 'Oui' : 'Non' }}</p>
-                <p>Préférences supplémentaires : {{ preferencesForm.preferencesSupplementaires }}</p>
+                <p>Fumeur : {{ preferences.fumeur ? 'Oui' : 'Non' }}</p>
+                <p>Animal : {{ preferences.animal ? 'Oui' : 'Non' }}</p>
+                <p>Préférences supplémentaires : {{ preferences.preferenceSupplementaire }}</p>
             {% else %}
                 <p>Aucune préférence enregistrée</p>
             {% endif %}
@@ -43,8 +44,9 @@
         </div>
     {% endif %}
 
-    <div>
-        <h3>Historique des covoiturage</h3>
+    <h3>Historique des covoiturage</h3>
+    <div class="covoiturage">
+        
 
         <ul class="covoiturage">
             {% for covoiturageWithParticipation in covoiturages %}

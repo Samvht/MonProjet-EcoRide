@@ -45,6 +45,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
+    
     public function utilisateur(EntityManagerInterface $entityManager, DocumentManager $dm): Response
     {
         $utilisateur = $this->getUser();
@@ -55,7 +56,7 @@ class UtilisateurController extends AbstractController
         $rolesMetier = $this->roleService->getUserRolesMetier();
 
         #récupère les préférences de l'utilisateur
-        $preferences = $dm->getRepository(Preference::class)->findOneBy(['utilisateurId' => $utilisateur->getUtiisateurId()]);
+        $preferences = $dm->getRepository(Preference::class)->findOneBy(['utilisateur_id' => $utilisateur->getUtilisateurId()]);
 
         #Récupére les covoiturages créés par l'utilisateur
         $covoituragesCrees = [];
@@ -95,6 +96,7 @@ class UtilisateurController extends AbstractController
             'preferences' => $preferences,
         ]);
     }
+    
 
     #route d'action pour l'annulation du covoiturage
     #[Route('/annuler/{covoiturage_id}', name: 'covoiturage_annuler', methods: ['POST'])]
@@ -163,11 +165,11 @@ class UtilisateurController extends AbstractController
         }
 
         $preferences = new Preference();
-        $form = $this->createForm(Preferences::class, $preferences);
+        $preferencesForm = $this->createForm(Preferences::class, $preferences);
 
-        $form->handleRequest($request);
+        $preferencesForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($preferencesForm->isSubmitted() && $preferencesForm->isValid()) {
             $preferences->setUtilisateurId($utilisateur->getUtilisateurId());
             $dm->persist($preferences);
             $dm->flush();
@@ -175,8 +177,8 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('app_utilisateur');
         }
 
-        return $this->render('preferences/new.html.twig', [
-            'preferenceForm' => $form->createView(),
+        return $this->render('utilisateur/preferences.html.twig', [
+            'preferencesForm' => $preferencesForm->createView(),
             'rolesMetier' => $rolesMetier,
         ]);
     }

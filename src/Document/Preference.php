@@ -11,17 +11,17 @@ class Preference
     #[ODM\Id(strategy: "AUTO")]
     private ?string $id = null;
 
-    #[ODM\Field(type: "boolean")]
+    #[ODM\Field(type: "bool")]
     #[Assert\NotNull]
     private bool $fumeur;
 
-    #[ODM\Field(type: "boolean")]
+    #[ODM\Field(type: "bool")]
     #[Assert\NotNull]
     private bool $animal;
 
     #[ODM\Field(type: "string")]
     #[Assert\Length(max: 500)]
-    private ?string $PreferenceSupplementaire = null;
+    private ?string $preferenceSupplementaire = null;
 
     #[ODM\Field(type: "string")]
     private ?string $utilisateur_id = null;
@@ -31,7 +31,7 @@ class Preference
         return $this->id;
     }
 
-    public function getfumeur(): bool
+    public function getFumeur(): bool
     {
         return $this->fumeur;
     }
@@ -42,7 +42,7 @@ class Preference
         return $this;
     }
 
-    public function getanimal(): bool
+    public function getAnimal(): bool
     {
         return $this->animal;
     }
@@ -55,12 +55,12 @@ class Preference
 
     public function getPreferenceSupplementaire(): ?string
     {
-        return $this->PreferenceSupplementaire;
+        return $this->preferenceSupplementaire;
     }
 
     public function setPreferenceSupplementaire(string $preferenceSupplementaire): self
     {
-        $this->PreferenceSupplementaire = $preferenceSupplementaire;
+        $this->preferenceSupplementaire = $preferenceSupplementaire;
         return $this;
     }
 
