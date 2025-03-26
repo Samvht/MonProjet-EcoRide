@@ -73,7 +73,7 @@ class ConnexionController extends AbstractController
         ]);
     }
 
-    #Route pour action d'inscription pour éviter la connexion automatique
+    #Route pour action d'inscription pour éviter qu'il prenne le formulaire connexion automatiquement
     #[Route('/inscription', name: 'inscription')]
     public function inscription(Request $request, AuthenticationUtils $authenticationUtils) : Response
     { 

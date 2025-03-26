@@ -22,21 +22,24 @@ class Inscription extends AbstractType
             ->add('pseudo', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Pseudo'
+                    'placeholder' =>'Pseudo',
+                    'required' => true,
                 ],
                 'label' => 'Pseudo'
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Adresse mail'
+                    'placeholder' =>'Adresse mail',
+                    'required' => true,
                 ],
                 'label' => 'Adresse mail'
             ])
             ->add('password', PasswordType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' =>'Mot de passe sécurisé'
+                    'placeholder' =>'Mot de passe sécurisé',
+                    'required' => true,
                 ],
                 'label' => 'Mot de passe'
             ])
@@ -46,6 +49,7 @@ class Inscription extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'label'=> false,
+                'required' => true,
             'attr' => [
                 'class' => 'form-check-inline' ]
             ]);

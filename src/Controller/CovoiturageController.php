@@ -30,8 +30,8 @@ class CovoiturageController extends AbstractController
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
-        $this ->roleService = $roleService;
-        $this ->preferences = $preferences;
+        $this->roleService = $roleService;
+        $this->preferences = $preferences;
     }
 
     #[Route('/covoiturage', name: 'app_covoiturage', methods:['GET', 'POST'])]

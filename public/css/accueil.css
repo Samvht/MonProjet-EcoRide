@@ -73,7 +73,7 @@ p{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: flex-start; /*aligement à gauche*/
+        align-items: flex-start; /*alignement à gauche*/
         position: relative;
         padding-bottom: 20px;
     }/*création box pour contenir mes 3 éléments (img/txt/img)*/
@@ -100,9 +100,8 @@ p{
         font-size: 22px;
         padding-top: 0%;
     }
-    p{
-        font-size: 16px 
-    }
+
+    p{ font-size: 16px}
 
     #image2{
         display: flex;
