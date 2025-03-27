@@ -37,13 +37,10 @@ class CovoiturageController extends AbstractController
     #[Route('/covoiturage', name: 'app_covoiturage', methods:['GET', 'POST'])]
     public function index(Request $request, CovoiturageRepository $covoiturageRepository, LoggerInterface $logger): Response
     {
-        #$logger->info('Contrôleur atteint');
-
         $covoiturage = new Covoiturage();
         $form = $this->createForm(Rechercher::class, $covoiturage); 
         $form->handleRequest($request); 
         
-
         $results = [];
         $page = $request->query->getInt('page', 1);
         $itemsPerPage = 10;
@@ -54,7 +51,6 @@ class CovoiturageController extends AbstractController
             $lieuArrivee = $form->get('lieu_arrivee')->getData();
             $dateDepart = $form->get('date_depart')->getData();
             
-           
             # Recherche des covoiturages correspondant aux critères + pagination
             $resultsQuery = $covoiturageRepository->searchCovoiturages($lieuDepart, $lieuArrivee, $dateDepart, $itemsPerPage, ($page - 1) * $itemsPerPage);
             $results = $resultsQuery['results'];
@@ -77,7 +73,6 @@ class CovoiturageController extends AbstractController
         } else {
             $suggestedDate = null;
             $totalPages = 1;
-
         }
         
         return $this->render('covoiturage/covoiturage.html.twig', [

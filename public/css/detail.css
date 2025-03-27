@@ -49,6 +49,15 @@ h1{
     padding-bottom: 3%;
 }
 
+h2{
+    font: 16px "montserrat", arial, sans-serif;
+    text-decoration : underline;
+}
+
+.preference p{
+    padding-bottom: 3%;
+}
+
 .participer {
     display: flex;
     flex-direction: column;
@@ -89,7 +98,8 @@ h1{
         font-size: 25px;
         padding-top: 5%;
     }
-    .infos p{padding-bottom: 1%;}
+    .infos p, .preference p{padding-bottom: 1%;}
+    h2{font-size: 18px;}
     .participer{padding-right: 40%;}
     .btn-success{
         font-size:25px;
