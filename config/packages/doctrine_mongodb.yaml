@@ -2,7 +2,9 @@ doctrine_mongodb:
     connections:
         default:
             server: "%env(resolve:MONGODB_URL)%"
-            options: {}
+            options: 
+                tls: true
+                tlsAllowInvalidCertificates: false
     default_database: Ecoride_db
     document_managers:
         default:
