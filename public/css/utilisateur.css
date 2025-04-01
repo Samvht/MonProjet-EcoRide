@@ -23,7 +23,7 @@ body{
     background-color: #009B4D;
 }
 
-a{
+.mon_compte a, .proposer_covoiturage a{
     font: 18px "montserrat", arial, sans-serif;
     color: #0FB09B;
 }

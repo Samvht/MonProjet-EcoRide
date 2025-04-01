@@ -7,14 +7,12 @@
 {% endblock %}
 
 {% block body %}
-
-
     <a class="retour" href="{{ path('app_covoiturage')}}">
          &#8592; Retour
     </a>
 
     <h1>Détails du Covoiturage</h1>
-
+    
         <div class="detail">
             <div class="createur">
                 {% set createur = covoiturage.getCreateur() %}
