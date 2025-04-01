@@ -5,6 +5,9 @@ doctrine_mongodb:
             options: 
                 tls: true
                 tlsAllowInvalidCertificates: false
+                ssl:
+                    # Option explicite pour forcer TLS 1.2
+                    sslProtocol: TLSv1_2
     default_database: Ecoride_db
     document_managers:
         default:
