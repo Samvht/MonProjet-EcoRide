@@ -1,0 +1,23 @@
+services:
+  app:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: symfony_app
+      volumes: 
+        - C:\Users\samvh\Desktop\formation\evals\ECF ete 25\projet\dossier projet\MonProjet-EcoRide:/var/www/html
+      ports:
+        - "8000:80"
+      networks:
+        - symfony-net
+      environment:
+        DATABASE_URL: ${DATABASE_URL}
+        MONGODB_URL: ${MONGODB_URL}
+     
+
+networks: #réseau prive pour que les conteneurs communiquent
+  symfony-net:
+    driver: bridge
+
+  
+    
