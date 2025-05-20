@@ -55,7 +55,7 @@
                 <li>
                     <p>Trajet: {{ covoiturage.getLieuDepart ~ ' à ' ~ covoiturage.getLieuArrivee }}</p>
                     <p>Date de départ: {{ covoiturage.getDateDepart }}</p>
-                    <p>Horaires : {{ covoiturage.getHeureDepart ~ ' - ' ~ covoiturage.getHeureArrivee }}</p>
+                    <p>Horaires : {{ covoiturage.getHeureDepart()|date('H:i') ~ ' - ' ~ covoiturage.getHeureArrivee()|date('H:i') }}</p>
                     <!--récupère voiture seulement si utilisateur = createur-->
                     {% if covoiturage.getCreateur() == app.user %}
                         <p>Véhicule: {{ covoiturage.getVoiture.getImmatriculation }}</p>

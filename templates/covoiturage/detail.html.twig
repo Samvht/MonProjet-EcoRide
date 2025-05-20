@@ -27,9 +27,9 @@
                 <p><strong>Départ :</strong> {{ covoiturage.getLieuDepart() }}</p>
                 <p><strong>Arrivée :</strong> {{ covoiturage.getLieuArrivee() }}</p>
                 <p><strong>Date de départ :</strong> {{ covoiturage.getDateDepart() }}</p>
-                <p><strong>Heure de départ :</strong> {{ covoiturage.getHeureDepart() }}</p>
+                <p><strong>Heure de départ :</strong> {{ covoiturage.getHeureDepart()|date('H:i') }}</p>
                 <p><strong>Date d'arrivée' :</strong> {{ covoiturage.getDateArrivee() }}</p>
-                <p><strong>Heure d'arrivée :</strong> {{ covoiturage.getHeureArrivee() }}</p>
+                <p><strong>Heure d'arrivée :</strong> {{ covoiturage.getHeureArrivee()|date('H:i') }}</p>
                 <p><strong>Voyage écologique :</strong> {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
                 <p><strong>Marque et couleur de la voiture :</strong> {{ marque.getLibelle() }} ~ {{ voiture.getCouleur() }}</p>
                 <p><strong>Nombre de places :</strong> {{ covoiturage.getNbrePlace() }}</p>
