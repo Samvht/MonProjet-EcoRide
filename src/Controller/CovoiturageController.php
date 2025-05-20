@@ -22,8 +22,8 @@ use App\Service\RoleService;
 class CovoiturageController extends AbstractController
 {
     private $entityManager;
-    private LoggerInterface $logger; 
-    private $roleService; 
+    private LoggerInterface $logger;
+    private $roleService;
     private $preferences;
 
     public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, RoleService $roleService, Preference $preferences)
@@ -38,14 +38,14 @@ class CovoiturageController extends AbstractController
     public function index(Request $request, CovoiturageRepository $covoiturageRepository, LoggerInterface $logger): Response
     {
         $covoiturage = new Covoiturage();
-        $form = $this->createForm(Rechercher::class, $covoiturage); 
-        $form->handleRequest($request); 
+        $form = $this->createForm(Rechercher::class, $covoiturage);
+        $form->handleRequest($request);
         
         $results = [];
         $page = $request->query->getInt('page', 1);
         $itemsPerPage = 10;
 
-        if ($form->isSubmitted() && $form->isValid()) { 
+        if ($form->isSubmitted() && $form->isValid()) {
             
             $lieuDepart = $form->get('lieu_depart')->getData();
             $lieuArrivee = $form->get('lieu_arrivee')->getData();
@@ -85,11 +85,31 @@ class CovoiturageController extends AbstractController
         ]);
     }
 
+    #Route pour la recherche AJAX
+    #[Route('/api/covoiturages', name: 'api_covoiturages', methods: ['GET'])]
+    public function filtrerAvecAjax(Request $request, CovoiturageRepository $repo): Response
+    {
+        // Récupérer les critères de recherche (départ, arrivée, date)
+        $depart = $request->query->get('depart');
+        $arrivee = $request->query->get('arrivee');
+        $date = $request->query->get('date');
+
+        $prix = $request->query->get('prix');
+        $heure = $request->query->get('heure');
+
+        $resultats = $repo->findWithFilters($depart, $arrivee, $date, $prix, $heure); // nouvelle méthode crée dans le repo Covoiturage
+
     
+
+        return $this->render('covoiturage/_list.html.twig', [
+            'results' => $resultats,
+            'suggestedDate' => null,
+        ]);
+    }
     
     #[Route('/covoiturage/detail/{covoiturage_id}', name: 'detail', methods:['GET', 'POST'])]
     public function detail(int $covoiturage_id, EntityManagerInterface $entityManager, DocumentManager $dm): Response
-    { 
+    {
         $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($covoiturage_id);
 
         if (!$covoiturage) {

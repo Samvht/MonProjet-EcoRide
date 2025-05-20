@@ -6,10 +6,13 @@
     <link rel="stylesheet" href="{{ asset('css/covoiturage.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+{% endblock %}
+
 {% block body %}
 
     <!--formulaire rechercher-->
-    <form class="rechercher" method="POST" action="{{ path('app_covoiturage') }}"><!--formulaire rechercher-->
+    <form class="rechercher" method="POST" action="{{ path('app_covoiturage') }}"><!--formulaire rechercher en récupérant les donénes-->
         {{ form_start(form) }}
         {{ form_row(form.lieu_depart) }}
         {{ form_row(form.lieu_arrivee) }}
@@ -18,40 +21,27 @@
         {{ form_end(form) }}
     </form>
 
-    {% if results is not empty %}
-        <ul class="result">
-            {% for covoiturage in results %}
-                <li>
-                    <div class="covoiturage">
-                        {% set createur = covoiturage.getCreateur() %}
-                        {% if createur.getPhoto() %}
-                            <img class="photo" src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="50">
-                        {% else %}
-                            <img class="photo" src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="50">
-                        {% endif %}
-                    
-                
-                        <div class="details">
-                            <p class="pseudo">{{ createur.getPseudo() }}</p>
-                            <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart() }}</p>
-                            <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee() }}</p>
-                            <p class="place">Nombre de place disponible : {{ covoiturage.getNbrePlace() }}</p>
-                            <p class="ecologique">Voyage écologique : {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
-                        </div>
 
-                        <div class="prix_detail">
-                        <p class="prix">{{ covoiturage.getPrixPersonne() }} Crédits</p>
-                        <a id="lien_detail" href="{{ path('detail', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">Détails</a>
-                        </div>
-                    </div>
-                </li>
-            <div class="no_results">
-                {% else %}
-                    <p>Aucun covoiturage trouvé pour ces critères.</p>
-                {% endfor %}
-            </div>
-        </ul>
+    <!-- Filtres AJAX -->
+    <div id="filtre">
+        <label for="prix">Filtrer par prix :</label>
+        <select id="prix">
+            <option value="">Tous</option>
+            <option value="moins5">Moins de 5 crédits</option>
+            <option value="5_10">Entre 5 et 10 crédits</option>
+            <option value="plus10">Plus de 10 crédits</option>
+        </select>
 
+        <label for="heure">Filtrer par heure :</label>
+        <select id="heure">
+            <option value="">Toutes</option>
+            <option value="matin">Avant 12h</option>
+            <option value="apresmidi">Après 12h</option>
+        </select>
+    </div>
+
+<div id="resultats">
+    {% include 'covoiturage/_list.html.twig' with { results: results } %}
 
         <div class="navigation">
             {% if currentPage > 1 %}
@@ -70,13 +60,7 @@
                 <a href="{{ path('app_covoiturage', { page: currentPage + 1 }) }}">Suivante</a>
             {% endif %}
         </div>
-
-    {% else %}
-        <p class="no_results">Aucun covoiturage trouvé pour ces critères.</p>
-        {% if suggestedDate %}
-            <p id="no_date">Nous vous suggérons de modifier la date de recherche au {{ suggestedDate|date('d/m/Y') }}.</p>
-        {% endif %}
-    {% endif %}
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -86,6 +70,56 @@
         } else {
             console.log('Element not found or id was removed');
         }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lorsque l'utilisateur applique un filtre
+        document.querySelectorAll('#filtre select').forEach(function (filtreElement) {
+            filtreElement.addEventListener('change', function () {
+                const filtreType = this.id; 
+                const filtreValue = this.value;
+
+                const depart = document.querySelector('[name="rechercher[lieu_depart]"]')?.value || '';
+                const arrivee =document.querySelector('[name="rechercher[lieu_arrivee]"]')?.value || '';
+                const date = document.querySelector('[name="rechercher[date-depart]"]')?.value || '';
+
+                // Construire les paramètres
+                const params = new URLSearchParams({
+                    depart: depart,
+                    arrivee: arrivee,
+                    date: date
+                });
+
+                if (filtreType === 'prix') {
+                    params.append('prix', filtreValue);
+                } else if (filtreType === 'heure') {
+                    params.append('heure', filtreValue);
+                }
+
+                console.log('Données envoyées :', {
+  depart,
+  arrivee,
+  date,
+  filtreType,
+  filtreValue
+});
+
+                fetch('{{ path('api_covoiturages') }}?' + params.toString(), {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('resultats').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la requête AJAX:', error);
+                });
+            });
+        });
     });
 </script>
 {% endblock %}

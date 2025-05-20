@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Form; 
+namespace App\Form;
 
-use App\Entity\Covoiturage;
 use App\Entity\Voiture;
+use App\Entity\Covoiturage;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\FormBuilderInterface; 
-use Symfony\Component\OptionsResolver\OptionsResolver; 
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class Proposer extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         #Récupérer l'utilisateur connecté depuis les options
-        $user = $options['user']; 
+        $user = $options['user'];
 
         $builder
             ->add('date_depart', TextType::class, [
@@ -27,7 +28,7 @@ class Proposer extends AbstractType
             ],
             'label'=> false
         ])
-             ->add('heure_depart', TextType::class, [
+             ->add('heure_depart', TimeType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' =>'Heure de départ'
@@ -48,7 +49,7 @@ class Proposer extends AbstractType
             ],
             'label'=> false
         ])
-            ->add('heure_arrivee', TextType::class, [
+            ->add('heure_arrivee', TimeType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' =>'Heure d\'arrivee'
@@ -88,7 +89,6 @@ class Proposer extends AbstractType
                     'mapped' =>true,
                     'label'=> false
             ]);
-    ;
     }
 
     public function configureOptions(OptionsResolver $resolver):void

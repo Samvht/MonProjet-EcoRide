@@ -93,8 +93,14 @@ body{
 }
 .no_results{
     font : 12px "poppins", arial, sans-serif;
-    color : #ffffff; 
+    color : #ffffff;
+}
+
+#filtre{
+    font : 12px "poppins", arial, sans-serif;
+    color : #ffffff;
     padding-left: 5%;
+    padding-bottom: 3%;
 }
 
 @media (min-width : 1440px) {
@@ -135,10 +141,12 @@ body{
         padding-left: 10%; 
     }
     .no_results{
-        font-size : 16px; 
-        padding-left : 10%; 
+        font-size : 16px;  
     }
-
+    #filtre{
+        font-size : 16px;
+        padding-left: 10%;
+}
 
   }   /*adaptation formulaire grand écran*/
 

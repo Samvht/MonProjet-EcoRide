@@ -33,7 +33,7 @@ class UtilisateurController extends AbstractController
 {
     private $entityManager;
     private LoggerInterface $logger;
-    private $emailService; 
+    private $emailService;
     private $roleService;
 
     public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EmailService $emailService, RoleService $roleService)
@@ -116,11 +116,11 @@ class UtilisateurController extends AbstractController
 
         $logger->info('Utilisateur trouvé', ['utilisateur' => $utilisateur->getUtilisateurId()]);
 
-    #Vérification du CSRF token
-    if (!$this->isCsrfTokenValid('annuler'.$covoiturage_id, $request->request->get('_token'))) {
-        $this->addFlash('error', 'Token CSRF invalide.');
-        return $this->redirectToRoute('app_utilisateur');
-    }
+        #Vérification du CSRF token
+        if (!$this->isCsrfTokenValid('annuler'.$covoiturage_id, $request->request->get('_token'))) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('app_utilisateur');
+        }
 
         #si l'utilisateur est le créateur
         if ($utilisateur === $covoiturage->getCreateur()) {
@@ -134,19 +134,19 @@ class UtilisateurController extends AbstractController
         $this->emailService->sendCancellationEmail($participants, $covoiturage);
 
         $this->addFlash('success', 'Le covoiturage a été supprimé et les participants ont été informés.');
-    } else {
-        #si c'est juste un utilisateur, supprime de la liste et met le nbre de place à jour dans la BDD
-        $covoiturage->removeUtilisateur($utilisateur);
-        $covoiturage->setNbrePlace($covoiturage->getNbrePlace() + 1);
-        $entityManager->persist($covoiturage);
-        $entityManager->flush();
+        } else {
+            #si c'est juste un utilisateur, supprime de la liste et met le nbre de place à jour dans la BDD
+            $covoiturage->removeUtilisateur($utilisateur);
+            $covoiturage->setNbrePlace($covoiturage->getNbrePlace() + 1);
+            $entityManager->persist($covoiturage);
+            $entityManager->flush();
 
-        $logger->info('Utilisateur retiré du covoiturage', ['covoiturage' => $covoiturage->getCovoiturageId()]);
-        $this->addFlash('success', 'Votre participation est bien annulée.');
-        $logger->info('Covoiturage supprimé', ['covoiturage_id' => $covoiturage->getCovoiturageId()]);
+            $logger->info('Utilisateur retiré du covoiturage', ['covoiturage' => $covoiturage->getCovoiturageId()]);
+            $this->addFlash('success', 'Votre participation est bien annulée.');
+            $logger->info('Covoiturage supprimé', ['covoiturage_id' => $covoiturage->getCovoiturageId()]);
     }
 
-    return $this->redirectToRoute('app_utilisateur'); 
+    return $this->redirectToRoute('app_utilisateur');
 }
 
 #[Route('/utilisateur/preferences', name: 'preferences', methods:['GET', 'POST'])]
@@ -257,10 +257,10 @@ public function new(Request $request, DocumentManager $dm): Response
         #Sauvegarde mot de passe actuel
         $currentPassword = $utilisateur->getPassword();
 
-        $modificationForm = $this->createForm(Modification::class, $utilisateur); 
+        $modificationForm = $this->createForm(Modification::class, $utilisateur);
         $modificationForm->handleRequest($request);
 
-        if ($modificationForm->isSubmitted() && $modificationForm->isValid()) { 
+        if ($modificationForm->isSubmitted() && $modificationForm->isValid()) {
             
             #Si utilisateur modifie mot de passe
             $newPassword = $modificationForm->get('password')->getData();
@@ -338,7 +338,7 @@ public function new(Request $request, DocumentManager $dm): Response
             $entityManager->flush();
 
             return $this->redirectToRoute('moncompte', [], response::HTTP_SEE_OTHER);
-        } 
+        }
     
         return $this->render('utilisateur/vehicule.html.twig', [
             'vehiculeForm' => $vehiculeForm->createView(),
@@ -363,13 +363,13 @@ public function new(Request $request, DocumentManager $dm): Response
 
         #création formulaire
         $covoiturage = new Covoiturage();
-        $proposerForm = $this->createForm(Proposer::class, $covoiturage, [ 
+        $proposerForm = $this->createForm(Proposer::class, $covoiturage, [
             #Pour filtrer seulement les voitures de utilisateur
-            'user' => $utilisateur 
-        ]); 
-        $proposerForm->handleRequest($request); 
+            'user' => $utilisateur
+        ]);
+        $proposerForm->handleRequest($request);
         #soummission formulaire et récupération données
-        if ($proposerForm->isSubmitted() && $proposerForm->isValid()) { 
+        if ($proposerForm->isSubmitted() && $proposerForm->isValid()) {
            
             
             #Ajoute utilisateur au covoiturage (la relation ManyToMany)
@@ -380,8 +380,8 @@ public function new(Request $request, DocumentManager $dm): Response
             $this->entityManager->persist($covoiturage);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
-        } 
+            return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER);
+        }
         
         return $this->render('utilisateur/proposercovoiturage.html.twig', [
             'proposerForm' => $proposerForm->createView(),

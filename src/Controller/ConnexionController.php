@@ -54,14 +54,14 @@ class ConnexionController extends AbstractController
             }
         }
 
-        # Récupère l'erreur de connexion s'il y en a une / ne peux utiliser json car formulaire action 
+        # Récupère l'erreur de connexion s'il y en a une / ne peux utiliser json car formulaire action
         $error = $authenticationUtils->getLastAuthenticationError();
        
         $utilisateurConnexion = new Utilisateur();
-        $connexionForm = $this->createForm(Connexion::class, $utilisateurConnexion); 
+        $connexionForm = $this->createForm(Connexion::class, $utilisateurConnexion);
         
         $utilisateurInscription = new Utilisateur();
-        $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription); 
+        $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription);
         
 
         #retourne la vue
@@ -76,16 +76,16 @@ class ConnexionController extends AbstractController
     #Route pour action d'inscription pour éviter qu'il prenne le formulaire connexion automatiquement
     #[Route('/inscription', name: 'inscription')]
     public function inscription(Request $request, AuthenticationUtils $authenticationUtils) : Response
-    { 
+    {
         $utilisateurInscription = new Utilisateur();
-        $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription); 
-        $inscriptionForm->handleRequest($request); 
+        $inscriptionForm = $this->createForm(Inscription::class, $utilisateurInscription);
+        $inscriptionForm->handleRequest($request);
         
         if ($inscriptionForm->isSubmitted() && $inscriptionForm->isValid()) {
             #Récupération des données du formulaire d'inscription
-            $utilisateurInscription = $inscriptionForm->getData(); 
-            $pseudo = $utilisateurInscription->getPseudo(); 
-            $email = $utilisateurInscription->getEmail(); 
+            $utilisateurInscription = $inscriptionForm->getData();
+            $pseudo = $utilisateurInscription->getPseudo();
+            $email = $utilisateurInscription->getEmail();
             $password = $utilisateurInscription->getPassword();
         
             #Vérifier si l'email existe déjà
@@ -96,7 +96,7 @@ class ConnexionController extends AbstractController
                 #créer un nouvel utilisateur et hash le mot de passe
                 $utilisateurInscription->setPseudo($pseudo);
                 $utilisateurInscription->setEmail($email);
-                $encodedPassword = $this->passwordHasher->hashPassword($utilisateurInscription, $password); 
+                $encodedPassword = $this->passwordHasher->hashPassword($utilisateurInscription, $password);
                 $utilisateurInscription->setPassword($encodedPassword);
 
                 #Définit la config utilisateur part défaut
@@ -105,7 +105,8 @@ class ConnexionController extends AbstractController
                     $configuration = new Configuration();
                     $configuration->setName('ROLE_USER');
                     $this->entityManager->persist($configuration);
-                    $this->entityManager->flush();}
+                    $this->entityManager->flush();
+                }
                 $utilisateurInscription->setConfiguration($configuration);
 
                 #créer nouvel utilisateur et l'envoyer dans la BDD
@@ -115,8 +116,8 @@ class ConnexionController extends AbstractController
             #Authentifier l'utilisateur après l'inscription
             $this->loginUser($utilisateurInscription);
 
-            return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER); 
-            } 
+            return $this->redirectToRoute('app_utilisateur', [], response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->json(['erreur' => 'Une erreur est survenue.'], 400); #celui là conseillé, à modifier
@@ -132,6 +133,7 @@ class ConnexionController extends AbstractController
         #Stocke le token dans la session
         $this->tokenStorage->setToken($token);
         $this->requestStack->getCurrentRequest()->getSession()->set('_security_main', serialize($token));
+        #serialize converti le token en une chaine de caractère pour le stocker dans la session
     }
 
     #[Route('/logout', name: 'app_logout')]

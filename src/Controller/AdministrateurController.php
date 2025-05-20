@@ -23,7 +23,7 @@ class AdministrateurController extends AbstractController
         #transformer string en format date, pour récupérer date et données s'affichent
         #STR_TO_DATE convertit chaine DD/MM/YY en objet date
         #DATE_FORMAT met les fates au bon format YYYY-MM-DD
-        $sql = ' 
+        $sql = '
             SELECT DATE_FORMAT(STR_TO_DATE(date_depart, "%d/%m/%Y"), "%Y-%m-%d") AS date, COUNT(*) AS count
             FROM covoiturage
             GROUP BY DATE_FORMAT(STR_TO_DATE(date_depart, "%d/%m/%Y"), "%Y-%m-%d")
@@ -73,7 +73,7 @@ class AdministrateurController extends AbstractController
 
         return $this->render('administrateur/administrateur.html.twig', [
             'labels' => $labels,
-            'data' => $data, 
+            'data' => $data,
             'utilisateurs' => $utilisateurs,
             'currentPage' => $page,
             'totalPages' => $totalPages

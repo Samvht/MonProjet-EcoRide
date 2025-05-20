@@ -34,7 +34,7 @@ class ContactController extends AbstractController
             #afficher message confirmation
             $this->addFlash('success', 'Votre message a bien été envoyé!');
 
-            #renvoi vers la même page 
+            #renvoi vers la même page
             return $this->redirectToRoute('contact');
         }
 

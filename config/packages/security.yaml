@@ -55,6 +55,7 @@ security:
         - { path: ^/connexion, roles: PUBLIC_ACCESS } #public accès page connexion
         - { path: ^/inscription, roles: PUBLIC_ACCESS} #public accès pour l'inscription
         - { path: ^/covoiturage, roles: PUBLIC_ACCESS } #public accès covoiturage
+        - { path: ^/api/covoiturages, roles: PUBLIC_ACCESS } #public pour filtrer les covoiturages
         - { path: ^/covoiturage/details, roles: PUBLIC_ACCESS } #public accès aux détails covoiturage
         - { path: ^/administrateur, roles: ROLE_ADMIN } #admin accès à tous le site
         - { path: ^/utilisateur, roles: ROLE_USER } #utilisateur connecté accès à son historique covoiturage

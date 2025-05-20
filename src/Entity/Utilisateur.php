@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Uid\Uuid; 
+use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use InvalidArgumentException;
 
@@ -19,9 +19,9 @@ use InvalidArgumentException;
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\Column(name:"utilisateur_id", type: "uuid", unique: true)] 
-    #[ORM\GeneratedValue(strategy: "CUSTOM")] 
-    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")] 
+    #[ORM\Column(name:"utilisateur_id", type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")]
     private ?Uuid $utilisateur_id = null;
 
     #[ORM\Column(type: "string", length: 50, unique: true, nullable: false)]
@@ -42,39 +42,39 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $photo;
 
-    #[ORM\OneToMany(targetEntity: Voiture::class, mappedBy: "utilisateur")] 
+    #[ORM\OneToMany(targetEntity: Voiture::class, mappedBy: "utilisateur")]
     private Collection $voitures;
     #liaision table voiture
 
-    #[ORM\ManyToMany(targetEntity: Covoiturage::class, inversedBy: "utilisateurs")] 
-    #[ORM\JoinTable(name: "utilisateur_covoiturage")] 
+    #[ORM\ManyToMany(targetEntity: Covoiturage::class, inversedBy: "utilisateurs")]
+    #[ORM\JoinTable(name: "utilisateur_covoiturage")]
     #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'utilisateur_id')]
     #[ORM\InverseJoinColumn(name: 'covoiturage_id', referencedColumnName: 'covoiturage_id')]
     private Collection $covoiturages;
     #liaison table covoiturage
 
-    #[ORM\ManyToMany(targetEntity: Avis::class, inversedBy: "utilisateurs")] 
-    #[ORM\JoinTable(name: "utilisateur_avis")] 
+    #[ORM\ManyToMany(targetEntity: Avis::class, inversedBy: "utilisateurs")]
+    #[ORM\JoinTable(name: "utilisateur_avis")]
     private Collection $avis;
     #liaison table avis
 
-    #[ORM\ManyToOne(targetEntity: Configuration::class, inversedBy: "utilisateurs")] 
-    #[ORM\JoinColumn(name: "configuration_id", referencedColumnName: "configuration_id", nullable: false)] 
+    #[ORM\ManyToOne(targetEntity: Configuration::class, inversedBy: "utilisateurs")]
+    #[ORM\JoinColumn(name: "configuration_id", referencedColumnName: "configuration_id", nullable: false)]
     private ?Configuration $configuration =null;
     #liaison table configuration qui correspond aussi au role de sécurité
 
-    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: "utilisateurs")] 
-    #[ORM\JoinTable(name: "utilisateur_role")] 
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: "utilisateurs")]
+    #[ORM\JoinTable(name: "utilisateur_role")]
     #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'utilisateur_id')]
     #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'role_id')]
     private Collection $userRoles;
     #liaison table role (chauffeur ou passager, soit 2 roles les 2)
     #renommage de $roles en userRoles pour éviter le conflit avec la methods getRoles() de la sécurité
 
-    public function __construct() 
-    { 
+    public function __construct()
+    {
         $this->utilisateur_id = Uuid::v4();
-        $this->voitures = new ArrayCollection(); 
+        $this->voitures = new ArrayCollection();
         $this->covoiturages = new ArrayCollection();
         $this->avis = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
@@ -93,62 +93,62 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getPseudo(): string {
-         return $this->pseudo; 
+         return $this->pseudo;
     }
 
-    public function setPseudo(string $pseudo): self { 
-        $this->pseudo = $pseudo; 
-        return $this; 
+    public function setPseudo(string $pseudo): self {
+        $this->pseudo = $pseudo;
+        return $this;
     }
 
     public function getEmail(): string {
-        return $this->email; 
+        return $this->email;
     }
 
-    public function setEmail(string $email): self { 
-        $this->email = $email; 
-        return $this; 
+    public function setEmail(string $email): self {
+        $this->email = $email;
+        return $this;
     }
 
     public function getPassword(): string {
-        return $this->password; 
+        return $this->password;
     }
 
-    public function setPassword(string $password): self { 
-        $this->password = $password; 
-        return $this; 
+    public function setPassword(string $password): self {
+        $this->password = $password;
+        return $this;
     }
 
-    public function getTelephone(): ?string { 
-        return $this->telephone; 
+    public function getTelephone(): ?string {
+        return $this->telephone;
     }
 
-    public function setTelephone(?string $telephone): self { 
-        $this->telephone = $telephone; 
-        return $this; 
+    public function setTelephone(?string $telephone): self {
+        $this->telephone = $telephone;
+        return $this;
     }
 
-    public function getDateNaissance(): ?string { 
+    public function getDateNaissance(): ?string {
         return $this->date_naissance;
     }
 
     public function setDateNaissance(?string $date_naissance): self{
-        $this->date_naissance = $date_naissance; 
-        return $this; 
+        $this->date_naissance = $date_naissance;
+        return $this;
     }
 
     public function getPhoto(): ?string {
-        return $this->photo; 
+        return $this->photo;
     }
 
     public function setPhoto(?string $photo): self {
-        $this->photo = $photo; 
-        return $this; 
+        $this->photo = $photo;
+        return $this;
     }
 
     public function getRoles(): array{
-        $roles = []; 
-        if ($this->configuration) { 
+        $roles = [];
+        if ($this->configuration) {
             $roles[] = $this->configuration->getName();
         }
         $roles[] = 'ROLE_USER';
@@ -166,89 +166,90 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         #pour nettoyer les données sensibles
     }
 
-    public function getVoitures(): Collection { 
-        return $this->voitures; 
+    public function getVoitures(): Collection {
+        return $this->voitures;
     }
 
-    public function addVoiture(Voiture $voiture): self { 
-        if (!$this->voitures->contains($voiture)) { 
-            $this->voitures[] = $voiture; 
-            $voiture->setUtilisateur($this); } 
-    return $this; 
+    public function addVoiture(Voiture $voiture): self {
+        if (!$this->voitures->contains($voiture)) {
+            $this->voitures[] = $voiture;
+            $voiture->setUtilisateur($this); }
+    return $this;
 }
 
-    public function removeVoiture(Voiture $voiture): self { 
-        if ($this->voitures->contains($voiture)) { 
-            $this->voitures->removeElement($voiture); 
+    public function removeVoiture(Voiture $voiture): self {
+        if ($this->voitures->contains($voiture)) {
+            $this->voitures->removeElement($voiture);
             if ($voiture->getUtilisateur() === $this) {
-                $voiture->setUtilisateur(null); 
-        } 
-    } 
-        return $this; 
+                $voiture->setUtilisateur(null);
+        }
+    }
+        return $this;
 }
 
-    public function getCovoiturages(): Collection { 
-        return $this->covoiturages; 
+    public function getCovoiturages(): Collection {
+        return $this->covoiturages;
 }
 
-    public function addCovoiturage(Covoiturage $covoiturage): self { 
-        if (!$this->covoiturages->contains($covoiturage)) { 
-            $this->covoiturages[] = $covoiturage; 
-            $covoiturage->addUtilisateur($this); } 
-        return $this; 
+    public function addCovoiturage(Covoiturage $covoiturage): self {
+        if (!$this->covoiturages->contains($covoiturage)) {
+            $this->covoiturages[] = $covoiturage;
+            $covoiturage->addUtilisateur($this); }
+        return $this;
 }
 
-public function removeCovoiturage(Covoiturage $covoiturage): self { 
-    if ($this->covoiturages->contains($covoiturage)) { 
-        $this->covoiturages->removeElement($covoiturage); 
-        $covoiturage->removeUtilisateur($this);
-} 
-    return $this; 
-}
+    public function removeCovoiturage(Covoiturage $covoiturage): self {
+        if ($this->covoiturages->contains($covoiturage)) {
+            $this->covoiturages->removeElement($covoiturage);
+            $covoiturage->removeUtilisateur($this);
+        }
+        return $this;
+    }
 
-public function getAvis(): Collection { 
-    return $this->avis; 
-}
+    public function getAvis(): Collection {
+        return $this->avis;
+    }
 
-public function addAvis(Avis $avis): self { 
-    if (!$this->avis->contains($avis)) { 
-        $this->avis[] = $avis; 
-        $avis->addUtilisateur($this); } 
-    return $this; 
-}
+    public function addAvis(Avis $avis): self {
+        if (!$this->avis->contains($avis)) {
+            $this->avis[] = $avis;
+            $avis->addUtilisateur($this); }
+        return $this;
+    }
 
-public function removeAvis(Avis $avis): self { 
-if ($this->avis->contains($avis)) { 
-    $this->avis->removeElement($avis); 
-    $avis->removeUtilisateur($this);
-} 
-return $this; 
-}
+    public function removeAvis(Avis $avis): self {
+        if ($this->avis->contains($avis)) {
+        $this->avis->removeElement($avis);
+        $avis->removeUtilisateur($this);
+    }
+    return $this;
+    }
 
-public function getUserRoles(): Collection { 
-    return $this->userRoles; 
-}
+    public function getUserRoles(): Collection {
+        return $this->userRoles;
+    }
 
-public function addRole(Role $role): self { 
-    if (!$this->userRoles->contains($role)) { 
-        $this->userRoles[] = $role; 
-        $role->addUtilisateur($this); } 
-    return $this; 
-}
+    public function addRole(Role $role): self {
+        if (!$this->userRoles->contains($role)) {
+            $this->userRoles[] = $role;
+            $role->addUtilisateur($this); }
+        return $this;
+    }
 
-public function removeRole(Role $role): self { 
-    if ($this->userRoles->contains($role)) { 
-        $this->userRoles->removeElement($role); 
-        $role->removeUtilisateur($this);
-    } 
-    return $this; 
-}
+    public function removeRole(Role $role): self {
+        if ($this->userRoles->contains($role)) {
+            $this->userRoles->removeElement($role);
+            $role->removeUtilisateur($this);
+        }
+        return $this;
+    }
 
-public function getConfiguration(): ?Configuration { 
-    return $this->configuration; 
-} 
+    public function getConfiguration(): ?Configuration {
+        return $this->configuration;
+    }
 
-public function setConfiguration(?Configuration $configuration): self { 
-    $this->configuration = $configuration; 
-    return $this; }
+    public function setConfiguration(?Configuration $configuration): self {
+        $this->configuration = $configuration;
+        return $this;
+    }
 }

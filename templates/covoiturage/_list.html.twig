@@ -1,0 +1,42 @@
+<div id="resultats">
+    {% if results is not empty %}
+        <ul class="result">
+            {% for covoiturage in results %}
+                <li>
+                    <div class="covoiturage">
+                        {% set createur = covoiturage.getCreateur() %}
+                    
+                        {% if createur.getPhoto() %}
+                            <img class="photo" src="{{ asset('uploads/photos/' ~ createur.getPhoto()) }}" alt="Photo de Profil de l'utilisateur" width="50">
+                        {% else %}
+                            <img class="photo" src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="50">
+                        {% endif %}
+                    
+                        <div class="details">
+                            <p class="pseudo">{{ createur.getPseudo() }}</p>
+                            <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart()|date('H:i') }}</p>
+                            <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee()|date('H:i') }}</p>
+                            <p class="place">Places : {{ covoiturage.getNbrePlace() }}</p>
+                            <p class="ecologique">Écologique : {{ covoiturage.isVoyageEcologique() ? 'Oui' : 'Non' }}</p>
+                        </div>
+
+                        <div class="prix_detail">
+                            <p class="prix">{{ covoiturage.getPrixPersonne() }} Crédits</p>
+                            <a id="lien_detail" href="{{ path('detail', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">Détails</a>
+                        </div>
+                    </div>
+                </li>
+    
+            <div class="no_results">
+            {% else %}
+                <p>Aucun covoiturage trouvé pour ces critères.</p>
+            {% endfor %}
+            </div>
+        </ul>
+    {% else %}
+        <p class="no_results">Aucun covoiturage trouvé pour ces critères.</p>
+        {% if suggestedDate %}
+            <p id="no_date">Nous vous suggérons de modifier la date de recherche au {{ suggestedDate|date('d/m/Y') }}.</p>
+        {% endif %}
+    {% endif %}
+</div>

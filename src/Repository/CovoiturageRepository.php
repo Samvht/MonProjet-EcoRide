@@ -108,14 +108,52 @@ class CovoiturageRepository extends ServiceEntityRepository
                 'result' => $result
             ];
     }
+
+
+    public function findWithFilters(?string $LieuDepart, ?string $LieuArrivee, ?string $DateDepart,?string $prix, ?string $heure): array
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        // Filtrer par lieu de départ
+        if ($LieuDepart) {
+            $qb->andWhere('c.lieu_depart = :LieuDepart')
+                ->setParameter('LieuDepart', $LieuDepart);
+        }
+
+        // Filtrer par lieu d'arrivée
+        if ($LieuArrivee) {
+            $qb->andWhere('c.lieu_arrivee = :LieuArrivee')
+                ->setParameter('LieuArrivee', $LieuArrivee);
+        }
+
+        // Filtrer par date de départ
+        if ($DateDepart) {
+            $dateTime= \DateTime::createFromFormat('d/m/Y', $DateDepart);
+            if ($dateTime)  {
+                $qb->andWhere('c.date_depart = :DateDepart')
+                ->setParameter('DateDepart', $dateTime);
+            }
+            
+        }
+
+        if ($prix === 'moins5') {
+            $qb->andWhere('c.prix_personne < 5');
+        } elseif ($prix === '5_10') {
+            $qb->andWhere('c.prix_personne BETWEEN 5 AND 10');
+        } elseif ($prix === 'plus10') {
+            $qb->andWhere('c.prix_personne > 10');
+        }
+
+        if ($heure === 'matin') {
+            $qb->andWhere('c.heure_depart < :midi')
+             ->setParameter('midi', new \DateTime('12:00'));
+        } elseif ($heure === 'apresmidi') {
+            $qb->andWhere('c.heure_depart >= :midi')
+            ->setParameter('midi', new \DateTime('12:00'));
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
-//    public function findOneBySomeField($value): ?Covoiturage
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 
