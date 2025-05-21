@@ -56,7 +56,6 @@ body{
 
 .pseudo{
     font: 18px "montserrat", arial, sans-serif;
-    margin-bottom: 10px;
 }
 
 .place{
@@ -103,6 +102,20 @@ body{
     padding-bottom: 3%;
 }
 
+.star {
+    font-size: 16px;
+    color: #ccc; 
+    margin-right: 2px;
+}
+
+.star.voted {
+    color: gold;
+}
+
+.star.empty {
+    color: lightgray;
+}
+
 @media (min-width : 1440px) {
     .rechercher{ 
         flex-direction : row; /*passer les champs en ligne*/
@@ -125,7 +138,6 @@ body{
     .photo{width: 300px;}
     .pseudo{
         font-size: 25px;
-        margin-bottom: 50px;
     }
     .place{display: flex;}/*faire appareitre info sur bureau*/
     .ecologique{display: flex;}
@@ -146,8 +158,8 @@ body{
     #filtre{
         font-size : 16px;
         padding-left: 10%;
-}
-
+    }
+    .star {font-size: 20px;}
   }   /*adaptation formulaire grand écran*/
 
 

@@ -2,8 +2,11 @@
 
 namespace App\Service;
 
-use Symfony\Component\Mailer\MailerInterface;
+use App\Entity\Covoiturage;
+use App\Entity\Utilisateur;
 use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
 
 class EmailService
 {
@@ -26,4 +29,19 @@ class EmailService
             $this->mailer->send($email);
         }
     }
+
+    public function sendAvisInvitationEmail(Utilisateur $participant, Covoiturage $covoiturage): void
+{
+    $email = (new TemplatedEmail())
+        ->from('no-reply@ecoride.com')
+        ->to($participant->getEmail())
+        ->subject('Partage ton avis sur ton covoiturage')
+        ->htmlTemplate('email/avis.html.twig')
+        ->context([
+            'participant' => $participant,
+            'covoiturage' => $covoiturage,
+        ]);
+
+    $this->mailer->send($email);
+}
 }

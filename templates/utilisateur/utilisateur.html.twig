@@ -17,12 +17,10 @@
     </div>
 
     <!--Partie role et préférences de l'utilisateur-->
-    <h3>Préférences</h3>
     {% set rolesMetier = rolesMetier|default([]) %}
     {% if 1 in rolesMetier %}
+    <h3>Préférences</h3>
         <div class= "preferences">
-            
-
             {% if preferences %}
                 <p>Fumeur : {{ preferences.fumeur ? 'Oui' : 'Non' }}</p>
                 <p>Animal : {{ preferences.animal ? 'Oui' : 'Non' }}</p>
@@ -59,9 +57,25 @@
                     <!--récupère voiture seulement si utilisateur = createur-->
                     {% if covoiturage.getCreateur() == app.user %}
                         <p>Véhicule: {{ covoiturage.getVoiture.getImmatriculation }}</p>
+                        <div class="gestion">
+                        {% if covoiturage.statut == 'à venir' %}
+                            <form method="post" action="{{ path('covoiturage_start', { id: covoiturage.getCovoiturageId }) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('start' ~ covoiturage.getCovoiturageId) }}">
+                                <button id="btn_demarrer">Démarrer</button>
+                            </form>
+                        {% elseif covoiturage.statut == 'en cours' %}
+                            <form method="post" action="{{ path('covoiturage_end', { id: covoiturage.getCovoiturageId }) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('end' ~ covoiturage.getCovoiturageId) }}">
+                                <button id="btn_arreter">Arrivée à destination</button>
+                            </form>
+                        {% else %}
+                            <span class="termine">Trajet terminé</span>
+                        {% endif %}
+                        </div>
                     {% endif %}
+
                      <!--formulaire + bouton annuler pour chaque covoiturage dont la date n'est pas passée-->
-                    {% if isUserParticipating %}
+                    {% if isUserParticipating and covoiturage.statut == 'à venir'%}
                         <form id="annulationForm_{{ covoiturage.getCovoiturageId() }}" method="post" action="{{ path('covoiturage_annuler', { 'covoiturage_id': covoiturage.getCovoiturageId() }) }}">
                             <input type="hidden" name="_token" value=" {{ csrf_token('annuler' ~ covoiturage.getCovoiturageId()) }}">
                             <button type="button" class="btn btn-annuler" onclick="confirmAnnulation({{ covoiturage.getCovoiturageId() }})">Annuler</button>

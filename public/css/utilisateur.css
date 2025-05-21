@@ -56,7 +56,31 @@ ul.covoiturage li{
 
 p{padding-bottom: 2%;}
 
+#btn_demarrer{
+    align-self: flex-end;
+    padding-left: 7%;
+    padding-right: 7%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}
 
+#btn_arreter{
+    align-self: flex-end;
+    padding-left: 7%;
+    padding-right: 7%;
+    border-radius: 5px;
+    color : #FAF5F9;
+    font-size: 14px;
+    background-color: #009B4D;
+}
+
+.gestion{
+    padding-bottom: 3%;
+    padding-left: 70%;
+
+}
 
 @media (min-width : 1440px) {
     #btn_modifier{font-size: 20px}
@@ -66,5 +90,12 @@ p{padding-bottom: 2%;}
     .covoiturage{font-size: 16px;}
     .preferences{font-size: 16px;}
     p{padding-bottom: 1%}
+    #btn_demarrer{font-size: 20px}
+    #btn_arreter{font-size: 20px}
+    .gestion{
+    padding-bottom: 1%;
+    padding-left: 50%;
+
+}
 };
 

@@ -37,6 +37,7 @@ h1{
 .pseudo{
     font: 16px "montserrat", arial, sans-serif;
     padding-top: 5%;
+    padding-bottom: 15%;
 }
 
 .createur{
@@ -64,6 +65,25 @@ h2{
     align-items: flex-end;
     padding-right: 15%;
 }/*disposer btn participer à droite*/
+
+.star {
+    font-size: 16px;
+    color: #ccc; 
+    margin-right: 2px;
+}
+
+.star.voted {
+    color: gold;
+}
+
+.star.empty {
+    color: lightgray;
+}
+
+.pseudo_note{
+    display: flex;
+    flex-direction: column;;
+}
 
 .btn-success{
     align-self: flex-end;
@@ -97,6 +117,7 @@ h2{
     .pseudo{
         font-size: 25px;
         padding-top: 5%;
+        padding-bottom: 20%;
     }
     .infos p, .preference p{padding-bottom: 1%;}
     h2{font-size: 18px;}
@@ -106,5 +127,6 @@ h2{
         padding-left: 10%;
         padding-right: 10%;
     }
-
+    .star {
+    font-size: 25px;}
 }

@@ -1,0 +1,13 @@
+<p>Bonjour {{ utilisateur.getPseudo }},</p>
+
+<p>Le covoiturage du {{ covoiturage.getDateDepart }} de {{ covoiturage.getLieuDepart }} à {{ covoiturage.getLieuArrivee }} est maintenant terminé.</p>
+
+<p>Tu peux laisser un avis ici :</p>
+
+<p>
+    <a href="{{ url('laisser_avis', { id: covoiturage.getCovoiturageId }) }}">
+        Donner mon avis
+    </a>
+</p>
+
+<p>Merci !</p>

@@ -14,6 +14,12 @@
                     
                         <div class="details">
                             <p class="pseudo">{{ createur.getPseudo() }}</p>
+                            {% set moyenneNote = createur.getMoyenneNote() %}
+                            <span class="rating">
+                                {% for i in 1..5 %}
+                                <span class="star {% if moyenneNote >= i %}voted{% else %}empty{% endif %}">★</span>
+                                {% endfor %}
+                            </span>
                             <p>{{ covoiturage.getDateDepart() }} - {{ covoiturage.getHeureDepart()|date('H:i') }}</p>
                             <p>{{ covoiturage.getDateArrivee() }} - {{ covoiturage.getHeureArrivee()|date('H:i') }}</p>
                             <p class="place">Places : {{ covoiturage.getNbrePlace() }}</p>

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/avis.css') }}">
+{% endblock %}
+
+
+{% block body %}
+    <h3>Donner un avis sur le covoiturage</h3>
+
+    <p class="info">Trajet de {{ covoiturage.getLieuDepart }} à {{ covoiturage.getLieuArrivee }} le {{ covoiturage.getDateDepart }}</p>
+
+    <div class="trajet" method="POST">
+    {{ form_start(DeposerAvisForm) }}
+        {{ form_row(DeposerAvisForm.pseudo) }}
+        {{ form_row(DeposerAvisForm.note) }}
+        {{ form_row(DeposerAvisForm.commentaire) }}
+        <button id="btn_envoyer" type="submit">Envoyer mon avis</button>
+    {{ form_end(DeposerAvisForm) }}
+    </div>
+{% endblock %}

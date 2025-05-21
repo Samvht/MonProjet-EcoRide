@@ -53,8 +53,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $covoiturages;
     #liaison table covoiturage
 
-    #[ORM\ManyToMany(targetEntity: Avis::class, inversedBy: "utilisateurs")]
-    #[ORM\JoinTable(name: "utilisateur_avis")]
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: "utilisateur")]
     private Collection $avis;
     #liaison table avis
 
@@ -213,16 +212,33 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function addAvis(Avis $avis): self {
         if (!$this->avis->contains($avis)) {
             $this->avis[] = $avis;
-            $avis->addUtilisateur($this); }
+            $avis->setUtilisateur($this); }
         return $this;
     }
 
     public function removeAvis(Avis $avis): self {
         if ($this->avis->contains($avis)) {
         $this->avis->removeElement($avis);
-        $avis->removeUtilisateur($this);
+        if ($avis->getUtilisateur() === $this) {
+            $avis->setUtilisateur(null);
+        }
     }
     return $this;
+    }
+
+    public function getMoyenneNote(): float
+    {
+        $avisRecus = $this->getAvis();
+        $total = count($avisRecus);
+
+        if ($total === 0) {
+            return 0;
+        }
+        $somme = 0;
+        foreach ($avisRecus as $avis) {
+            $somme += $avis->getNote();
+        }
+        return $somme / $total;
     }
 
     public function getUserRoles(): Collection {

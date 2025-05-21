@@ -2,32 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\Role;
+use App\Entity\Marque;
 use App\Form\Proposer;
-use App\Form\RoleMetier;
 use App\Form\Vehicule;
+use App\Entity\Voiture;
+use App\Form\RoleMetier;
+use App\Form\Preferences;
+use App\Form\Modification;
 use App\Entity\Covoiturage;
 use App\Entity\Utilisateur;
-use App\Entity\Role;
-use App\Entity\Voiture;
-use App\Entity\Marque;
 use App\Document\Preference;
-use App\Form\Modification;
-use App\Form\Preferences;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use App\Service\RoleService;
+use Psr\Log\LoggerInterface;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CovoiturageRepository;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Psr\Log\LoggerInterface;
-use App\Service\EmailService;
-use App\Service\RoleService;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class UtilisateurController extends AbstractController
 {
@@ -45,7 +46,6 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur', name: 'app_utilisateur')]
-    
     public function utilisateur(EntityManagerInterface $entityManager, DocumentManager $dm): Response
     {
         $utilisateur = $this->getUser();
@@ -148,6 +148,52 @@ class UtilisateurController extends AbstractController
 
     return $this->redirectToRoute('app_utilisateur');
 }
+#Route pour action de demarrer
+#[Route('/covoiturage/{covoiturage_id}/start', name: 'covoiturage_start', methods: ['POST'])]
+public function startCovoiturage(int $covoiturage_id, EntityManagerInterface $em, CovoiturageRepository $repo): Response
+{
+    $covoiturage = $repo->find($covoiturage_id);
+
+    if (!$covoiturage) {
+        throw $this->createNotFoundException('Covoiturage non trouvé');
+    }
+
+    // Vérifier que l'utilisateur est bien le créateur
+    if ($covoiturage->getCreateur() !== $this->getUser()) {
+        throw $this->createAccessDeniedException("Vous n'êtes pas autorisé à démarrer ce covoiturage.");
+    }
+
+    $covoiturage->setStatut('en cours');
+    $em->flush();
+
+    return $this->redirectToRoute('app_utilisateur');
+}
+
+#Route pour action d'arreter
+#[Route('/covoiturage/{covoiturage_id}/end', name: 'covoiturage_end', methods: ['POST'])]
+public function endCovoiturage(int $covoiturage_id, EntityManagerInterface $em, CovoiturageRepository $repo, EmailService $emailService): Response
+{
+    $covoiturage = $repo->find($covoiturage_id);
+
+    if (!$covoiturage) {
+        throw $this->createNotFoundException('Covoiturage non trouvé');
+    }
+
+    if ($covoiturage->getCreateur() !== $this->getUser()) {
+        throw $this->createAccessDeniedException("Vous n'êtes pas autorisé à terminer ce covoiturage.");
+    }
+
+    $covoiturage->setStatut('termine');
+    $em->flush();
+
+    foreach ($covoiturage->getParticipants() as $participant) {
+        if ($participant !== $covoiturage->getCreateur()) {
+            $emailService->sendAvisInvitationEmail($participant, $covoiturage);
+        }
+    }
+
+    return $this->redirectToRoute('app_utilisateur');
+}
 
 #[Route('/utilisateur/preferences', name: 'preferences', methods:['GET', 'POST'])]
 public function new(Request $request, DocumentManager $dm): Response
@@ -224,29 +270,6 @@ public function new(Request $request, DocumentManager $dm): Response
         ]);
     }
 
-    #Route action pour supprimer véhicule
-    /*#[Route('/voiture/supprimer/{voiture_id}', name: 'voiture_supprimer', methods: ['POST'])]
-    public function supprimer(int $voiture_id, EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $voiture = $entityManager->getRepository(Voiture::class)->find($voiture_id);
-
-        if (!$voiture) {
-            throw $this->createNotFoundException('Véhicule non trouvé.');
-        }
-
-        #Vérification du token CSRF
-        if (!$this->isCsrfTokenValid('supprimer' . $voiture_id, $request->request->get('_token'))) {
-            $this->addFlash('error', 'Token CSRF invalide.');
-            return $this->redirectToRoute('moncompte');
-        }
-
-        $entityManager->remove($voiture);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Véhicule supprimé avec succès.');
-
-        return $this->redirectToRoute('moncompte');
-    }*/#Annulation du bouton annuler car si supprime voiture lié covoiturage dans historique = erreur
 
     #[Route('/utilisateur/moncompte/modification', name: 'modification')]
     public function ModifierProfil(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
@@ -363,6 +386,7 @@ public function new(Request $request, DocumentManager $dm): Response
 
         #création formulaire
         $covoiturage = new Covoiturage();
+        $covoiturage->setStatut('à venir'); #défini le statut par défaut
         $proposerForm = $this->createForm(Proposer::class, $covoiturage, [
             #Pour filtrer seulement les voitures de utilisateur
             'user' => $utilisateur

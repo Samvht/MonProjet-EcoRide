@@ -21,7 +21,15 @@
                 {% else %}
                     <img class="photo" src="{{ asset('uploads/photos/default.jpeg') }}" alt="Pas de photo" width="100">
                 {% endif %}
+                <div class="pseudo_note">
                 <p class="pseudo">{{ createur.getPseudo() }}</p>
+                {% set moyenneNote = createur.getMoyenneNote() %}
+                    <span class="rating">
+                        {% for i in 1..5 %}
+                            <span class="star {% if moyenneNote >= i %}voted{% else %}empty{% endif %}">★</span>
+                        {% endfor %}
+                    </span>
+                </div>
             </div>
             <div class="infos">
                 <p><strong>Départ :</strong> {{ covoiturage.getLieuDepart() }}</p>

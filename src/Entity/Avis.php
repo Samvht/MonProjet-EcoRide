@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\AvisRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Covoiturage;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AvisRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 class Avis
@@ -15,8 +16,11 @@ class Avis
     #[ORM\Column(name:'avis_id')]
     private ?int $avis_id = null;
 
-    #[ORM\Column(type: "string", length: 50, nullable: false)]
-    private string $note;
+    #[ORM\Column(type: "string", length: 255, nullable: false)]
+    private string $pseudo;
+
+    #[ORM\Column(type: "integer", nullable: false)]
+    private int $note;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private string $commentaire;
@@ -24,23 +28,33 @@ class Avis
     #[ORM\Column(type: "string", length: 50, nullable: true)]
     private string $statut;
 
-    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: "avis")]
-    private Collection $utilisateurs;
+    #[ORM\ManyToOne(targetEntity: Covoiturage::class, inversedBy: "avis")]
+    #[ORM\JoinColumn(name: "covoiturage_id", referencedColumnName: "covoiturage_id",  nullable: false)]
+    private ?Covoiturage $covoiturage = null;
 
-    public function __construct() {
-        $this->utilisateurs = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: "avis")]
+    #[ORM\JoinColumn(name: "utilisateur_id", referencedColumnName: "utilisateur_id",  nullable: false)]
+    private ?Utilisateur $utilisateur = null;
 
     public function getAVisId(): ?int
     {
         return $this->avis_id;
     }
 
-    public function getNote(): string {
+    public function getPseudo(): string {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self {
+        $this->pseudo = $pseudo;
+        return $this;
+    }
+
+    public function getNote(): int {
         return $this->note;
     }
 
-    public function setNote(string $note): self {
+    public function setNote(int $note): self {
         $this->note = $note;
         return $this;
     }
@@ -63,22 +77,21 @@ class Avis
         return $this;
     }
 
-    public function getUtilisateur(): Collection {
-        return $this->utilisateurs;
-    }
-        
-    public function addUtilisateur(Utilisateur $utilisateur): self {
-        if (!$this->utilisateurs->contains($utilisateur)) {
-            $this->utilisateurs[] = $utilisateur;
-            $utilisateur->addAvis($this);
-        }
-            return $this;
+    public function getCovoiturage(): ?Covoiturage {
+        return $this->covoiturage;
     }
 
-    public function removeUtilisateur(Utilisateur $utilisateur): self {
-        if ($this->utilisateurs->contains($utilisateur)) {
-            $this->utilisateurs->removeElement($utilisateur);
-            $utilisateur->removeAvis($this); }
-    return $this;
-}
+    public function setCovoiturage(?Covoiturage $covoiturage): self {
+        $this->covoiturage = $covoiturage;
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur{
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self {
+        $this->utilisateur = $utilisateur;
+        return $this;
+    }
 }

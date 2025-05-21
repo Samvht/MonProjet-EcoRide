@@ -52,8 +52,12 @@ class Covoiturage
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: "covoiturages")]
     private Collection $utilisateurs;
 
+    #[ORM\OneToMany(mappedBy: 'covoiturage', targetEntity: Avis::class)]
+    private Collection $avis;
+
     public function __construct() {
         $this->utilisateurs = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getCovoiturageId(): ?int
@@ -182,7 +186,31 @@ class Covoiturage
         return $this->utilisateurs->filter(function (Utilisateur $utilisateur) {
             return $utilisateur !== $this->getCreateur();
     });
-}
+    }
+
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvis(Avis $avis): self
+    {
+        if (!$this->avis->contains($avis)) {
+            $this->avis[] = $avis;
+            $avis->setCovoiturage($this);
+        }
+        return $this;
+    }
+
+    public function removeAvis(Avis $avis): self
+    {
+        if ($this->avis->removeElement($avis)) {
+            if ($avis->getCovoiturage() === $this) {
+                $avis->setCovoiturage(null);
+            }
+        }
+        return $this;
+    }
 
     #pour ensuite afficher dans la vue voyage écologique oui ou non
     public function isVoyageEcologique(): bool
