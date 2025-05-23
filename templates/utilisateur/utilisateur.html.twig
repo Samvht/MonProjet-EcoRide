@@ -66,7 +66,7 @@
                         {% elseif covoiturage.statut == 'en cours' %}
                             <form method="post" action="{{ path('covoiturage_end', { covoiturage_id: covoiturage.getCovoiturageId }) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token('end' ~ covoiturage.getCovoiturageId) }}">
-                                <button id="btn_arreter">Arrivée à destination</button>
+                                <button id="btn_arreter">Arrivée</button>
                             </form>
                         {% else %}
                             <span class="termine">Trajet terminé</span>
