@@ -59,12 +59,12 @@
                         <p>Véhicule: {{ covoiturage.getVoiture.getImmatriculation }}</p>
                         <div class="gestion">
                         {% if covoiturage.statut == 'à venir' %}
-                            <form method="post" action="{{ path('covoiturage_start', { id: covoiturage.getCovoiturageId }) }}">
+                            <form method="post" action="{{ path('covoiturage_start', { covoiturage_id: covoiturage.getCovoiturageId }) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token('start' ~ covoiturage.getCovoiturageId) }}">
                                 <button id="btn_demarrer">Démarrer</button>
                             </form>
                         {% elseif covoiturage.statut == 'en cours' %}
-                            <form method="post" action="{{ path('covoiturage_end', { id: covoiturage.getCovoiturageId }) }}">
+                            <form method="post" action="{{ path('covoiturage_end', { covoiturage_id: covoiturage.getCovoiturageId }) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token('end' ~ covoiturage.getCovoiturageId) }}">
                                 <button id="btn_arreter">Arrivée à destination</button>
                             </form>

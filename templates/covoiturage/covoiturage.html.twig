@@ -97,14 +97,6 @@
                     params.append('heure', filtreValue);
                 }
 
-                console.log('Données envoyées :', {
-  depart,
-  arrivee,
-  date,
-  filtreType,
-  filtreValue
-});
-
                 fetch('{{ path('api_covoiturages') }}?' + params.toString(), {
                     method: 'GET',
                     headers: {
